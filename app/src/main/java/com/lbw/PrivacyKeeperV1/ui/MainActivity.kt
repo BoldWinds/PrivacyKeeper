@@ -1,4 +1,4 @@
-package com.lbw.PrivacyKeeperV1
+package com.lbw.PrivacyKeeperV1.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PrivacyKeeperV1Theme() {
+            PrivacyKeeperV1Theme {
 
             }
         }
