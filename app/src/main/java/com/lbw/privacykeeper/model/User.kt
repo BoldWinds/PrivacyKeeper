@@ -1,4 +1,4 @@
-package com.lbw.PrivacyKeeperV1.model
+package com.lbw.privacykeeper.model
 
 data class User(
     val userName : String,

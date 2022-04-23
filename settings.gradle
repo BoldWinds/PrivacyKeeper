@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "PrivacyKeeperV1"
+rootProject.name = "privacykeeperv1"
 include ':app'

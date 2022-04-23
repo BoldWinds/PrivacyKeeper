@@ -1,4 +1,4 @@
-package com.lbw.PrivacyKeeperV1.ui.user
+package com.lbw.privacykeeper.ui.user
 
 import androidx.compose.runtime.Composable
 

@@ -1,4 +1,4 @@
-package com.lbw.PrivacyKeeperV1
+package com.lbw.privacykeeper
 
 import org.junit.Test
 

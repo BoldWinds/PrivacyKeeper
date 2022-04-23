@@ -1,4 +1,4 @@
-package com.lbw.PrivacyKeeperV1.ui.theme
+package com.lbw.privacykeeper.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

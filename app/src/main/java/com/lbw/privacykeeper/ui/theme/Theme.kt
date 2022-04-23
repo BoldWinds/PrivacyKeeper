@@ -1,4 +1,4 @@
-package com.lbw.PrivacyKeeperV1.ui.theme
+package com.lbw.privacykeeper.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

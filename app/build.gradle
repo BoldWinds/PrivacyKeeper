@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.lbw.PrivacyKeeperV1"
+        applicationId "com.lbw.privacykeeperv1"
         minSdk 28
         targetSdk 32
         versionCode 1
