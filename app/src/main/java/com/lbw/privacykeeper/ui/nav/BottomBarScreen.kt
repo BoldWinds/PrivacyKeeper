@@ -1,4 +1,4 @@
-package com.lbw.privacykeeper.ui
+package com.lbw.privacykeeper.ui.nav
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock

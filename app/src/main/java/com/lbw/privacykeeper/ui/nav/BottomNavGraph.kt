@@ -1,10 +1,9 @@
-package com.lbw.privacykeeper
+package com.lbw.privacykeeper.ui.nav
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.lbw.privacykeeper.ui.BottomBarScreen
 import com.lbw.privacykeeper.ui.image.ImageScreen
 import com.lbw.privacykeeper.ui.password.PasswordScreen
 import com.lbw.privacykeeper.ui.user.UserScreen
