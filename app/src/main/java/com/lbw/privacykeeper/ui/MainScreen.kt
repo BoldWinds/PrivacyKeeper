@@ -3,7 +3,7 @@ package com.lbw.privacykeeper.ui
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.lbw.privacykeeper.BottomNaviGraph
+import com.lbw.privacykeeper.BottomNavGraph
 
 @Composable
 fun MainScreen() {
@@ -12,6 +12,6 @@ fun MainScreen() {
     Scaffold(
         bottomBar = {}
     ) {
-        BottomNaviGraph(navController = navController)
+        BottomNavGraph(navController = navController)
     }
 }

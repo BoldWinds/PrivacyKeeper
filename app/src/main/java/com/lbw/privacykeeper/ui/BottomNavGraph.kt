@@ -11,7 +11,7 @@ import com.lbw.privacykeeper.ui.user.UserScreen
 import com.lbw.privacykeeper.ui.video.VideoScreen
 
 @Composable
-fun BottomNaviGraph(navController: NavHostController) {
+fun BottomNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.User.route

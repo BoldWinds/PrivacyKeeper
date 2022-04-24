@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun BottomNaviBar(navController : NavHostController) {
+fun BottomNavBar(navController : NavHostController) {
     val screens = listOf(
         BottomBarScreen.Password,
         BottomBarScreen.Image,
