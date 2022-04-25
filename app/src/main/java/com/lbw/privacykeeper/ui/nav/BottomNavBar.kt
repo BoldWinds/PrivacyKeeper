@@ -15,7 +15,6 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.lbw.privacykeeper.ui.nav.BottomBarScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 
 @Composable
@@ -34,7 +33,7 @@ fun BottomNavBar(navController : NavHostController) {
 
     NavigationBar(
         modifier = Modifier.padding(all = 2.dp),
-        tonalElevation = 4.dp
+        tonalElevation = 4.dp,
     ) {
         screens.forEachIndexed { _, screen ->
             NavigationBarItem(
@@ -61,7 +60,7 @@ fun BottomNavBar(navController : NavHostController) {
 
 
 @Preview()
-@Preview( uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewAppNavBar() {
     PrivacyKeeperTheme() {

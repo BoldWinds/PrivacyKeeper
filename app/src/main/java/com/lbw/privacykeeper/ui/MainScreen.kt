@@ -8,12 +8,14 @@ import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.ui.nav.BottomNavBar
 import com.lbw.privacykeeper.ui.nav.BottomNavGraph
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
+import com.lbw.privacykeeper.ui.utils.TopBar
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
 
     Scaffold(
+        topBar = { TopBar() },
         bottomBar = { BottomNavBar(navController = navController)}
     ) {
         BottomNavGraph(navController = navController)
