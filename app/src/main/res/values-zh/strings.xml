@@ -9,4 +9,5 @@
     <string name="warning">警告</string>
     <string name="confirm">确认</string>
     <string name="dismiss">取消</string>
+    <string name="confirm_dialog_text">按下“确认”将会开始修改您的密码，要继续吗？</string>
 </resources>

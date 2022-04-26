@@ -36,8 +36,8 @@ fun ConfirmUpdateDialog(userViewModel: UserViewModel) {
             },
             text = {
                 Text(
-                    "This area typically contains the supportive text " +
-                            "which presents the details regarding the Dialog's purpose."
+                    text = stringResource(id = R.string.confirm_dialog_text),
+
                 )
             },
             confirmButton = {
