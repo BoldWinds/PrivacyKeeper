@@ -3,13 +3,9 @@ package com.lbw.privacykeeper.ui.user
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Icon
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,13 +13,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
 @Composable
-fun UserBar(
-    userName : String,
-    updatePassword : @Composable ()->Unit) {
+fun UserBar(viewModel: UserViewModel){
+    
     Row(
         modifier = Modifier
             .padding(24.dp, 24.dp, 24.dp, 24.dp)
@@ -46,7 +42,7 @@ fun UserBar(
             )
         }
 
-        Spacer(modifier = Modifier.size(40.dp))
+        Spacer(modifier = Modifier.size(40.dp).weight(0.5f))
 
         Column(
             modifier = Modifier.padding(8.dp)
@@ -56,15 +52,17 @@ fun UserBar(
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = userName,
+                text = viewModel.user.userName,
                 color = MaterialTheme.colorScheme.primary
             )
         }
 
-        Spacer(modifier = Modifier.size(40.dp))
+        Spacer(modifier = Modifier.size(40.dp).weight(1f))
 
         IconButton(
-            onClick = { updatePassword }
+            onClick =  {
+                viewModel.openConfirmDialog()
+            }
         )
         {
             Icon(
@@ -79,6 +77,8 @@ fun UserBar(
 
 
     }
+
+    ConfirmUpdateDialog(viewModel)
 }
 
 @Preview(showBackground = true)
@@ -86,11 +86,9 @@ fun UserBar(
 @Composable
 fun PreviewUserBar() {
     PrivacyKeeperTheme {
-        UserBar(userName = "LBW",{})
-    }
-}
 
-@Composable
-fun ConfirmUpdateDialog() {
-    
+        var userViewModel : UserViewModel = viewModel()
+
+        UserBar(userViewModel)
+    }
 }

@@ -6,4 +6,7 @@
     <string name="video">视频</string>
     <string name="user">用户</string>
     <string name="welcome">欢迎回来!</string>
+    <string name="warning">警告</string>
+    <string name="confirm">确认</string>
+    <string name="dismiss">取消</string>
 </resources>

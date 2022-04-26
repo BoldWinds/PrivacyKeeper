@@ -5,4 +5,7 @@
     <string name="video">video</string>
     <string name="user">user</string>
     <string name="welcome">Welcome Back!</string>
+    <string name="warning">Warning</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
 </resources>
