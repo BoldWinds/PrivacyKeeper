@@ -4,10 +4,6 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import com.lbw.privacykeeper.model.User
 
-data class UIState(
-    var user : User = User("Lbw","123456"),
-    var showConfirmDialog : Boolean = false
-)
 
 class UserViewModel():ViewModel() {
 

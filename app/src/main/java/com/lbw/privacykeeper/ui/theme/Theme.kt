@@ -1,6 +1,7 @@
 package com.lbw.privacykeeper.ui.theme
 
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -8,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import com.lbw.privacykeeper.ui.ThemeMode
 
 private val LightThemeColors = lightColorScheme(
 
@@ -38,6 +40,7 @@ private val LightThemeColors = lightColorScheme(
     inverseSurface = md_theme_light_inverseSurface,
     inversePrimary = md_theme_light_inversePrimary,
 )
+
 private val DarkThemeColors = darkColorScheme(
 
     primary = md_theme_dark_primary,
@@ -68,26 +71,26 @@ private val DarkThemeColors = darkColorScheme(
     inversePrimary = md_theme_dark_inversePrimary,
 )
 
+
 @Composable
 fun PrivacyKeeperTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    //设置默认colorScheme
+    themeMode: ThemeMode = if(isSystemInDarkTheme())  ThemeMode.DarkMode
+                            else    ThemeMode.LightMode,
     content: @Composable () -> Unit
 ) {
-
-    //如果Android版本大于等于12，使用dynamic color
-    val dynamic = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val colorScheme = if(dynamic) {
-
+    var colorScheme : ColorScheme = if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S){
+        when(themeMode){
+            ThemeMode.LightMode -> LightThemeColors
+            ThemeMode.DarkMode  -> DarkThemeColors
+        }
+    } else{
         val context = LocalContext.current
-        if (darkTheme) dynamicDarkColorScheme(context)
-        else dynamicLightColorScheme(context)
-
-    }else{
-
-        //设置一般情况下的colorScheme
-        if(darkTheme) DarkThemeColors
-        else LightThemeColors
-
+        Log.d("dynamic","yes")
+        when(themeMode){
+            ThemeMode.LightMode -> dynamicLightColorScheme(context)
+            ThemeMode.DarkMode  -> dynamicDarkColorScheme(context)
+        }
     }
 
 
@@ -98,3 +101,6 @@ fun PrivacyKeeperTheme(
     )
 
 }
+
+
+

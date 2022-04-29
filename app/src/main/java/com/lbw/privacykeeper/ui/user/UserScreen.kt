@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 
@@ -20,6 +21,9 @@ fun UserScreen(userViewModel: UserViewModel = viewModel()) {
             .background(color = MaterialTheme.colorScheme.background),
 
     ) {
+
+        Spacer(modifier = Modifier.fillMaxWidth()
+            .size(15.dp))
 
         UserBar(userViewModel)
     }
