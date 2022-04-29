@@ -78,7 +78,9 @@ fun UserBar(viewModel: UserViewModel){
 
     }
 
-    ConfirmUpdateDialog(viewModel)
+    ConfirmUpdateDialog(
+        viewModel.showConfirmDialog
+    ) { viewModel.closeConfirmDialog() }
 }
 
 @Preview(showBackground = true)

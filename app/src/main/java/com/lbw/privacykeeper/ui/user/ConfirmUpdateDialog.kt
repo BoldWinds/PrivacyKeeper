@@ -1,5 +1,6 @@
 package com.lbw.privacykeeper.ui.user
 
+import android.app.AlertDialog
 import android.content.res.Configuration
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -18,12 +19,15 @@ import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
 @Composable
-fun ConfirmUpdateDialog(userViewModel: UserViewModel) {
-    if(userViewModel.showConfirmDialog){
+fun ConfirmUpdateDialog(
+    openDialog : Boolean,
+    closeDialog: ()->Unit
+) {
+    if(openDialog){
         AlertDialog(
             modifier = Modifier.clip(RoundedCornerShape(10.dp)),
             onDismissRequest = {
-                userViewModel.closeConfirmDialog()
+                closeDialog()
             },
             icon = {
                 Icon(
@@ -43,7 +47,7 @@ fun ConfirmUpdateDialog(userViewModel: UserViewModel) {
             confirmButton = {
                 TextButton(
                     onClick = {
-                        userViewModel.closeConfirmDialog()
+                        closeDialog()
                         //TODO: 打开身份验证
                     }
                 ) {
@@ -53,7 +57,7 @@ fun ConfirmUpdateDialog(userViewModel: UserViewModel) {
             dismissButton = {
                 TextButton(
                     onClick = {
-                        userViewModel.closeConfirmDialog()
+                        closeDialog()
                     }
                 ) {
                     Text(text = stringResource(id = R.string.dismiss))
@@ -68,8 +72,9 @@ fun ConfirmUpdateDialog(userViewModel: UserViewModel) {
 @Composable
 fun PreviewConfirmDialog() {
     PrivacyKeeperTheme {
-        val userViewModel : UserViewModel = viewModel()
-        userViewModel.openConfirmDialog()
-        ConfirmUpdateDialog(userViewModel)
+        val viewModel : UserViewModel = viewModel()
+        ConfirmUpdateDialog(
+            viewModel.showConfirmDialog
+        ) { viewModel.closeConfirmDialog() }
     }
 }
