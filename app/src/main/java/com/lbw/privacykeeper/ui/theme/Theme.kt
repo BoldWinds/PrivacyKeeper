@@ -79,19 +79,18 @@ fun PrivacyKeeperTheme(
                             else    ThemeMode.LightMode,
     content: @Composable () -> Unit
 ) {
-    var colorScheme : ColorScheme = if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S){
-        when(themeMode){
-            ThemeMode.LightMode -> LightThemeColors
-            ThemeMode.DarkMode  -> DarkThemeColors
+    val colorScheme : ColorScheme =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+
+            val context = LocalContext.current
+        //    Log.d("dynamic",content.toString())
+            if (themeMode == ThemeMode.LightMode)   dynamicLightColorScheme(context)
+            else    dynamicDarkColorScheme(context)
+
+        } else{
+            if (themeMode == ThemeMode.LightMode)   LightThemeColors
+            else    DarkThemeColors
         }
-    } else{
-        val context = LocalContext.current
-        Log.d("dynamic","yes")
-        when(themeMode){
-            ThemeMode.LightMode -> dynamicLightColorScheme(context)
-            ThemeMode.DarkMode  -> dynamicDarkColorScheme(context)
-        }
-    }
 
 
     MaterialTheme(
@@ -101,6 +100,3 @@ fun PrivacyKeeperTheme(
     )
 
 }
-
-
-
