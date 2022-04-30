@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,25 +15,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.model.User
+import com.lbw.privacykeeper.ui.nav.BottomBarScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
 @Composable
 fun RegisterScreen(
     showRegisterScreen: Boolean,
-    //user: User,
-    setUsername : (String)->Unit,
-    setPassword : (String)->Unit,
-    saveUser : ()->Unit,
-    showMainScreen : ()->Unit
+    saveUser : (String,String)->Unit,
+    showMainScreen : ()->Unit,
 ) {
-    var user by remember{
-        mutableStateOf(User("",""))
+    var username by remember{
+        mutableStateOf("")
+    }
+    var password by remember{
+        mutableStateOf("")
+    }
+    var confirmPassword by remember{
+        mutableStateOf("")
     }
 
     if (showRegisterScreen){
@@ -53,28 +59,36 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.weight(0.1f))
 
             TextField(
-                value = user.username,
-                onValueChange ={setUsername(it)},
+                value = username,
+                onValueChange ={username = it},
                 label = {Text(stringResource(id = R.string.username))}
             )
 
             Spacer(modifier = Modifier.weight(0.05f))
 
             TextField(
-                value = user.password,
-                onValueChange = {
-                    setPassword(it)
-                                },
+                value = password,
+                onValueChange = { password=it},
                 label = { Text(stringResource(id = R.string.password))},
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            )
+
+            Spacer(modifier = Modifier.weight(0.05f))
+
+            TextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword=it},
+                label = { Text(stringResource(id = R.string.confirm_password))},
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
             Spacer(modifier = Modifier.weight(0.1f))
 
-
             Button(
                 onClick = {
-                //    saveUser()
+                    saveUser(username,password)
                     showMainScreen()
                 },
                 modifier = Modifier
@@ -85,24 +99,22 @@ fun RegisterScreen(
                 Text(text = stringResource(id = R.string.register))
             }
 
-            Spacer(modifier = Modifier.weight(0.4f))
+            Spacer(modifier = Modifier.weight(0.35f))
         }
     }
 }
+
 
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewRegisterScreen() {
     PrivacyKeeperTheme{
-        val mainViewModel : MainViewModel = viewModel()
+        /*val mainViewModel : MainViewModel = viewModel()
         RegisterScreen(
             true,
-            //user = mainViewModel.user,
-            setUsername = { mainViewModel.setUsername("") },
-            setPassword = { mainViewModel.setPassword("")},
-            saveUser = {mainViewModel.saveUser()},
+        //    saveUser = {mainViewModel.saveUser()},
             showMainScreen = { mainViewModel.showMain }
-        )
+        )*/
     }
 }

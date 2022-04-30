@@ -23,10 +23,7 @@ class MainActivity : ComponentActivity() {
 
                 RegisterScreen(
                     mainViewModel.showRegister,
-                  //  user = mainViewModel.user,
-                    setUsername = { mainViewModel.setUsername("") },
-                    setPassword = { mainViewModel.setPassword("")},
-                    saveUser = {mainViewModel.saveUser()},
+                    saveUser = mainViewModel::saveUser,
                     showMainScreen = {mainViewModel.openMain()}
                 )
 
@@ -36,6 +33,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
 
 

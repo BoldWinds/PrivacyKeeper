@@ -1,12 +1,11 @@
 package com.lbw.privacykeeper.ui
 
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.lbw.privacykeeper.model.User
-import java.net.PasswordAuthentication
 
 enum class ThemeMode{
     LightMode,DarkMode
@@ -37,20 +36,6 @@ class MainViewModel : ViewModel(){
         showRegister = false
     }
 
-    var user by mutableStateOf<User>(User("",""))
-
-    fun setUsername(username : String){
-        user.username = username
-    }
-
-    fun setPassword(password : String){
-        user.password = password
-    }
-
-    fun saveUser(){
-
-    }
-
 
     //用于确定何时显示MainScreen
     var showMain by mutableStateOf(false)
@@ -73,6 +58,15 @@ class MainViewModel : ViewModel(){
     fun isLight():Boolean{
         return themeMode == ThemeMode.LightMode
     }
+
+    //存储用户
+    fun saveUser(username: String,password: String):Unit{
+        Log.d("username",username)
+        Log.d("password",password)
+    }
+
+
+
 
 
 }

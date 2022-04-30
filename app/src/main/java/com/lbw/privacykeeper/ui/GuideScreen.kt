@@ -67,8 +67,6 @@ fun GuideScreen(
 @Composable
 fun PreviewGuideScreen() {
     PrivacyKeeperTheme{
-       GuideScreen(true, showRegister = {}
-
-       )
+       GuideScreen(true, showRegister = {})
     }
 }
