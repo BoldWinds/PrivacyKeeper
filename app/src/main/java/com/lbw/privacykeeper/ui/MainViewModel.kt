@@ -12,6 +12,23 @@ enum class ThemeMode{
 
 
 class MainViewModel : ViewModel(){
+    //用于确定是否显示第一次启动引导界面
+    var showGuidance by mutableStateOf<Boolean>(true)
+
+    fun openGuidance(){
+        showGuidance = true
+    }
+
+    fun closeGuidance(){
+        showGuidance = false
+    }
+
+    //用于确定何时显示MainScreen
+    var showMain by mutableStateOf(false)
+
+    fun openMain(){
+        showMain = true
+    }
 
     //用于调节右上角的图片是lightMode还是darkMode
     var themeMode by mutableStateOf(ThemeMode.LightMode)
@@ -27,5 +44,6 @@ class MainViewModel : ViewModel(){
     fun isLight():Boolean{
         return themeMode == ThemeMode.LightMode
     }
+
 
 }

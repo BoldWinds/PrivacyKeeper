@@ -13,7 +13,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PrivacyKeeperTheme(mainViewModel.themeMode){
-                MainScreen(mainViewModel)
+
+                //检查配置文件，进行设置
+
+
+                if(mainViewModel.showGuidance){
+                    GuideScreen(
+                        mainViewModel.showGuidance
+                    ) { mainViewModel.closeGuidance() }
+                }else{
+                    mainViewModel.openMain()
+                }
+
+                if(mainViewModel.showMain){
+                    MainScreen(mainViewModel)
+                }
             }
         }
     }

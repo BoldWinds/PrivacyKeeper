@@ -16,8 +16,9 @@ import com.lbw.privacykeeper.ui.utils.TopBar
 import privacykeeperv1.R
 
 @Composable
-fun MainScreen(mainViewModel: MainViewModel) {
-
+fun MainScreen(
+    mainViewModel: MainViewModel
+) {
     val navController = rememberNavController()
 
     Scaffold(
