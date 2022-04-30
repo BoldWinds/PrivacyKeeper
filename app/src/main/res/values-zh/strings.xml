@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">隐私保管箱</string>
+    <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="image">图片</string>
     <string name="video">视频</string>

@@ -17,13 +17,18 @@ class MainActivity : ComponentActivity() {
                 //检查配置文件，进行设置
 
 
-                if(mainViewModel.showGuidance){
-                    GuideScreen(
-                        mainViewModel.showGuidance
-                    ) { mainViewModel.closeGuidance() }
-                }else{
-                    mainViewModel.openMain()
-                }
+                GuideScreen(
+                        mainViewModel.showGuidance,
+                ) {mainViewModel.openRegisterScreen()}
+
+                RegisterScreen(
+                    mainViewModel.showRegister,
+                  //  user = mainViewModel.user,
+                    setUsername = { mainViewModel.setUsername("") },
+                    setPassword = { mainViewModel.setPassword("")},
+                    saveUser = {mainViewModel.saveUser()},
+                    showMainScreen = {mainViewModel.openMain()}
+                )
 
                 if(mainViewModel.showMain){
                     MainScreen(mainViewModel)

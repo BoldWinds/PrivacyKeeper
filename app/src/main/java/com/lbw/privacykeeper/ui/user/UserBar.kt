@@ -52,7 +52,7 @@ fun UserBar(viewModel: UserViewModel){
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = viewModel.user.userName,
+                text = viewModel.user.username,
                 color = MaterialTheme.colorScheme.primary
             )
         }
@@ -89,7 +89,7 @@ fun UserBar(viewModel: UserViewModel){
 fun PreviewUserBar() {
     PrivacyKeeperTheme {
 
-        var userViewModel : UserViewModel = viewModel()
+        val userViewModel : UserViewModel = viewModel()
 
         UserBar(userViewModel)
     }

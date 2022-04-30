@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PrivacyKeeper</string>
-    <string name="password">password</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="image">image</string>
     <string name="video">video</string>
     <string name="user">user</string>
