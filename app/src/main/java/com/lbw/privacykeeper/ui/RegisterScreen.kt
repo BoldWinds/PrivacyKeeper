@@ -6,10 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +16,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
@@ -28,7 +24,9 @@ fun RegisterScreen(
     showRegisterScreen: Boolean,
     saveUser : (String,String)->Unit,
     showMainScreen : ()->Unit,
-    hasRegistered : ()->Unit
+    hasRegistered : ()->Unit,
+    showSnackBar : Boolean,
+    openSnackBar : ()->Unit
 ) {
     var username by remember{
         mutableStateOf("")
@@ -75,6 +73,13 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.weight(0.05f))
 
+            if(!password.equals(confirmPassword))
+                Text(
+                    text = stringResource(id = R.string.not_match),
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 12.sp
+                )
+
             TextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword=it},
@@ -89,6 +94,7 @@ fun RegisterScreen(
                 onClick = {
                     hasRegistered()
                     saveUser(username,password)
+                    openSnackBar()
                     showMainScreen()
                 },
                 modifier = Modifier
@@ -101,6 +107,14 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.weight(0.35f))
         }
+        
+        if(showSnackBar){
+            Snackbar(
+                modifier = Modifier.clip(CircleShape)
+            ) {
+                Text(text = stringResource(id = R.string.registered_successfully))
+            }
+        }
     }
 }
 
@@ -110,12 +124,27 @@ fun RegisterScreen(
 @Composable
 fun PreviewRegisterScreen() {
     PrivacyKeeperTheme{
-        val mainViewModel : MainViewModel = viewModel()
         RegisterScreen(
             true,
-            saveUser = mainViewModel::saveUser,
-            showMainScreen = { mainViewModel.showMain },
-            mainViewModel::hasRegistered
+            saveUser = {a:String,b:String->},
+            showMainScreen = {  },
+            hasRegistered = {},
+            showSnackBar = false,
+            openSnackBar = {}
+        )
+    }
+}
+
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewMySnackBar(){
+    Snackbar(
+        modifier = Modifier.clip(CircleShape)
+    ) {
+        Text(
+            text = stringResource(id = R.string.registered_successfully),
+            fontSize = 16.sp
         )
     }
 }

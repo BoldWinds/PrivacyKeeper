@@ -4,6 +4,8 @@
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="confirm_password">确认密码</string>
+    <string name="registered_successfully">注册成功</string>
+    <string name="not_match">密码不匹配</string>
     <string name="image">图片</string>
     <string name="video">视频</string>
     <string name="user">用户</string>

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lbw.privacykeeper.data.preference.PreferenceRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -39,13 +40,6 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
         }
     }
 
-    fun hasRegistered(){
-        viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.save(false)
-            Log.d("test","hasRegistered")
-        }
-    }
-
     //用于确定是否显示RegisterScreen
     var showRegister by mutableStateOf<Boolean>(false)
 
@@ -53,10 +47,12 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
         showRegister = true
     }
 
-    fun closeRegisterScreen(){
-        showRegister = false
+    fun hasRegistered(){
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.save(false)
+            Log.d("test","hasRegistered")
+        }
     }
-
 
     //用于确定何时显示MainScreen
     var showMain by mutableStateOf(false)
@@ -65,6 +61,13 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
         showMain = true
     }
 
+
+    //用于确定是否显示注册成功
+    var showSnackbar by mutableStateOf(false)
+
+    fun openSnackbar(){
+        showSnackbar = true
+    }
 
     //用于调节右上角的图片是lightMode还是darkMode
     var themeMode by mutableStateOf(ThemeMode.LightMode)
@@ -82,11 +85,14 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
     }
 
 
-
     //存储用户
     fun saveUser(username: String,password: String){
         Log.d("username",username)
         Log.d("password",password)
+        viewModelScope.launch {
+            showSnackbar = true
+            delay(2000)
+        }
     }
 
     companion object{

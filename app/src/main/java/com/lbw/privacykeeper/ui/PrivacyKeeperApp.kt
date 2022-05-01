@@ -28,10 +28,12 @@ fun PrivacyKeeperApp(
         ) {mainViewModel.openRegisterScreen()}
 
         RegisterScreen(
-            mainViewModel.showRegister,
+            showRegisterScreen = mainViewModel.showRegister,
             saveUser = mainViewModel::saveUser,
             showMainScreen = mainViewModel::openMain,
-            hasRegistered = mainViewModel::hasRegistered
+            hasRegistered = mainViewModel::hasRegistered,
+            showSnackBar = mainViewModel.showSnackbar,
+            openSnackBar = mainViewModel::openSnackbar
         )
 
         if(mainViewModel.showMain){
