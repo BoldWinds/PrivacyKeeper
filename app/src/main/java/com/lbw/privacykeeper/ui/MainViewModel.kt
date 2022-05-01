@@ -5,11 +5,13 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.lbw.privacykeeper.data.preference.PreferenceRepository
-import com.lbw.privacykeeper.data.preference.impl.FakePreferenceRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 enum class ThemeMode{
     LightMode,DarkMode
@@ -19,20 +21,30 @@ enum class ThemeMode{
 class MainViewModel(private val preferenceRepository: PreferenceRepository) : ViewModel(){
 
     //用于确定是否显示第一次启动引导界面
-    var showGuidance by mutableStateOf<Boolean>(true)
+    var showGuidance by mutableStateOf<Boolean>(false)
 
-    /*suspend fun setShowGuidance(){
-        showGuidance = preferenceRepository.read() == true
-    }*/
-
-    fun openGuidance(){
-        showGuidance = true
+    fun setShowGuidance(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val show = preferenceRepository.read()
+            if(show==null){
+                showGuidance = true
+                Log.d("test","save")
+                preferenceRepository.save(true)
+            }else{
+                showGuidance = show
+                showMain = !show
+                Log.d("test",show.toString())
+            }
+            Log.d("test","finish")
+        }
     }
 
-    fun closeGuidance(){
-        showGuidance = false
+    fun hasRegistered(){
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.save(false)
+            Log.d("test","hasRegistered")
+        }
     }
-
 
     //用于确定是否显示RegisterScreen
     var showRegister by mutableStateOf<Boolean>(false)

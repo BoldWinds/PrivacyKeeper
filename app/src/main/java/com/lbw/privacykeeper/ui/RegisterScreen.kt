@@ -20,8 +20,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.lbw.privacykeeper.model.User
-import com.lbw.privacykeeper.ui.nav.BottomBarScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
@@ -30,6 +28,7 @@ fun RegisterScreen(
     showRegisterScreen: Boolean,
     saveUser : (String,String)->Unit,
     showMainScreen : ()->Unit,
+    hasRegistered : ()->Unit
 ) {
     var username by remember{
         mutableStateOf("")
@@ -88,6 +87,7 @@ fun RegisterScreen(
 
             Button(
                 onClick = {
+                    hasRegistered()
                     saveUser(username,password)
                     showMainScreen()
                 },
@@ -114,7 +114,8 @@ fun PreviewRegisterScreen() {
         RegisterScreen(
             true,
             saveUser = mainViewModel::saveUser,
-            showMainScreen = { mainViewModel.showMain }
+            showMainScreen = { mainViewModel.showMain },
+            mainViewModel::hasRegistered
         )
     }
 }

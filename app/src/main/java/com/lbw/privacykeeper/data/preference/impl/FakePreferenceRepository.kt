@@ -1,7 +1,9 @@
 package com.lbw.privacykeeper.data.preference.impl
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -17,13 +19,10 @@ class FakePreferenceRepository(val context: Context) :PreferenceRepository{
 
     val BOOT_COUNTER = booleanPreferencesKey("boot_counter")
 
-    override suspend fun read(): Boolean {
-        val exampleCounterFlow: Flow<Boolean> = context.dataStore.data
-            .map { preferences ->
-                // No type safety.
-                preferences[BOOT_COUNTER] ?: true
-            }
-        return exampleCounterFlow.first()
+    override suspend fun read(): Boolean? {
+        val preferences = context.dataStore.data.first()
+        Log.d("test","has read")
+        return preferences[BOOT_COUNTER]
     }
 
     //默认存储到BOOT_COUNTER
@@ -31,6 +30,7 @@ class FakePreferenceRepository(val context: Context) :PreferenceRepository{
         context.dataStore.edit { settings ->
             settings[BOOT_COUNTER] = value
         }
+        Log.d("test","has saved")
     }
 
 }
