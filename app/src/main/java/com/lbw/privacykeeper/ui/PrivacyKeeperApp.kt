@@ -37,7 +37,10 @@ fun PrivacyKeeperApp(
         )
 
         if(mainViewModel.showMain){
-            MainScreen(mainViewModel)
+            MainScreen(
+                mainViewModel = mainViewModel,
+                appContainer = appContainer
+            )
         }
     }
 }

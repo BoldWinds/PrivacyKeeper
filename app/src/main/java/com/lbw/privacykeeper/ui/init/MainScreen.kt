@@ -9,6 +9,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.ui.nav.BottomNavBar
 import com.lbw.privacykeeper.ui.nav.BottomNavGraph
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
@@ -17,6 +18,7 @@ import privacykeeperv1.R
 
 @Composable
 fun MainScreen(
+    appContainer: AppContainer,
     mainViewModel: MainViewModel
 ) {
     val navController = rememberNavController()
@@ -45,7 +47,10 @@ fun MainScreen(
 
         bottomBar = { BottomNavBar(navController = navController)}
     ) {
-        BottomNavGraph(navController = navController)
+        BottomNavGraph(
+            navController = navController,
+            appContainer = appContainer
+        )
     }
 }
 
@@ -54,6 +59,6 @@ fun MainScreen(
 @Composable
 fun PreviewMainScreen() {
     PrivacyKeeperTheme{
-        MainScreen(mainViewModel = viewModel())
+    //    MainScreen(mainViewModel = viewModel())
     }
 }
