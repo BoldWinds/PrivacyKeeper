@@ -10,10 +10,10 @@ import com.lbw.privacykeeper.PrivacyKeeperApplication
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
 
-    val appContainer = (application as PrivacyKeeperApplication).container
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appContainer = (application as PrivacyKeeperApplication).container
         setContent {
             PrivacyKeeperApp(appContainer = appContainer, mainViewModel = mainViewModel)
         }
