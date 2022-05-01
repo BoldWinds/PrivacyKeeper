@@ -4,33 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
+import com.lbw.privacykeeper.PrivacyKeeperApplication
+
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
 
+    val appContainer = (application as PrivacyKeeperApplication).container
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PrivacyKeeperTheme(mainViewModel.themeMode){
-
-                //检查配置文件，进行设置
-
-
-                GuideScreen(
-                        mainViewModel.showGuidance,
-                ) {mainViewModel.openRegisterScreen()}
-
-                RegisterScreen(
-                    mainViewModel.showRegister,
-                    saveUser = mainViewModel::saveUser,
-                    showMainScreen = {mainViewModel.openMain()}
-                )
-
-                if(mainViewModel.showMain){
-                    MainScreen(mainViewModel)
-                }
-            }
+            PrivacyKeeperApp(appContainer = appContainer, mainViewModel = mainViewModel)
         }
     }
 

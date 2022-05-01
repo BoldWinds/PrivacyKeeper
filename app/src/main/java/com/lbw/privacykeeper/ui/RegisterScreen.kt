@@ -110,11 +110,11 @@ fun RegisterScreen(
 @Composable
 fun PreviewRegisterScreen() {
     PrivacyKeeperTheme{
-        /*val mainViewModel : MainViewModel = viewModel()
+        val mainViewModel : MainViewModel = viewModel()
         RegisterScreen(
             true,
-        //    saveUser = {mainViewModel.saveUser()},
+            saveUser = mainViewModel::saveUser,
             showMainScreen = { mainViewModel.showMain }
-        )*/
+        )
     }
 }

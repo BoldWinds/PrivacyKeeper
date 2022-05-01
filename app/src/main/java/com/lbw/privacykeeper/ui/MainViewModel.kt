@@ -15,7 +15,7 @@ enum class ThemeMode{
 class MainViewModel : ViewModel(){
 
     //用于确定是否显示第一次启动引导界面
-    var showGuidance by mutableStateOf<Boolean>(true)
+    var showGuidance by mutableStateOf<Boolean>(false)
 
     fun openGuidance(){
         showGuidance = true
@@ -24,6 +24,7 @@ class MainViewModel : ViewModel(){
     fun closeGuidance(){
         showGuidance = false
     }
+
 
     //用于确定是否显示RegisterScreen
     var showRegister by mutableStateOf<Boolean>(false)
@@ -44,6 +45,7 @@ class MainViewModel : ViewModel(){
         showMain = true
     }
 
+
     //用于调节右上角的图片是lightMode还是darkMode
     var themeMode by mutableStateOf(ThemeMode.LightMode)
 
@@ -59,14 +61,13 @@ class MainViewModel : ViewModel(){
         return themeMode == ThemeMode.LightMode
     }
 
+
+
     //存储用户
-    fun saveUser(username: String,password: String):Unit{
+    fun saveUser(username: String,password: String){
         Log.d("username",username)
         Log.d("password",password)
     }
-
-
-
 
 
 }
