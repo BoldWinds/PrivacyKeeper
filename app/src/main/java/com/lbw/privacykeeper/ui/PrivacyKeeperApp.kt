@@ -1,21 +1,22 @@
 package com.lbw.privacykeeper.ui
 
-import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
-import kotlin.math.log
+
 
 @Composable
 fun PrivacyKeeperApp(
-    appContainer: AppContainer,
-    mainViewModel : MainViewModel
+    appContainer: AppContainer
 ) {
-    Log.d("test","1")
+    //读取preference以确定是否打开guide
+    val mainViewModel:MainViewModel = viewModel(
+        factory = MainViewModel.provideFactory(appContainer.preferenceRepository)
+    )
+
     PrivacyKeeperTheme(mainViewModel.themeMode){
-        Log.d("test","2")
-        //检查配置文件，进行设置
-    //    val boot : Boolean? = appContainer.preferenceRepository.read()
+
         GuideScreen(
             mainViewModel.showGuidance,
         ) {mainViewModel.openRegisterScreen()}
@@ -23,7 +24,7 @@ fun PrivacyKeeperApp(
         RegisterScreen(
             mainViewModel.showRegister,
             saveUser = mainViewModel::saveUser,
-            showMainScreen = {mainViewModel.openMain()}
+            showMainScreen = mainViewModel::openMain
         )
 
         if(mainViewModel.showMain){
