@@ -1,6 +1,7 @@
 package com.lbw.privacykeeper.ui.init
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,6 +29,8 @@ fun RegisterScreen(
     showSnackBar : Boolean,
     openSnackBar : ()->Unit
 ) {
+    val context = LocalContext.current
+
     var username by remember{
         mutableStateOf("")
     }
@@ -91,6 +95,7 @@ fun RegisterScreen(
 
             Button(
                 onClick = {
+                    Toast.makeText(context, "注册成功",Toast.LENGTH_SHORT).show()
                     hasRegistered()
                     saveUser(username,password)
                     openSnackBar()
