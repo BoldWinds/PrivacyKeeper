@@ -1,4 +1,4 @@
-package com.lbw.privacykeeper.ui
+package com.lbw.privacykeeper.ui.init
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image

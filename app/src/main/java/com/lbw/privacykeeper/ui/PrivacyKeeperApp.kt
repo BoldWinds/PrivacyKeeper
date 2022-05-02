@@ -1,13 +1,12 @@
 package com.lbw.privacykeeper.ui
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.data.AppContainer
+import com.lbw.privacykeeper.ui.init.GuideScreen
+import com.lbw.privacykeeper.ui.init.MainScreen
+import com.lbw.privacykeeper.ui.init.RegisterScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 @Composable

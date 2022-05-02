@@ -1,4 +1,4 @@
-package com.lbw.privacykeeper.ui
+package com.lbw.privacykeeper.ui.init
 
 import android.content.res.Configuration
 import android.util.Log
@@ -7,9 +7,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.data.AppContainer
+import com.lbw.privacykeeper.ui.MainViewModel
 import com.lbw.privacykeeper.ui.nav.BottomNavBar
 import com.lbw.privacykeeper.ui.nav.BottomNavGraph
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme

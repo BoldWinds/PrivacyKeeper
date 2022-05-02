@@ -26,11 +26,11 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
 
     fun setShowGuidance(){
         viewModelScope.launch(Dispatchers.IO) {
-            val show = preferenceRepository.read()
+            val show = preferenceRepository.readBoolean("boot_counter")
             if(show==null){
                 showGuidance = true
                 Log.d("test","save")
-                preferenceRepository.save(true)
+                preferenceRepository.saveBoolean("boot_counter",true)
             }else{
                 showGuidance = show
                 showMain = !show
@@ -49,7 +49,7 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
 
     fun hasRegistered(){
         viewModelScope.launch(Dispatchers.IO) {
-            preferenceRepository.save(false)
+            preferenceRepository.saveBoolean("boot_counter",false)
             Log.d("test","hasRegistered")
         }
     }
@@ -90,6 +90,9 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
         Log.d("username",username)
         Log.d("password",password)
         viewModelScope.launch {
+            //TODO 加密密码
+            preferenceRepository.saveString("username",username)
+            preferenceRepository.saveString("password",password)
             showSnackbar = true
             delay(2000)
         }

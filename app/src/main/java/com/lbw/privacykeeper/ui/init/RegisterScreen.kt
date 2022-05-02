@@ -1,7 +1,6 @@
-package com.lbw.privacykeeper.ui
+package com.lbw.privacykeeper.ui.init
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
