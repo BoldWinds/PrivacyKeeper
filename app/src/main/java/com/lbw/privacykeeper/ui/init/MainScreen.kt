@@ -9,11 +9,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.data.AppContainer
-import com.lbw.privacykeeper.ui.MainViewModel
 import com.lbw.privacykeeper.ui.nav.BottomNavBar
 import com.lbw.privacykeeper.ui.nav.BottomNavGraph
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
-import com.lbw.privacykeeper.ui.utils.TopBar
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import privacykeeperv1.R
 

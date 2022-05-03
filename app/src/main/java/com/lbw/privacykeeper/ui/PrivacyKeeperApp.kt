@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.ui.init.GuideScreen
 import com.lbw.privacykeeper.ui.init.MainScreen
+import com.lbw.privacykeeper.ui.init.MainViewModel
 import com.lbw.privacykeeper.ui.init.RegisterScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
@@ -16,7 +17,7 @@ fun PrivacyKeeperApp(
     biometricCheckParameters: BiometricCheckParameters
 ) {
     //读取preference以确定是否打开guide
-    val mainViewModel:MainViewModel = viewModel(
+    val mainViewModel: MainViewModel = viewModel(
         factory = MainViewModel.provideFactory(preferenceRepository = appContainer.preferenceRepository)
     )
 
@@ -33,8 +34,6 @@ fun PrivacyKeeperApp(
             saveUser = mainViewModel::saveUser,
             showMainScreen = mainViewModel::openMain,
             hasRegistered = mainViewModel::hasRegistered,
-            showSnackBar = mainViewModel.showSnackbar,
-            openSnackBar = mainViewModel::openSnackbar
         )
 
         if(mainViewModel.showMain){

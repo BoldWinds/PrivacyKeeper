@@ -1,7 +1,6 @@
 package com.lbw.privacykeeper.ui.theme
 
 import android.os.Build
-import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -9,7 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
-import com.lbw.privacykeeper.ui.ThemeMode
+import com.lbw.privacykeeper.ui.init.ThemeMode
 
 private val LightThemeColors = lightColorScheme(
 
@@ -82,10 +81,8 @@ fun PrivacyKeeperTheme(
     val colorScheme : ColorScheme =
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
 
-            val context = LocalContext.current
-        //    Log.d("dynamic",content.toString())
-            if (themeMode == ThemeMode.LightMode)   dynamicLightColorScheme(context)
-            else    dynamicDarkColorScheme(context)
+            if (themeMode == ThemeMode.LightMode)   dynamicLightColorScheme(LocalContext.current)
+            else    dynamicDarkColorScheme(LocalContext.current)
 
         } else{
             if (themeMode == ThemeMode.LightMode)   LightThemeColors

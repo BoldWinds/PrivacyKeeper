@@ -8,6 +8,7 @@ import android.os.CancellationSignal
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 
 data class BiometricCheckParameters(
@@ -36,7 +37,6 @@ class BiometricCheck (
 
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
                 super.onAuthenticationError(errorCode, errString)
-            //    Toast.makeText(context,"Authentication Error!", Toast.LENGTH_SHORT).show()
 
             }
 
@@ -46,6 +46,7 @@ class BiometricCheck (
             }
 
         }
+
 
     private fun checkBiometricSupport() : Boolean{
 
@@ -63,7 +64,6 @@ class BiometricCheck (
 
     }
 
-
     //这个是用来启动bio验证滴
     fun launchBiometric(){
         if (checkBiometricSupport()){
@@ -72,11 +72,11 @@ class BiometricCheck (
                     setTitle(biometricCheckParameters.context.getString(R.string.confirm_transaction))
                 //    setDescription("Description")
                     setNegativeButton(biometricCheckParameters.context.getString(R.string.cancel),mainExecutor) { _, _ ->
-                        Toast.makeText(
+                        showToast(
+                            true,
                             biometricCheckParameters.context,
-                            "Authentication Cancelled",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            "Authentication Cancelled"
+                        )
                     }
 
                 }.build()
@@ -84,6 +84,7 @@ class BiometricCheck (
             biometricPrompt.authenticate(getCancellationSignal(),mainExecutor,authenticationCallback)
         }
     }
+
 
     private fun getCancellationSignal():CancellationSignal{
         cancellationSignal = CancellationSignal()

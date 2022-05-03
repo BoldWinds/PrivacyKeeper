@@ -4,29 +4,61 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 
-//需要在界面上显示的内容：username，更新密码
+
 @Composable
-fun UserScreen(userViewModel: UserViewModel = viewModel()) {
+fun UserScreen(userViewModel: UserViewModel) {
+
+    userViewModel.getThisUser()
+
+    userViewModel.setUser()
+
+    UserScreen(
+        username = userViewModel.mutableUser.username,
+        showConfirmDialog = userViewModel.showConfirmDialog,
+        openConfirmDialog = userViewModel::openConfirmDialog,
+        closeConfirmDialog = userViewModel::closeConfirmDialog,
+        checkBiometric = userViewModel::openBiometricCheck,
+    )
+}
+
+@Composable
+fun UserScreen(
+    username : String,
+    showConfirmDialog : Boolean,
+    openConfirmDialog : ()->Unit,
+    closeConfirmDialog : ()->Unit,
+    checkBiometric : ()->Unit,
+) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background),
 
-    ) {
+        ) {
 
-        Spacer(modifier = Modifier.fillMaxWidth()
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
             .size(15.dp))
 
-        UserBar(userViewModel)
+        UserBar(
+            username = username,
+            openConfirmDialog = openConfirmDialog,
+        )
+
     }
+
+    ConfirmUpdateDialog(
+        showDialog = showConfirmDialog,
+        closeDialog = closeConfirmDialog,
+        biometricCheck = checkBiometric
+    )
 }
 
 @Preview
@@ -34,6 +66,12 @@ fun UserScreen(userViewModel: UserViewModel = viewModel()) {
 @Composable
 fun PreviewUserScreen() {
     PrivacyKeeperTheme {
-        UserScreen()
+        UserScreen(
+            username = "lbw",
+            showConfirmDialog = true,
+            openConfirmDialog = {},
+            closeConfirmDialog = {},
+            checkBiometric = {},
+        )
     }
 }

@@ -8,6 +8,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.charset.StandardCharsets
 
+
+//这个类用于加密用户存储的密码
 class EncryptPassword(
     val context : Context,
     val mainKeyAlias : String

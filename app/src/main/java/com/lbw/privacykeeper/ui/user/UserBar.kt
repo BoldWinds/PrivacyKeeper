@@ -13,12 +13,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
 @Composable
-fun UserBar(viewModel: UserViewModel){
+fun UserBar(
+    username : String,
+    openConfirmDialog : ()->Unit,
+){
     
     Row(
         modifier = Modifier
@@ -52,7 +54,7 @@ fun UserBar(viewModel: UserViewModel){
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = viewModel.user.username,
+                text = username,
                 color = MaterialTheme.colorScheme.primary
             )
         }
@@ -61,7 +63,7 @@ fun UserBar(viewModel: UserViewModel){
 
         IconButton(
             onClick =  {
-                viewModel.openConfirmDialog()
+                openConfirmDialog()
             }
         )
         {
@@ -78,9 +80,6 @@ fun UserBar(viewModel: UserViewModel){
 
     }
 
-    ConfirmUpdateDialog(
-        viewModel.showConfirmDialog
-    ) { viewModel.closeConfirmDialog() }
 }
 
 @Preview(showBackground = true)
@@ -89,8 +88,9 @@ fun UserBar(viewModel: UserViewModel){
 fun PreviewUserBar() {
     PrivacyKeeperTheme {
 
-        val userViewModel : UserViewModel = viewModel()
-
-        UserBar(userViewModel)
+        UserBar(
+            username = "lbw",
+            openConfirmDialog = {}
+        )
     }
 }

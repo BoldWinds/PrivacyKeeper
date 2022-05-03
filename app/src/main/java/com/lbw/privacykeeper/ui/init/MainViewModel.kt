@@ -1,4 +1,4 @@
-package com.lbw.privacykeeper.ui
+package com.lbw.privacykeeper.ui.init
 
 
 import android.util.Log
@@ -63,13 +63,6 @@ class MainViewModel(
     }
 
 
-    //用于确定是否显示注册成功
-    var showSnackbar by mutableStateOf(false)
-
-    fun openSnackbar(){
-        showSnackbar = true
-    }
-
     //用于调节右上角的图片是lightMode还是darkMode
     var themeMode by mutableStateOf(ThemeMode.LightMode)
 
@@ -94,7 +87,6 @@ class MainViewModel(
             //TODO 加密密码
             preferenceRepository.saveString("username",username)
             preferenceRepository.saveString("password",password)
-            showSnackbar = true
             delay(2000)
         }
     }

@@ -18,7 +18,7 @@ class FakePreferenceRepository(val context: Context) :PreferenceRepository{
     override suspend fun readBoolean(key:String): Boolean? {
         val BOOLEAN_KEY = booleanPreferencesKey(key)
         val preferences = context.dataStore.data.first()
-        Log.d("test","has read")
+    //    Log.d("test","has read")
         return preferences[BOOLEAN_KEY]
     }
 
@@ -28,13 +28,13 @@ class FakePreferenceRepository(val context: Context) :PreferenceRepository{
         context.dataStore.edit { settings ->
             settings[BOOLEAN_KEY] = value
         }
-        Log.d("test","$key has saved")
+    //    Log.d("test","$key has saved")
     }
 
     override suspend fun readString(key: String): String? {
         val STRING_KEY = stringPreferencesKey(key)
         val preferences = context.dataStore.data.first()
-        Log.d("test","has read")
+    //    Log.d("test","has read")
         return preferences[STRING_KEY]
     }
 
@@ -43,7 +43,7 @@ class FakePreferenceRepository(val context: Context) :PreferenceRepository{
         context.dataStore.edit { settings ->
             settings[STRING_KEY] = value
         }
-        Log.d("test","$key has saved")
+    //    Log.d("test","$key has saved")
     }
 
 }

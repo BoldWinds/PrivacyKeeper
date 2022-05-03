@@ -1,6 +1,5 @@
 package com.lbw.privacykeeper.ui.user
 
-import android.app.AlertDialog
 import android.content.res.Configuration
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -14,16 +13,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
 @Composable
 fun ConfirmUpdateDialog(
-    openDialog : Boolean,
-    closeDialog: ()->Unit
+    showDialog : Boolean,
+    closeDialog: ()->Unit,
+    biometricCheck: ()->Unit
 ) {
-    if(openDialog){
+    if(showDialog){
         AlertDialog(
             modifier = Modifier.clip(RoundedCornerShape(10.dp)),
             onDismissRequest = {
@@ -48,7 +47,7 @@ fun ConfirmUpdateDialog(
                 TextButton(
                     onClick = {
                         closeDialog()
-                        //TODO: 打开身份验证
+                        biometricCheck()
                     }
                 ) {
                     Text(text = stringResource(id = R.string.confirm))
@@ -72,9 +71,11 @@ fun ConfirmUpdateDialog(
 @Composable
 fun PreviewConfirmDialog() {
     PrivacyKeeperTheme {
-        val viewModel : UserViewModel = viewModel()
+
         ConfirmUpdateDialog(
-            viewModel.showConfirmDialog
-        ) { viewModel.closeConfirmDialog() }
+            showDialog = true,
+            closeDialog={},
+            biometricCheck={}
+        )
     }
 }

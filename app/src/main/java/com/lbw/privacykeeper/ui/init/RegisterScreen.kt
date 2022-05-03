@@ -1,6 +1,7 @@
 package com.lbw.privacykeeper.ui.init
 
 import android.content.res.Configuration
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
+import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 
 @Composable
@@ -26,8 +28,6 @@ fun RegisterScreen(
     saveUser : (String,String)->Unit,
     showMainScreen : ()->Unit,
     hasRegistered : ()->Unit,
-    showSnackBar : Boolean,
-    openSnackBar : ()->Unit
 ) {
     val context = LocalContext.current
     var username by remember{
@@ -74,7 +74,6 @@ fun RegisterScreen(
             )
 
             Spacer(modifier = Modifier.weight(0.05f))
-
             if(!password.equals(confirmPassword))
                 Text(
                     text = stringResource(id = R.string.not_match),
@@ -94,10 +93,13 @@ fun RegisterScreen(
 
             Button(
                 onClick = {
-                    Toast.makeText(context, "注册成功",Toast.LENGTH_SHORT).show()
                     hasRegistered()
                     saveUser(username,password)
-                    openSnackBar()
+                    showToast(
+                        true,
+                        context,
+                        context.getString(R.string.registered_successfully)
+                    )
                     showMainScreen()
                 },
                 modifier = Modifier
@@ -125,22 +127,6 @@ fun PreviewRegisterScreen() {
             saveUser = {a:String,b:String->},
             showMainScreen = {  },
             hasRegistered = {},
-            showSnackBar = false,
-            openSnackBar = {}
-        )
-    }
-}
-
-@Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewMySnackBar(){
-    Snackbar(
-        modifier = Modifier.clip(CircleShape)
-    ) {
-        Text(
-            text = stringResource(id = R.string.registered_successfully),
-            fontSize = 16.sp
         )
     }
 }
