@@ -3,7 +3,6 @@ package com.lbw.privacykeeper.utils
 import android.content.Context
 import androidx.security.crypto.EncryptedFile
 import com.lbw.privacykeeper.model.Password
-import com.lbw.privacykeeper.model.User
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.charset.StandardCharsets
@@ -15,7 +14,7 @@ class EncryptPassword(
     val mainKeyAlias : String
 ) {
 
-    fun encryptRead(company : String):User{
+    fun encryptRead(company : String):Password{
 
         val encryptedFile = EncryptedFile.Builder(
             File(context.filesDir,company),
@@ -35,7 +34,9 @@ class EncryptPassword(
         val plaintext: ByteArray = byteArrayOutputStream.toByteArray()
         byteArrayOutputStream.close()
 
-        return Utils.StringToUser(plaintext.toString(StandardCharsets.UTF_8))
+        val user =  Utils.StringToUser(plaintext.toString(StandardCharsets.UTF_8))
+
+        return Password(company,user.username,user.password)
     }
 
     fun encryptWrite(password : Password){
