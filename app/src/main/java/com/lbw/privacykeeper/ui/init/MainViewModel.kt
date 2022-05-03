@@ -12,14 +12,15 @@ import com.lbw.privacykeeper.data.preference.PreferenceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 enum class ThemeMode{
     LightMode,DarkMode
 }
 
 
-class MainViewModel(private val preferenceRepository: PreferenceRepository) : ViewModel(){
+class MainViewModel(
+    private val preferenceRepository: PreferenceRepository,
+) : ViewModel(){
 
     //用于确定是否显示第一次启动引导界面
     var showGuidance by mutableStateOf<Boolean>(false)
@@ -102,7 +103,7 @@ class MainViewModel(private val preferenceRepository: PreferenceRepository) : Vi
         fun provideFactory(
             preferenceRepository: PreferenceRepository,
         ):ViewModelProvider.Factory = object : ViewModelProvider.Factory{
-            @Suppress("123")
+            @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
                 return MainViewModel(preferenceRepository) as T
             }

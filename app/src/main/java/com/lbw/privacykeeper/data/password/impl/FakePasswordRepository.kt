@@ -4,14 +4,14 @@ import android.content.Context
 import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.model.User
-import com.lbw.privacykeeper.utils.Encrypt
+import com.lbw.privacykeeper.utils.EncryptPassword
 
 class FakePasswordRepository(
     context : Context,
     mainKeyAlias : String
 ) : PasswordRepository{
 
-    private val encrypt = Encrypt(context = context,mainKeyAlias = mainKeyAlias)
+    private val encrypt = EncryptPassword(context = context,mainKeyAlias = mainKeyAlias)
 
     override suspend fun save(password: Password) {
         encrypt.encryptWrite(password = password)

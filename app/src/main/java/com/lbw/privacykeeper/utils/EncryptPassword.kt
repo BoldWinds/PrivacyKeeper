@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.charset.StandardCharsets
 
-class Encrypt(
+class EncryptPassword(
     val context : Context,
     val mainKeyAlias : String
 ) {

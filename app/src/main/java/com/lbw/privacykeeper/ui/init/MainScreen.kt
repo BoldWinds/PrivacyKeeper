@@ -14,11 +14,13 @@ import com.lbw.privacykeeper.ui.nav.BottomNavBar
 import com.lbw.privacykeeper.ui.nav.BottomNavGraph
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.TopBar
+import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import privacykeeperv1.R
 
 @Composable
 fun MainScreen(
     appContainer: AppContainer,
+    biometricCheckParameters: BiometricCheckParameters,
     mainViewModel: MainViewModel
 ) {
     val navController = rememberNavController()
@@ -49,7 +51,8 @@ fun MainScreen(
     ) {
         BottomNavGraph(
             navController = navController,
-            appContainer = appContainer
+            appContainer = appContainer,
+            biometricCheckParameters = biometricCheckParameters
         )
     }
 }

@@ -9,11 +9,13 @@ import com.lbw.privacykeeper.ui.image.ImageScreen
 import com.lbw.privacykeeper.ui.password.PasswordScreen
 import com.lbw.privacykeeper.ui.user.UserScreen
 import com.lbw.privacykeeper.ui.video.VideoScreen
+import com.lbw.privacykeeper.utils.BiometricCheckParameters
 
 @Composable
 fun BottomNavGraph(
     appContainer: AppContainer,
-    navController: NavHostController
+    navController: NavHostController,
+    biometricCheckParameters: BiometricCheckParameters
 ) {
     NavHost(
         navController = navController,

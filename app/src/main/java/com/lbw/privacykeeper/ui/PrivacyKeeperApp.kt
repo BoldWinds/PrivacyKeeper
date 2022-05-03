@@ -7,15 +7,17 @@ import com.lbw.privacykeeper.ui.init.GuideScreen
 import com.lbw.privacykeeper.ui.init.MainScreen
 import com.lbw.privacykeeper.ui.init.RegisterScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
+import com.lbw.privacykeeper.utils.BiometricCheckParameters
 
 
 @Composable
 fun PrivacyKeeperApp(
-    appContainer: AppContainer
+    appContainer: AppContainer,
+    biometricCheckParameters: BiometricCheckParameters
 ) {
     //读取preference以确定是否打开guide
     val mainViewModel:MainViewModel = viewModel(
-        factory = MainViewModel.provideFactory(appContainer.preferenceRepository)
+        factory = MainViewModel.provideFactory(preferenceRepository = appContainer.preferenceRepository)
     )
 
     mainViewModel.setShowGuidance()
@@ -38,7 +40,8 @@ fun PrivacyKeeperApp(
         if(mainViewModel.showMain){
             MainScreen(
                 mainViewModel = mainViewModel,
-                appContainer = appContainer
+                appContainer = appContainer,
+                biometricCheckParameters = biometricCheckParameters
             )
         }
     }

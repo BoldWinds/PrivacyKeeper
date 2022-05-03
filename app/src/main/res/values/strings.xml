@@ -15,4 +15,6 @@
     <string name="register">Register</string>
     <string name="confirm_dialog_text">Pressing "Confirm" will start changing your password. Do you want to continue?</string>
     <string name="start_text">Start your PrivacyKeeper!</string>
+    <string name="confirm_transaction">Confirm transaction</string>
+    <string name="cancel">cancel</string>
 </resources>
