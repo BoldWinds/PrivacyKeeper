@@ -1,17 +1,25 @@
 package com.lbw.privacykeeper.data.password.impl
 
+import android.content.Context
 import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.model.Password
+import com.lbw.privacykeeper.model.User
+import com.lbw.privacykeeper.utils.Encrypt
 
-class FakePasswordRepository : PasswordRepository{
+class FakePasswordRepository(
+    context : Context,
+    mainKeyAlias : String
+    ) : PasswordRepository{
 
-    override suspend fun save(username: String, password: String) {
-        TODO("Not yet implemented")
+    private val encrypt = Encrypt(context = context,mainKeyAlias = mainKeyAlias)
+
+    override suspend fun save(password: Password) {
+        encrypt.encryptWrite()
     }
 
-    override suspend fun read(): Password {
+    override suspend fun read(company:String): User{
        // TODO("Not yet implemented")
-        return Password("JetBrain","834264619@qq.com","123456")
+        return User("834264619@qq.com","123456")
     }
 
 }
