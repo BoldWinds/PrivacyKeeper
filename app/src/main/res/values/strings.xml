@@ -3,8 +3,8 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="registered_successfully" translatable="false">Registered successfully</string>
-    <string name="not_match" translatable="false">Password does not match</string>
+    <string name="registered_successfully">Registered successfully</string>
+    <string name="not_match">Password does not match</string>
     <string name="image">image</string>
     <string name="video">video</string>
     <string name="user">user</string>
@@ -17,4 +17,5 @@
     <string name="start_text">Start your PrivacyKeeper!</string>
     <string name="confirm_transaction">Confirm transaction</string>
     <string name="cancel">cancel</string>
+    <string name="update_password">Enter your new password</string>
 </resources>

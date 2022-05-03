@@ -8,21 +8,16 @@ import privacykeeperv1.R
 
 @Composable
 fun TopBar(content : @Composable ()->Unit) {
-    SmallTopAppBar(
+    CenterAlignedTopAppBar(
         title = {
             Text(text = "PrivacyKeeper")
         },
         actions = {
             content()
-
-            IconButton(onClick = { /*Do sth*/ }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_lock_fill0_wght400_grad0_opsz48),
-                    contentDescription = "lock"
-                )
-            }
         },
-
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
     )
 
 }

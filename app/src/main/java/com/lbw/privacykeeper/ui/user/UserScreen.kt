@@ -24,6 +24,9 @@ fun UserScreen(userViewModel: UserViewModel) {
         openConfirmDialog = userViewModel::openConfirmDialog,
         closeConfirmDialog = userViewModel::closeConfirmDialog,
         checkBiometric = userViewModel::openBiometricCheck,
+        showUpdateDialog = userViewModel.permission,
+        closeUpdateDialog = userViewModel::closeUpdateDialog,
+        savePassword = userViewModel::updateUser
     )
 }
 
@@ -34,6 +37,9 @@ fun UserScreen(
     openConfirmDialog : ()->Unit,
     closeConfirmDialog : ()->Unit,
     checkBiometric : ()->Unit,
+    showUpdateDialog : Boolean,
+    closeUpdateDialog:()->Unit,
+    savePassword : (String)->Unit
 ) {
 
     Column(
@@ -59,6 +65,12 @@ fun UserScreen(
         closeDialog = closeConfirmDialog,
         biometricCheck = checkBiometric
     )
+
+    UpdateDialog(
+        showDialog = showUpdateDialog,
+        closeDialog = closeUpdateDialog,
+        savePassword = savePassword
+    )
 }
 
 @Preview
@@ -72,6 +84,9 @@ fun PreviewUserScreen() {
             openConfirmDialog = {},
             closeConfirmDialog = {},
             checkBiometric = {},
+            showUpdateDialog = true,
+            closeUpdateDialog = {},
+            savePassword = {}
         )
     }
 }

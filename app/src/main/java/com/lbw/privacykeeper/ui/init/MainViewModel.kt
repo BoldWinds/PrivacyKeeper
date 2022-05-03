@@ -87,7 +87,6 @@ class MainViewModel(
             //TODO 加密密码
             preferenceRepository.saveString("username",username)
             preferenceRepository.saveString("password",password)
-            delay(2000)
         }
     }
 

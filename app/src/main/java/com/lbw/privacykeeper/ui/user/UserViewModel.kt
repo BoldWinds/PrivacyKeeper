@@ -1,5 +1,6 @@
 package com.lbw.privacykeeper.ui.user
 
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +11,7 @@ import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -31,6 +33,10 @@ class UserViewModel(
     }
 
     var permission by mutableStateOf(false)
+
+    fun closeUpdateDialog(){
+        permission = false
+    }
 
     fun openBiometricCheck(){
         val biometricCheck = BiometricCheck(
@@ -56,7 +62,13 @@ class UserViewModel(
         mutableUser = user
     }
 
-    fun updatePassword() {}
+    fun updateUser(password: String){
+        Log.d("password",password)
+        viewModelScope.launch {
+            //TODO 解密密码
+            preferenceRepository.saveString("password",password)
+        }
+    }
 
     companion object{
         fun provideFactory(

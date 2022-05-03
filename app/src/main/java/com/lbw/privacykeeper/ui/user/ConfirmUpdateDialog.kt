@@ -1,11 +1,9 @@
 package com.lbw.privacykeeper.ui.user
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,7 +29,8 @@ fun ConfirmUpdateDialog(
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_warning_foreground),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp)
                 )
             },
             title = {
@@ -61,7 +60,9 @@ fun ConfirmUpdateDialog(
                 ) {
                     Text(text = stringResource(id = R.string.dismiss))
                 }
-            }
+            },
+            containerColor = MaterialTheme.colorScheme.surface,
+            tonalElevation = 10.dp
         )
     }
 }
