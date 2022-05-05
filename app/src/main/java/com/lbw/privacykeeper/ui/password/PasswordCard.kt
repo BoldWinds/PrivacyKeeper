@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.utils.Utils
+import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -171,7 +172,7 @@ fun CopyPasswordButton(
                 data = password,
             )
 
-            Utils.showToast(
+            showToast(
                 show = true,
                 context = context,
                 text = context.getString(R.string.has_copied)

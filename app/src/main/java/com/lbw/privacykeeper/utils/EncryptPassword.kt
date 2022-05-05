@@ -15,9 +15,10 @@ class EncryptPassword(
 ) {
 
     fun encryptRead(company : String):Password{
+        val file = File(context.filesDir,"passwords")
 
         val encryptedFile = EncryptedFile.Builder(
-            File(context.filesDir,company),
+            File(file,company),
             context,
             mainKeyAlias,
             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
@@ -40,8 +41,14 @@ class EncryptPassword(
     }
 
     fun encryptWrite(password : Password){
+        val file = File(context.filesDir,"passwords")
+
+        if(!file.exists()){
+            file.mkdirs()
+        }
+
         val encryptedFile = EncryptedFile.Builder(
-            File(context.filesDir,password.company),
+            File(file,password.company),
             context,
             mainKeyAlias,
             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB

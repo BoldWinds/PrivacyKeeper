@@ -26,4 +26,6 @@
     <string name="save_succeed">保存成功</string>
     <string name="save_failed">保存失败</string>
     <string name="input_error">输入格式错误！</string>
+    <string name="show_password">显示密码</string>
+    <string name="save_password">保存密码</string>
 </resources>

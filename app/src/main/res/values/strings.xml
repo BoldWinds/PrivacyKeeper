@@ -25,4 +25,6 @@
     <string name="save_succeed">Save succeed</string>
     <string name="save_failed">Save failed</string>
     <string name="input_error">Inout Error!</string>
+    <string name="show_password">show password</string>
+    <string name="save_password">save password</string>
 </resources>

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.utils.CommonTextField
 import com.lbw.privacykeeper.ui.utils.PasswordTextField
-import com.lbw.privacykeeper.utils.Utils
+import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 import java.lang.Exception
 
@@ -95,20 +95,20 @@ fun SavePasswordDialog(
                             closeDialog()
                             try {
                                 savePassword(Password(website,username, password))
-                                Utils.showToast(
+                                showToast(
                                     show = true,
                                     context = context,
                                     text = context.getString(R.string.save_succeed)
                                 )
                             }catch (e : Exception){
-                                Utils.showToast(
+                                showToast(
                                     show = true,
                                     context = context,
                                     text = context.getString(R.string.save_failed)
                                 )
                             }
                         }else{
-                            Utils.showToast(
+                            showToast(
                                 show=true,
                                 context = context,
                                 text = context.getString(R.string.input_error)

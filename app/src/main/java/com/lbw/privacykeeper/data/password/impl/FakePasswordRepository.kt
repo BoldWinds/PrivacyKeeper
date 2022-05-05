@@ -5,6 +5,7 @@ import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.utils.EncryptPassword
 import com.lbw.privacykeeper.utils.Utils
+import java.io.File
 
 class FakePasswordRepository(
     context : Context,
@@ -25,7 +26,7 @@ class FakePasswordRepository(
 
     override suspend fun readAll(): List<Password> {
         val list = mutableListOf<Password>()
-        Utils.getAllFileNames(file).forEach {
+        Utils.getAllFileNames(File(file,"passwords")).forEach {
             list.add(read(it))
         }
         return list

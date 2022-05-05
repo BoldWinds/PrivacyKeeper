@@ -10,11 +10,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 
 @Composable
@@ -26,6 +28,8 @@ fun UpdateDialog(
     var password by remember{
         mutableStateOf("")
     }
+
+    val context = LocalContext.current
 
     if (showDialog){
         AlertDialog(
@@ -61,8 +65,23 @@ fun UpdateDialog(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        savePassword(password)
-                        closeDialog()
+                        if(password!=""){
+                            try {
+                                savePassword(password)
+                                closeDialog()
+                                showToast(
+                                    show = true,
+                                    context = context,
+                                    text = context.getString(R.string.save_succeed)
+                                )
+                            }catch (e : Exception){
+                                showToast(
+                                    show = true,
+                                    context = context,
+                                    text = context.getString(R.string.save_failed)
+                                )
+                            }
+                        }
                     }
                 ) {
                     Text(text = stringResource(id = R.string.confirm))
