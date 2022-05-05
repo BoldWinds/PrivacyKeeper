@@ -1,12 +1,9 @@
 package com.lbw.privacykeeper.ui.init
 
 import android.content.res.Configuration
-import android.widget.ImageButton
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
+import com.lbw.privacykeeper.ui.utils.CommonTextField
+import com.lbw.privacykeeper.ui.utils.PasswordTextField
 import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 
@@ -30,14 +27,23 @@ fun RegisterScreen(
     hasRegistered : ()->Unit,
 ) {
     val context = LocalContext.current
+
     var username by remember{
         mutableStateOf("")
     }
+
     var password by remember{
         mutableStateOf("")
     }
+    var passwordVisibility by remember{
+        mutableStateOf(false)
+    }
+
     var confirmPassword by remember{
         mutableStateOf("")
+    }
+    var confirmPasswordVisibility by remember{
+        mutableStateOf(false)
     }
 
     if (showRegisterScreen){
@@ -57,20 +63,19 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.weight(0.1f))
 
-            TextField(
+            CommonTextField(
                 value = username,
-                onValueChange ={username = it},
-                label = {Text(stringResource(id = R.string.username))}
+                onValueChange = {value:String->username=value},
+                labelText = stringResource(id = R.string.username)
             )
 
             Spacer(modifier = Modifier.weight(0.05f))
 
-            TextField(
+            PasswordTextField(
                 value = password,
-                onValueChange = { password=it},
-                label = { Text(stringResource(id = R.string.password))},
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                onValueChange = {value:String->password=value },
+                visibility = passwordVisibility,
+                changeVisible = {passwordVisibility=!passwordVisibility}
             )
 
             Spacer(modifier = Modifier.weight(0.05f))
@@ -81,26 +86,33 @@ fun RegisterScreen(
                     fontSize = 12.sp
                 )
 
-            TextField(
+            PasswordTextField(
                 value = confirmPassword,
-                onValueChange = { confirmPassword=it},
-                label = { Text(stringResource(id = R.string.confirm_password))},
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                onValueChange = {value:String->confirmPassword=value },
+                visibility = confirmPasswordVisibility,
+                changeVisible = {confirmPasswordVisibility=!confirmPasswordVisibility}
             )
 
             Spacer(modifier = Modifier.weight(0.1f))
 
             Button(
                 onClick = {
-                    hasRegistered()
-                    saveUser(username,password)
-                    showToast(
-                        true,
-                        context,
-                        context.getString(R.string.registered_successfully)
-                    )
-                    showMainScreen()
+                    if (password!=confirmPassword) {
+                        showToast(
+                            show = true,
+                            context = context,
+                            text = context.getString(R.string.register_failed)
+                        )
+                    }else{
+                        hasRegistered()
+                        saveUser(username,password)
+                        showToast(
+                            true,
+                            context,
+                            context.getString(R.string.registered_successfully)
+                        )
+                        showMainScreen()
+                    }
                 },
                 modifier = Modifier
                     .clip(CircleShape)

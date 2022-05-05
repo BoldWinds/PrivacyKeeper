@@ -16,9 +16,13 @@
     <string name="confirm_dialog_text">Pressing "Confirm" will start changing your password. Do you want to continue?</string>
     <string name="start_text">Start your PrivacyKeeper!</string>
     <string name="confirm_transaction">Confirm transaction</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="update_password">Enter your new password</string>
     <string name="copy">copy</string>
     <string name="has_copied">Copied to the clipboard</string>
-    <string name="website" translatable="false">Website</string>
+    <string name="website">Website</string>
+    <string name="register_failed">Registration failed</string>
+    <string name="save_succeed">Save succeed</string>
+    <string name="save_failed">Save failed</string>
+    <string name="input_error">Inout Error!</string>
 </resources>

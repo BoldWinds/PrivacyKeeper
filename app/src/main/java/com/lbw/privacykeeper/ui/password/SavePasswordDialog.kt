@@ -1,16 +1,24 @@
 package com.lbw.privacykeeper.ui.password
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lbw.privacykeeper.model.Password
+import com.lbw.privacykeeper.ui.utils.CommonTextField
+import com.lbw.privacykeeper.ui.utils.PasswordTextField
+import com.lbw.privacykeeper.utils.Utils
 import privacykeeperv1.R
+import java.lang.Exception
 
 @Composable
 fun SavePasswordDialog(
@@ -18,6 +26,24 @@ fun SavePasswordDialog(
     closeDialog : ()->Unit,
     savePassword : (Password)->Unit
 ) {
+    val context = LocalContext.current
+
+    var website by remember{
+        mutableStateOf("")
+    }
+
+    var username by remember{
+        mutableStateOf("")
+    }
+
+    var password by remember{
+        mutableStateOf("")
+    }
+
+    var visibility by remember {
+        mutableStateOf(false)
+    }
+
     if(showDialog){
         AlertDialog(
             modifier = Modifier.clip(RoundedCornerShape(10.dp)),
@@ -26,7 +52,7 @@ fun SavePasswordDialog(
             },
             icon = {
                 Icon(
-                    painter = painterResource(R.drawable.ic_warning_foreground),
+                    painter = painterResource(R.drawable.ic_info_foreground),
                     contentDescription = null,
                     modifier = Modifier.size(40.dp)
                 )
@@ -35,16 +61,59 @@ fun SavePasswordDialog(
                 Text(text = stringResource(id = R.string.warning))
             },
             text = {
-                Text(
-                    text = stringResource(id = R.string.confirm_dialog_text),
-
+                Column(
+                    modifier = Modifier.fillMaxSize(0.7f)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "请输入您要保存的密码："
                     )
+
+                    CommonTextField(
+                        value = website,
+                        onValueChange = {value:String->website = value},
+                        labelText = stringResource(id = R.string.website)
+                    )
+
+                    CommonTextField(value = username,
+                        onValueChange = {value:String->username = value},
+                        labelText = stringResource(id = R.string.username)
+                    )
+
+                    PasswordTextField(
+                        value = password,
+                        onValueChange = {value:String->password=value},
+                        visibility = visibility,
+                        changeVisible = {visibility = !visibility}
+                    )
+                }
             },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        closeDialog()
-                        savePassword
+                        if(website!=""&&username!=""&&password!=""){
+                            closeDialog()
+                            try {
+                                savePassword(Password(website,username, password))
+                                Utils.showToast(
+                                    show = true,
+                                    context = context,
+                                    text = context.getString(R.string.save_succeed)
+                                )
+                            }catch (e : Exception){
+                                Utils.showToast(
+                                    show = true,
+                                    context = context,
+                                    text = context.getString(R.string.save_failed)
+                                )
+                            }
+                        }else{
+                            Utils.showToast(
+                                show=true,
+                                context = context,
+                                text = context.getString(R.string.input_error)
+                            )
+                        }
                     }
                 ) {
                     Text(text = stringResource(id = R.string.confirm))
