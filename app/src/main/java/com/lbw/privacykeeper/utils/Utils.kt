@@ -1,8 +1,11 @@
 package com.lbw.privacykeeper.utils
 
+
+import androidx.compose.ui.platform.ClipboardManager
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.ui.text.AnnotatedString
 import com.lbw.privacykeeper.model.User
 import java.io.File
 
@@ -11,6 +14,8 @@ import java.io.File
 class Utils {
 
     companion object{
+
+        //将String类型转换成User类型
         fun StringToUser(str : String):User{
             val username : String
             val password : String
@@ -22,6 +27,7 @@ class Utils {
             return User(username = username, password = password)
         }
 
+        //封装Toast
         fun showToast(
             show : Boolean,
             context: Context,
@@ -31,7 +37,7 @@ class Utils {
                 Toast.makeText(context,text, Toast.LENGTH_SHORT).show()
         }
 
-        //TODO 获取路径下所有文件名
+        //获取file这个目录下所有的文件名
         fun getAllFileNames(file:File?):List<String>{
             val list = mutableListOf<String>()
 
@@ -47,6 +53,13 @@ class Utils {
             }
             return list
         }
+
+        //将String复制到剪贴板中
+        fun clipString(clipboardManager: ClipboardManager,data : String){
+            val annotatedString = AnnotatedString(text = data)
+            clipboardManager.setText(annotatedString)
+        }
+
     }
 
 }

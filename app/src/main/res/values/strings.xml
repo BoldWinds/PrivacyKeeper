@@ -18,4 +18,6 @@
     <string name="confirm_transaction">Confirm transaction</string>
     <string name="cancel">cancel</string>
     <string name="update_password">Enter your new password</string>
+    <string name="copy">copy</string>
+    <string name="has_copied">Copied to the clipboard</string>
 </resources>

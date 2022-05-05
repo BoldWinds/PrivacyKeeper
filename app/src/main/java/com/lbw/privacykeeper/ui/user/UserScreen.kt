@@ -14,10 +14,6 @@ import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 @Composable
 fun UserScreen(userViewModel: UserViewModel) {
 
-    userViewModel.getThisUser()
-
-    userViewModel.setUser()
-
     UserScreen(
         username = userViewModel.mutableUser.username,
         showConfirmDialog = userViewModel.showConfirmDialog,

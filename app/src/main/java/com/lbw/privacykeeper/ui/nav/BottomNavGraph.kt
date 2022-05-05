@@ -27,6 +27,8 @@ fun BottomNavGraph(
             val userViewModel : UserViewModel = viewModel(
                 factory = UserViewModel.provideFactory(appContainer.preferenceRepository, biometricCheckParameters)
             )
+            userViewModel.getThisUser()
+            userViewModel.setUser()
             UserScreen(userViewModel)
         }
 
