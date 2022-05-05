@@ -20,4 +20,5 @@
     <string name="update_password">Enter your new password</string>
     <string name="copy">copy</string>
     <string name="has_copied">Copied to the clipboard</string>
+    <string name="website" translatable="false">Website</string>
 </resources>

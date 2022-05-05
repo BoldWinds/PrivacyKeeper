@@ -21,4 +21,5 @@
     <string name="update_password">输入您的新密码</string>
     <string name="copy">复制</string>
     <string name="has_copied">已复制到剪贴板</string>
+    <string name="website">网站</string>
 </resources>

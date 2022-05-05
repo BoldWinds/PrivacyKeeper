@@ -16,7 +16,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             PrivacyKeeperApp(appContainer = appContainer, biometricCheckParameters = biometricCheckParameters)
-
         }
     }
 
