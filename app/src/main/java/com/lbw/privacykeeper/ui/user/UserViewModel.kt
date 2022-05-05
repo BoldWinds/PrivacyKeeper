@@ -50,7 +50,6 @@ class UserViewModel(
     var user : User = User("","")
 
     fun getThisUser(){
-
         viewModelScope.launch(Dispatchers.IO) {
             val username : String? = preferenceRepository.readString("username")
             val password : String? = preferenceRepository.readString("password")
