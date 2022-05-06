@@ -37,26 +37,6 @@ fun PasswordScreen(passwordViewModel: PasswordViewModel) {
         )
     }
 
-    /*var text by remember{
-            mutableStateOf("")
-        }
-        var visible by remember{
-            mutableStateOf(false)
-        }
-        PasswordTextField(
-            value = text,
-            onValueChange = {a : String->text = a},
-            visible = visible,
-            changeVisible = {visible = !visible}
-        )*/
-
-    /*Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = androidx.compose.material3.MaterialTheme.colorScheme.background),
-        ){
-        PasswordCard(password = Password("1","2","3"))
-    }*/
 }
 
 
@@ -122,7 +102,6 @@ fun PasswordScreen(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(20.dp),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
        itemsIndexed(passwordList){index,item->

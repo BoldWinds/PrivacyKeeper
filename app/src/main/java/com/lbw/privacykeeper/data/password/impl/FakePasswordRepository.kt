@@ -14,7 +14,7 @@ class FakePasswordRepository(
 
     private val encrypt = EncryptPassword(context = context,mainKeyAlias = mainKeyAlias)
 
-    private val file = context.filesDir
+    private val file = File(context.filesDir,"passwords")
 
     override suspend fun save(password: Password) {
         encrypt.encryptWrite(password = password)
@@ -26,7 +26,7 @@ class FakePasswordRepository(
 
     override suspend fun readAll(): List<Password> {
         val list = mutableListOf<Password>()
-        Utils.getAllFileNames(File(file,"passwords")).forEach {
+        Utils.getAllFileNames(file).forEach {
             list.add(read(it))
         }
         return list

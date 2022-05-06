@@ -82,6 +82,7 @@ fun UpdateDialog(
                                 )
                             }
                         }
+                        password = ""
                     }
                 ) {
                     Text(text = stringResource(id = R.string.confirm))

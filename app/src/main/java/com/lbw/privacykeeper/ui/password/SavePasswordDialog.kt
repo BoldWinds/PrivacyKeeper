@@ -1,7 +1,6 @@
 package com.lbw.privacykeeper.ui.password
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,8 +61,7 @@ fun SavePasswordDialog(
             },
             text = {
                 Column(
-                    modifier = Modifier.fillMaxSize(0.7f)
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         text = "请输入您要保存的密码："
@@ -114,6 +112,9 @@ fun SavePasswordDialog(
                                 text = context.getString(R.string.input_error)
                             )
                         }
+                        website = ""
+                        username = ""
+                        password = ""
                     }
                 ) {
                     Text(text = stringResource(id = R.string.confirm))

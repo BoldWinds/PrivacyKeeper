@@ -2,7 +2,6 @@ package com.lbw.privacykeeper.ui.password
 
 import android.content.res.Configuration
 import androidx.compose.foundation.*
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
@@ -47,7 +46,8 @@ fun PasswordCard(
             else    height = 100.dp
         },
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary),
-        modifier = Modifier.size(width = 180.dp,height = height),
+        modifier = Modifier.fillMaxWidth()
+            .sizeIn(minWidth = 100.dp,minHeight = height),
         elevation = CardDefaults.cardElevation(5.dp),
         border = BorderStroke(1.dp,color = MaterialTheme.colorScheme.secondary)
     ) {
@@ -95,13 +95,13 @@ fun PasswordCard(
 
         }
 
-        PasswordText(text = stringResource(id = R.string.website)+": "+password.company)
+        CommonText(text = stringResource(id = R.string.website)+": "+password.company)
 
         if (selected){
 
-            PasswordText(text = stringResource(id = R.string.username)+": "+password.username)
+            CommonText(text = stringResource(id = R.string.username)+": "+password.username)
 
-            PasswordText(text = stringResource(id = R.string.password)+": "+password.password)
+            CommonText(text = stringResource(id = R.string.password)+": "+password.password)
 
         }
         
@@ -129,7 +129,7 @@ fun PreviewMyCard() {
 
 
 @Composable
-fun PasswordText(text : String) {
+fun CommonText(text : String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
@@ -151,7 +151,7 @@ fun PasswordText(text : String) {
 @Composable
 fun PreviewPasswordText(){
     PrivacyKeeperTheme {
-        PasswordText(text = "username: LBWNB")
+        CommonText(text = "username: LBWNB")
     }
 }
 
