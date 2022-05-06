@@ -1,11 +1,14 @@
 package com.lbw.privacykeeper.data.image
 
 import android.net.Uri
+import androidx.compose.ui.graphics.ImageBitmap
 
 interface ImageRepository {
     suspend fun save(uri:Uri,filename:String)
 
-    suspend fun read() : Uri
+    suspend fun read(filename: String) : String
 
-    suspend fun readAll() : List<Uri>
+    suspend fun readAll() : List<String>
+
+    suspend fun toImageBitmap() : List<ImageBitmap>
 }

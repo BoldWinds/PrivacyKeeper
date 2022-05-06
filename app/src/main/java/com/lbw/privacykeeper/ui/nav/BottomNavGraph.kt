@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.ui.image.ImageScreen
+import com.lbw.privacykeeper.ui.image.ImageViewModel
 import com.lbw.privacykeeper.ui.password.PasswordScreen
 import com.lbw.privacykeeper.ui.password.PasswordViewModel
 import com.lbw.privacykeeper.ui.user.UserScreen
@@ -41,6 +42,9 @@ fun BottomNavGraph(
         }
 
         composable(route = BottomBarScreen.Image.route){
+            val imageViewModel : ImageViewModel = viewModel(
+                factory = ImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
+            )
             ImageScreen()
         }
 
