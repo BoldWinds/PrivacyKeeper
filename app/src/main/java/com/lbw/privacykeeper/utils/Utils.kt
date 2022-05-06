@@ -60,6 +60,11 @@ class Utils {
             clipboardManager.setText(annotatedString)
         }
 
+        //在app关闭时删除所有解密的文件
+        fun deleteAllDecryptedFiles(){
+
+        }
+
     }
 
 }

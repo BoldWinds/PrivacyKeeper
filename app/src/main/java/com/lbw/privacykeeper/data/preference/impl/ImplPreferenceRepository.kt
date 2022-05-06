@@ -11,7 +11,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.lbw.privacykeeper.data.preference.PreferenceRepository
 import kotlinx.coroutines.flow.first
 
-class FakePreferenceRepository(val context: Context) :PreferenceRepository{
+class ImplPreferenceRepository(val context: Context) :PreferenceRepository{
 
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 

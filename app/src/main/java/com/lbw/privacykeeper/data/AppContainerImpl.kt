@@ -2,11 +2,9 @@ package com.lbw.privacykeeper.data
 
 import android.content.Context
 import com.lbw.privacykeeper.data.password.PasswordRepository
-import com.lbw.privacykeeper.data.password.impl.FakePasswordRepository
+import com.lbw.privacykeeper.data.password.impl.ImplPasswordRepository
 import com.lbw.privacykeeper.data.preference.PreferenceRepository
-import com.lbw.privacykeeper.data.preference.impl.FakePreferenceRepository
-import com.lbw.privacykeeper.model.Password
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.lbw.privacykeeper.data.preference.impl.ImplPreferenceRepository
 
 //实现依赖注入
 
@@ -22,10 +20,10 @@ class AppContainerImpl(
 ):AppContainer {
 
     override val preferenceRepository : PreferenceRepository by lazy{
-        FakePreferenceRepository(context = applicationContext)
+        ImplPreferenceRepository(context = applicationContext)
     }
     override val passwordRepository: PasswordRepository by lazy{
-        FakePasswordRepository(context = applicationContext, mainKeyAlias = mainKeyAlias)
+        ImplPasswordRepository(context = applicationContext, mainKeyAlias = mainKeyAlias)
     }
 
 }

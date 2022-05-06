@@ -7,7 +7,7 @@ import com.lbw.privacykeeper.utils.EncryptPassword
 import com.lbw.privacykeeper.utils.Utils
 import java.io.File
 
-class FakePasswordRepository(
+class ImplPasswordRepository(
     context : Context,
     mainKeyAlias : String
 ) : PasswordRepository{

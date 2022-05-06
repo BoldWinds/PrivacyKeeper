@@ -14,9 +14,12 @@ import androidx.compose.ui.unit.dp
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 
 @Composable
-fun ImageScreen() {
+fun ImageScreen(
+    imageViewModel: ImageViewModel
+) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(color = androidx.compose.material3.MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ){
@@ -25,6 +28,12 @@ fun ImageScreen() {
             modifier = Modifier.size(100.dp)
         )
     }
+}
+
+
+@Composable
+fun ImageScreen() {
+
 }
 
 
