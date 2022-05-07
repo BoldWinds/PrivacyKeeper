@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun VideoScreen() {
+fun VideoScreen(
+    videoViewModel: VideoViewModel
+) {
     Box(
         modifier = Modifier.background(MaterialTheme.colors.onBackground)
     ){

@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.lbw.privacykeeper.data.image.ImageRepository
+import com.lbw.privacykeeper.ui.utils.UriType
 import com.lbw.privacykeeper.utils.EncryptFromUri
 import com.lbw.privacykeeper.utils.Utils.Companion.getAllFileNames
 import java.io.File
@@ -21,11 +22,11 @@ class ImplImageRepository(
     private val decrypted = File(root,"decrypted")
 
     override suspend fun save(uri: Uri,filename:String) {
-        encrypt.encryptWrite(uri = uri, fileName = filename)
+        encrypt.encryptWrite(uri = uri, fileName = filename, uriType = UriType.Image)
     }
 
     override suspend fun read(filename: String): String {
-        return encrypt.decrypt(filename)
+        return encrypt.decrypt(filename,UriType.Image)
     }
 
     override suspend fun readAll(): List<String> {

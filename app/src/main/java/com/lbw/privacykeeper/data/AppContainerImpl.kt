@@ -7,6 +7,8 @@ import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.data.password.impl.ImplPasswordRepository
 import com.lbw.privacykeeper.data.preference.PreferenceRepository
 import com.lbw.privacykeeper.data.preference.impl.ImplPreferenceRepository
+import com.lbw.privacykeeper.data.video.VideoRepository
+import com.lbw.privacykeeper.data.video.impl.ImplVideoRepository
 
 //实现依赖注入
 
@@ -14,6 +16,7 @@ interface AppContainer{
     val preferenceRepository : PreferenceRepository
     val passwordRepository : PasswordRepository
     val imageRepository : ImageRepository
+    val videoRepository : VideoRepository
 
 }
 
@@ -31,6 +34,10 @@ class AppContainerImpl(
 
     override val imageRepository:ImageRepository by lazy{
         ImplImageRepository(context = applicationContext, mainKeyAlias = mainKeyAlias)
+    }
+
+    override val videoRepository: VideoRepository by lazy{
+        ImplVideoRepository(context = applicationContext, mainKeyAlias = mainKeyAlias)
     }
 
 }

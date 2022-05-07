@@ -104,7 +104,7 @@ fun PasswordScreen(
         contentPadding = PaddingValues(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-       itemsIndexed(passwordList){index,item->
+       itemsIndexed(passwordList){ _, item->
 
            PasswordCard(password = item)
 

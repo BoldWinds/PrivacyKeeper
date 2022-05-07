@@ -13,6 +13,7 @@ import com.lbw.privacykeeper.ui.password.PasswordViewModel
 import com.lbw.privacykeeper.ui.user.UserScreen
 import com.lbw.privacykeeper.ui.user.UserViewModel
 import com.lbw.privacykeeper.ui.video.VideoScreen
+import com.lbw.privacykeeper.ui.video.VideoViewModel
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 
 @Composable
@@ -49,7 +50,10 @@ fun BottomNavGraph(
         }
 
         composable(route = BottomBarScreen.Video.route){
-            VideoScreen()
+            val videoViewModel : VideoViewModel = viewModel(
+                factory = VideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
+            )
+            VideoScreen(videoViewModel)
         }
 
     }

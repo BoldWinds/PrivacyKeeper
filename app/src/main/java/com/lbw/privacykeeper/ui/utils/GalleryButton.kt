@@ -25,7 +25,7 @@ enum class UriType{
 //通过uriType来决定打开的资源类型
 @Composable
 fun GalleryButton(
-    setUri: KFunction1<Uri, Unit>,
+    setUri: (Uri)->Unit,
     save: ()->Unit,
     uriType: UriType
 ){
@@ -90,8 +90,10 @@ fun GalleryButton(
 @Composable
 fun PreviewGalleryButton() {
     PrivacyKeeperTheme {
-        /*GalleryButton(
-            setUri = {uri:Uri->}
-        ) {}*/
+        GalleryButton(
+            setUri = {_:Uri->},
+            save = {},
+            uriType = UriType.Image
+        )
     }
 }

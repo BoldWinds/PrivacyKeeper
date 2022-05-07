@@ -15,18 +15,15 @@ import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 //TODO 点击放大全屏
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImageCard(imageBitmap: ImageBitmap) {
+fun ImageCard(
+    filename:String
+) {
     
     Card(onClick = { /*TODO  放大为全屏*/ }) {
-        Image(
-            bitmap = imageBitmap,
-            contentDescription = "",
-            modifier = Modifier.clickable {
 
-            }
-        )
     }
 }
+
 
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -34,7 +31,7 @@ fun ImageCard(imageBitmap: ImageBitmap) {
 fun PreviewClickableImage() {
     PrivacyKeeperTheme {
         ImageCard(
-            imageBitmap = ImageBitmap(height=1,width=1)
+            filename = ""
         )
     }
 }

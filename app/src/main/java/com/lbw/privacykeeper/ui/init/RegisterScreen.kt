@@ -136,7 +136,7 @@ fun PreviewRegisterScreen() {
     PrivacyKeeperTheme{
         RegisterScreen(
             true,
-            saveUser = {a:String,b:String->},
+            saveUser = {_:String,_:String->},
             showMainScreen = {  },
             hasRegistered = {},
         )

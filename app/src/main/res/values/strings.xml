@@ -30,4 +30,5 @@
     <string name="permission_denied">Permission Denied!</string>
     <string name="save_image">save image</string>
     <string name="save_video">save video</string>
+    <string name="show_image">show image</string>
 </resources>

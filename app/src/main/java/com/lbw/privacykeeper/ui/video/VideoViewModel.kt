@@ -1,26 +1,24 @@
-package com.lbw.privacykeeper.ui.image
+package com.lbw.privacykeeper.ui.video
 
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.lbw.privacykeeper.data.image.ImageRepository
+import com.lbw.privacykeeper.data.video.VideoRepository
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-class ImageViewModel(
-    private val imageRepository : ImageRepository,
+class VideoViewModel(
+    private val videoRepository: VideoRepository,
     private val biometricCheckParameters: BiometricCheckParameters
 ):ViewModel() {
 
-    //访问图片库的权限
+    //访问视频库的权限
     var permission by mutableStateOf(false)
 
     fun openBiometricCheck(){
@@ -40,7 +38,7 @@ class ImageViewModel(
     fun saveImage(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
-                imageRepository.save(uri,uri.toString())
+                videoRepository.save(uri,uri.toString())
         }
     }
 
@@ -48,32 +46,21 @@ class ImageViewModel(
 
     fun getFilenames(){
         viewModelScope.launch {
-            filenames = imageRepository.readAll()
+            filenames = videoRepository.readAll()
         }
-    }
-
-    private var imageBitmap : ImageBitmap = ImageBitmap(0,0)
-
-    fun setImageBitmap(filename : String){
-        viewModelScope.launch {
-            imageBitmap = imageRepository.toImageBitmap(filename)
-        }
-    }
-
-    fun getImageBitmap():ImageBitmap{
-        return imageBitmap
     }
 
 
     companion object{
         fun provideFactory(
-            imageRepository: ImageRepository,
+            videoRepository: VideoRepository,
             biometricCheckParameters: BiometricCheckParameters
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return ImageViewModel(imageRepository, biometricCheckParameters) as T
+                return VideoViewModel(videoRepository, biometricCheckParameters) as T
             }
         }
     }
+
 }
