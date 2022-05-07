@@ -45,7 +45,7 @@ fun BottomNavGraph(
             val imageViewModel : ImageViewModel = viewModel(
                 factory = ImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
             )
-            ImageScreen()
+            ImageScreen(imageViewModel)
         }
 
         composable(route = BottomBarScreen.Video.route){

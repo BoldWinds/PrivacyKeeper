@@ -18,16 +18,14 @@ import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 fun ImageCard(imageBitmap: ImageBitmap) {
     
     Card(onClick = { /*TODO  放大为全屏*/ }) {
+        Image(
+            bitmap = imageBitmap,
+            contentDescription = "",
+            modifier = Modifier.clickable {
 
+            }
+        )
     }
-    
-    Image(
-        bitmap = imageBitmap,
-        contentDescription = "",
-        modifier = Modifier.clickable {
-
-        }
-    )
 }
 
 @Preview

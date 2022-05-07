@@ -1,4 +1,4 @@
-package com.lbw.privacykeeper.ui.image
+package com.lbw.privacykeeper.ui.utils
 
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -14,30 +14,48 @@ import androidx.core.content.ContextCompat
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
+import kotlin.reflect.KFunction1
 
 
+enum class UriType{
+    Image,Video
+}
+
+
+//通过uriType来决定打开的资源类型
 @Composable
 fun GalleryButton(
-    setUri : (Uri?)->Unit,
-    saveImage : ()->Unit
+    setUri: KFunction1<Uri, Unit>,
+    save: ()->Unit,
+    uriType: UriType
 ){
     val context = LocalContext.current
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        setUri(uri)
+        if(uri!=null) {
+            setUri(uri)
+            save()
+        }
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            galleryLauncher.launch("image/*")
+            if (uriType==UriType.Image){
+                galleryLauncher.launch("image/*")
+            }else{
+                galleryLauncher.launch("video/*")
+            }
         } else {
             showToast(true,context, context.getString(R.string.permission_denied))
         }
     }
+
+    val text = if(uriType==UriType.Image)   stringResource(id = R.string.save_image)
+                else    stringResource(id = R.string.save_video)
 
     Button(
         onClick = {
@@ -45,8 +63,11 @@ fun GalleryButton(
                 ContextCompat.checkSelfPermission(
                     context, android.Manifest.permission.READ_EXTERNAL_STORAGE
                 ) -> {
-                    galleryLauncher.launch("image/*")
-                    saveImage()
+                    if (uriType==UriType.Image){
+                        galleryLauncher.launch("image/*")
+                    }else{
+                        galleryLauncher.launch("video/*")
+                    }
                 }
                 else -> {
                     permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -55,8 +76,9 @@ fun GalleryButton(
         },
         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
     ){
+
         Text(
-            text = stringResource(id = R.string.save_image),
+            text = text,
             color = MaterialTheme.colorScheme.onPrimary
         )
     }
@@ -68,9 +90,8 @@ fun GalleryButton(
 @Composable
 fun PreviewGalleryButton() {
     PrivacyKeeperTheme {
-        GalleryButton(
-            setUri = {},
-            saveImage = {}
-        )
+        /*GalleryButton(
+            setUri = {uri:Uri->}
+        ) {}*/
     }
 }
