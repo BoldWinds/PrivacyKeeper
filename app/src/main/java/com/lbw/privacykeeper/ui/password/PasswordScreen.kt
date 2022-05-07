@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
@@ -25,6 +26,7 @@ fun PasswordScreen(passwordViewModel: PasswordViewModel) {
             openDialog = passwordViewModel::openDialog,
             closeDialog = passwordViewModel::closeDialog,
             savePassword = passwordViewModel::savePassword,
+            navController = passwordViewModel.navController
         )
     }else{
         try {
@@ -48,6 +50,7 @@ fun PasswordScreen(
     openDialog : ()->Unit,
     closeDialog : ()->Unit,
     savePassword : (Password)->Unit,
+    navController: NavHostController
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -62,7 +65,7 @@ fun PasswordScreen(
 
         Spacer(modifier = Modifier.weight(0.1f))
 
-        Button(onClick = {openBiometricCheck()}) {
+        Button(onClick = {/*openBiometricCheck()*/navController.navigate("secondary_password")}) {
             Text(text = stringResource(id = R.string.show_password))
         }
 
@@ -81,13 +84,13 @@ fun PasswordScreen(
 @Composable
 fun PreviewPasswordScreen1() {
     PrivacyKeeperTheme {
-        PasswordScreen(
+        /*PasswordScreen(
             openBiometricCheck={},
             showDialog = false,
             openDialog = {},
             closeDialog = {},
             savePassword = {}
-        )
+        )*/
     }
 }
 

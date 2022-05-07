@@ -7,34 +7,51 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class BottomBarScreen(
+sealed class AppScreen(
     val route : String,
     val title : String,
     val icon : ImageVector
 ){
-    object Password : BottomBarScreen(
+    object Password : AppScreen(
         route = "password",
         title = "password",
         icon = Icons.Default.Lock
     )
 
-    object Image : BottomBarScreen(
+    object Image : AppScreen(
         route = "image",
         title = "image",
         icon = Icons.Default.Phone
     )
 
-    object Video : BottomBarScreen(
+    object Video : AppScreen(
         route = "video",
         title = "video",
         icon = Icons.Default.Star
     )
 
-    object User : BottomBarScreen(
+    object User : AppScreen(
         route = "user",
         title = "user",
         icon = Icons.Default.Person
     )
+}
+
+sealed class AppSecondaryScreen(
+    val route: String
+){
+    object Password : AppSecondaryScreen(
+        route = "secondary_password"
+    )
+
+    object Image : AppSecondaryScreen(
+        route = "secondary_image"
+    )
+
+    object Video : AppSecondaryScreen(
+        route = "secondary_video"
+    )
+
 }
 
 

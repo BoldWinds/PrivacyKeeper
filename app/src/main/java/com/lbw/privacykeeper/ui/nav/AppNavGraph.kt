@@ -17,16 +17,16 @@ import com.lbw.privacykeeper.ui.video.VideoViewModel
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 
 @Composable
-fun BottomNavGraph(
+fun AppNavGraph(
     appContainer: AppContainer,
     navController: NavHostController,
     biometricCheckParameters: BiometricCheckParameters
 ) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreen.User.route
+        startDestination = AppScreen.User.route
     ){
-        composable(route = BottomBarScreen.User.route){
+        composable(route = AppScreen.User.route){
             val userViewModel : UserViewModel = viewModel(
                 factory = UserViewModel.provideFactory(appContainer.preferenceRepository, biometricCheckParameters)
             )
@@ -35,25 +35,41 @@ fun BottomNavGraph(
             UserScreen(userViewModel)
         }
 
-        composable(route = BottomBarScreen.Password.route){
+        composable(route = AppScreen.Password.route){
             val passwordViewModel : PasswordViewModel = viewModel(
-                factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters)
+                factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters,navController)
             )
             PasswordScreen(passwordViewModel)
         }
 
-        composable(route = BottomBarScreen.Image.route){
+        composable(route = AppScreen.Image.route){
             val imageViewModel : ImageViewModel = viewModel(
                 factory = ImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
             )
             ImageScreen(imageViewModel)
         }
 
-        composable(route = BottomBarScreen.Video.route){
+        composable(route = AppScreen.Video.route){
             val videoViewModel : VideoViewModel = viewModel(
                 factory = VideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
             )
             VideoScreen(videoViewModel)
+        }
+
+        composable(route = AppSecondaryScreen.Password.route){
+            val passwordViewModel : PasswordViewModel = viewModel(
+                factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters,navController)
+            )
+            passwordViewModel.readAllPassword()
+            PasswordScreen(passwordList = passwordViewModel.passwordList)
+        }
+
+        composable(route = AppSecondaryScreen.Image.route){
+
+        }
+
+        composable(route = AppSecondaryScreen.Video.route){
+
         }
 
     }

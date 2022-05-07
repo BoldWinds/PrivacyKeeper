@@ -20,10 +20,10 @@ import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 @Composable
 fun BottomNavBar(navController : NavHostController) {
     val screens = listOf(
-        BottomBarScreen.Password,
-        BottomBarScreen.Image,
-        BottomBarScreen.Video,
-        BottomBarScreen.User
+        AppScreen.Password,
+        AppScreen.Image,
+        AppScreen.Video,
+        AppScreen.User
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

@@ -9,9 +9,7 @@ import com.lbw.privacykeeper.data.preference.PreferenceRepository
 import com.lbw.privacykeeper.model.User
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 

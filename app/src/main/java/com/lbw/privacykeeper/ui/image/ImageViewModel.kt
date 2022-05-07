@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class ImageViewModel(
     private val imageRepository : ImageRepository,
-    private val biometricCheckParameters: BiometricCheckParameters
+    private val biometricCheckParameters: BiometricCheckParameters,
 ):ViewModel() {
 
     //访问图片库的权限
@@ -52,7 +52,7 @@ class ImageViewModel(
         }
     }
 
-    private var imageBitmap : ImageBitmap = ImageBitmap(0,0)
+    private var imageBitmap : ImageBitmap = ImageBitmap(1,1)
 
     fun setImageBitmap(filename : String){
         viewModelScope.launch {
