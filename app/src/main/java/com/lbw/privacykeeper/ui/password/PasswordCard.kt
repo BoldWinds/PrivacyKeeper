@@ -149,7 +149,7 @@ fun CommonText(text : String) {
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun PreviewPasswordText(){
+fun PreviewText(){
     PrivacyKeeperTheme {
         CommonText(text = "username: LBWNB")
     }

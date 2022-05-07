@@ -3,7 +3,6 @@ package com.lbw.privacykeeper.utils
 
 import androidx.compose.ui.platform.ClipboardManager
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.text.AnnotatedString
@@ -62,7 +61,7 @@ class Utils {
         }
 
         //在app关闭时删除所有解密的文件
-        fun deleteAllDecryptedFiles(){
+        fun deleteAllDecrypted(){
 
         }
 

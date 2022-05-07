@@ -50,4 +50,8 @@ class ImplImageRepository(
         return list
     }
 
+    override suspend fun toImageBitmap(filename: String): ImageBitmap {
+        return decodeFile(File(decrypted,filename).absolutePath).asImageBitmap()
+    }
+
 }

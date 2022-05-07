@@ -11,4 +11,6 @@ interface ImageRepository {
     suspend fun readAll() : List<String>
 
     suspend fun toImageBitmap() : List<ImageBitmap>
+
+    suspend fun toImageBitmap(filename: String):ImageBitmap
 }
