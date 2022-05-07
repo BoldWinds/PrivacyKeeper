@@ -2,22 +2,23 @@ package com.lbw.privacykeeper.utils
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.security.crypto.EncryptedFile
+import com.lbw.privacykeeper.ui.utils.UriType
 import java.io.*
 
 
-class EncryptImage(
+class EncryptFromUri(
     val context : Context,
     val mainKeyAlias : String
 ) {
 
-    fun decrypt(fileName:String):String{
-        val imageFile = File(context.filesDir,"images")
+    fun decrypt(fileName:String,uriType: UriType):String{
+        val rootFile = if (uriType==UriType.Image)  File(context.filesDir,"images")
+                        else    File(context.filesDir,"videos")
 
-        val file = File(imageFile,"encrypted")
+        val encryptedRoot = File(rootFile,"encrypted")
 
-        val decryptedRoot = File(imageFile,"decrypted")
+        val decryptedRoot = File(rootFile,"decrypted")
         if(!decryptedRoot.exists()){
             decryptedRoot.mkdirs()
         }
@@ -25,7 +26,7 @@ class EncryptImage(
         val decryptedFile = File(decryptedRoot,fileName)
 
         val encryptedFile = EncryptedFile.Builder(
-            File(file,fileName),
+            File(encryptedRoot,fileName),
             context,
             mainKeyAlias,
             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
@@ -40,39 +41,41 @@ class EncryptImage(
         }
         fileOutputStream.close()
 
-        return file.absolutePath
+        return decryptedFile.absolutePath
     }
 
 
-    fun encryptWrite(uri : Uri,fileName: String){
-        val imageFile = File(context.filesDir,"images")
+    fun encryptWrite(uri : Uri,fileName: String,uriType: UriType){
+        val rootFile = if (uriType==UriType.Image)  File(context.filesDir,"images")
+                        else    File(context.filesDir,"videos")
 
-        if(!imageFile.exists()){
-            imageFile.mkdirs()
+        if(!rootFile.exists()){
+            rootFile.mkdirs()
         }
 
-        val file = File(imageFile,"encrypted")
+        val encryptedRoot = File(rootFile,"encrypted")
 
-        if(!file.exists()){
-            file.mkdirs()
+        if(!encryptedRoot.exists()){
+            encryptedRoot.mkdirs()
         }
 
 
         val encryptedFile = EncryptedFile.Builder(
-            File(file,fileName),
+            File(encryptedRoot,fileName),
             context,
             mainKeyAlias,
             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
         ).build()
 
-        val copyFile = File(file,fileName)
+        val copyFile = File(encryptedRoot,fileName)
 
         val fis =  FileInputStream(context.contentResolver.openFileDescriptor(uri,"r")?.fileDescriptor)
         fis.copyTo(FileOutputStream(copyFile.absoluteFile))
         fis.close()
 
         val fileContent :ByteArray = copyFile.readBytes()
-        Log.d("path",copyFile.absolutePath)
+
+    //    Log.d("path",copyFile.absolutePath)
 
         copyFile.delete()
 

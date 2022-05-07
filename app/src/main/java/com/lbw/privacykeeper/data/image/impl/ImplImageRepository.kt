@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.lbw.privacykeeper.data.image.ImageRepository
-import com.lbw.privacykeeper.utils.EncryptImage
+import com.lbw.privacykeeper.utils.EncryptFromUri
 import com.lbw.privacykeeper.utils.Utils.Companion.getAllFileNames
 import java.io.File
 
@@ -14,7 +14,7 @@ class ImplImageRepository(
     context : Context,
     mainKeyAlias : String
 ):ImageRepository {
-    private val encrypt = EncryptImage(context = context,mainKeyAlias = mainKeyAlias)
+    private val encrypt = EncryptFromUri(context = context,mainKeyAlias = mainKeyAlias)
 
     private val root = File(context.filesDir,"images")
 

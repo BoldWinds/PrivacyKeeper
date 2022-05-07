@@ -61,11 +61,31 @@ class Utils {
         }
 
         //在app关闭时删除所有解密的文件
-        fun deleteAllDecrypted(){
+        fun deleteAllDecrypted(context: Context){
+            val root = context.filesDir
 
+            val imageRoot = File(root,"images")
+            if (imageRoot.exists()){
+                val decryptedRoot = File(imageRoot,"decrypted")
+                if (decryptedRoot.exists()){
+                    getAllFileNames(decryptedRoot).forEach{
+                        val file = File(decryptedRoot,it)
+                        file.delete()
+                    }
+                }
+            }
+
+            val videoRoot = File(root,"videos")
+            if (videoRoot.exists()){
+                val decryptedRoot = File(videoRoot,"decrypted")
+                if (decryptedRoot.exists()){
+                    getAllFileNames(decryptedRoot).forEach{
+                        val file = File(decryptedRoot,it)
+                        file.delete()
+                    }
+                }
+            }
         }
-
-
 
     }
 
