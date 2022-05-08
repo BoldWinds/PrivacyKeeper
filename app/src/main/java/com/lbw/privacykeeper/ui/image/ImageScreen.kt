@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.GalleryButton
 import com.lbw.privacykeeper.ui.utils.ImageOrVideoCard
@@ -58,7 +59,14 @@ fun ImageScreen(
 @Composable
 fun PreviewImageScreen() {
     PrivacyKeeperTheme {
-     //   ImageScreen()
+        val navController = rememberNavController()
+
+        ImageScreen(
+            setUri = {},
+            saveImage = {},
+            openBiometricCheck = {},
+            navController = navController
+        )
     }
 }
 

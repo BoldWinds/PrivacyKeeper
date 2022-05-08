@@ -96,6 +96,8 @@ fun AppNavGraph(
             val videoViewModel : VideoViewModel = viewModel(
                 factory = VideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
             )
+            videoViewModel.getFilenames()
+            VideoScreen(filenames = videoViewModel.filenames)
         }
 
     }
