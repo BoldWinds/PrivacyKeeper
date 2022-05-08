@@ -11,6 +11,7 @@ import com.lbw.privacykeeper.utils.EncryptFromUri
 import com.lbw.privacykeeper.utils.Utils.Companion.getAllFileNames
 import java.io.File
 
+
 class ImplImageRepository(
     context : Context,
     mainKeyAlias : String
@@ -19,40 +20,43 @@ class ImplImageRepository(
 
     private val root = File(context.filesDir,"images")
 
-    private val decrypted = File(root,"decrypted")
+    private val decryptedRoot = File(root,"decrypted")
 
+    private val encryptedRoot = File(root,"encrypted")
+
+    //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
         encrypt.encryptWrite(uri = uri, fileName = filename, uriType = UriType.Image)
     }
 
+    //返回所有加密文件的文件名
+    override suspend fun readAllFilenames(): List<String> {
+        return getAllFileNames(encryptedRoot)
+    }
+
+    //重命名文件
+    override suspend fun renameFile(oldFilename: String, newFilename:String) {
+        val oldFile = File(encryptedRoot,oldFilename)
+        val newFile = File(encryptedRoot,newFilename)
+        oldFile.renameTo(newFile)
+    }
+
+    //对文件进行解密  并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
-        return encrypt.decrypt(filename,UriType.Image)
-    }
+        val file = File(decryptedRoot,filename)
 
-    override suspend fun readAll(): List<String> {
-        val list = mutableListOf<String>()
-
-        getAllFileNames(decrypted).forEach{
-            list.add(read(it))
+        return if(!file.exists()){
+            encrypt.decrypt(filename,UriType.Image)
+        }else{
+            file.absolutePath
         }
+    }
 
-        return list
+    //真正解密文件并得到ImageBitmap
+    override suspend fun getImageBitmap(filename: String): ImageBitmap {
+        return decodeFile(read(filename)).asImageBitmap()
     }
 
 
-    //TODO 总感觉这里内存会炸
-    override suspend fun toImageBitmap(): List<ImageBitmap> {
-        val list = mutableListOf<ImageBitmap>()
-
-        getAllFileNames(decrypted).forEach{
-            list.add(decodeFile(it).asImageBitmap())
-        }
-
-        return list
-    }
-
-    override suspend fun toImageBitmap(filename: String): ImageBitmap {
-        return decodeFile(File(decrypted,filename).absolutePath).asImageBitmap()
-    }
 
 }

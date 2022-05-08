@@ -16,25 +16,37 @@ class ImplVideoRepository(
 
     private val root = File(context.filesDir,"videos")
 
-    private val decrypted = File(root,"decrypted")
+    private val decryptedRoot = File(root,"decrypted")
+
+    private val encryptedRoot = File(root,"encrypted")
 
 
-    override suspend fun save(uri: Uri, filename: String) {
-        encrypt.encryptWrite(uri,filename,UriType.Video)
+    //加密保存文件
+    override suspend fun save(uri: Uri,filename:String) {
+        encrypt.encryptWrite(uri = uri, fileName = filename, uriType = UriType.Image)
     }
 
+    //返回所有加密文件的文件名
+    override suspend fun readAllFilenames(): List<String> {
+        return Utils.getAllFileNames(encryptedRoot)
+    }
+
+    //重命名文件
+    override suspend fun renameFile(oldFilename: String, newFilename:String) {
+        val oldFile = File(encryptedRoot,oldFilename)
+        val newFile = File(encryptedRoot,newFilename)
+        oldFile.renameTo(newFile)
+    }
+
+    //对文件进行解密并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
-        return encrypt.decrypt(filename,UriType.Video)
-    }
+        val file = File(decryptedRoot,filename)
 
-    override suspend fun readAll(): List<String> {
-        val list = mutableListOf<String>()
-
-        Utils.getAllFileNames(decrypted).forEach{
-            list.add(read(it))
+        return if(!file.exists()){
+            encrypt.decrypt(filename,UriType.Image)
+        }else{
+            file.absolutePath
         }
-
-        return list
     }
 
 

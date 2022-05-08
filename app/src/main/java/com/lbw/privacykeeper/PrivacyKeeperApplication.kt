@@ -11,11 +11,10 @@ class PrivacyKeeperApplication : Application(){
     lateinit var container : AppContainer
     lateinit var biometricCheckParameters: BiometricCheckParameters
 
-    private val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
-    private val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-
     override fun onCreate() {
         super.onCreate()
+        val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
+        val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
         container = AppContainerImpl(this, mainKeyAlias = mainKeyAlias)
         biometricCheckParameters = BiometricCheckParameters(
             context = this,

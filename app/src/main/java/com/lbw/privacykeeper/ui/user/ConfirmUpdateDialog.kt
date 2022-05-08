@@ -66,17 +66,3 @@ fun ConfirmUpdateDialog(
         )
     }
 }
-
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewConfirmDialog() {
-    PrivacyKeeperTheme {
-
-        ConfirmUpdateDialog(
-            showDialog = true,
-            closeDialog={},
-            biometricCheck={}
-        )
-    }
-}

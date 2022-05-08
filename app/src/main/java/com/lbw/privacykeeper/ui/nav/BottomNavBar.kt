@@ -59,7 +59,7 @@ fun BottomNavBar(navController : NavHostController) {
 }
 
 
-@Preview()
+@Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewAppNavBar() {

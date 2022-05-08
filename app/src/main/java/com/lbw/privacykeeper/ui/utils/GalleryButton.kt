@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
-import kotlin.reflect.KFunction1
 
 
 enum class UriType{

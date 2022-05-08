@@ -20,13 +20,14 @@ import privacykeeperv1.R
 @Composable
 fun ImageOrVideoCard(
     filename:String,
-    onClick : (String)->Unit,
-    rename : (String)->Unit
+    openImage : (String)->Unit,
+    setOldName : (String)->Unit,
+    openDialog : ()->Unit
 ) {
 
     Card(
         onClick = {
-            onClick(filename)
+            openImage(filename)
         },
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary),
         modifier = Modifier
@@ -50,7 +51,10 @@ fun ImageOrVideoCard(
         ){
 
             Button(
-                onClick = { /*TODO 重命名*/ },
+                onClick = {
+                    setOldName(filename)
+                    openDialog()
+                },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
             ) {
                 Text(
@@ -73,8 +77,9 @@ fun PreviewClickableImage() {
     PrivacyKeeperTheme {
         ImageOrVideoCard(
             filename = "MyImage",
-            onClick = {},
-            rename = {}
+            openImage = {},
+            setOldName = {},
+            openDialog = {}
         )
     }
 }

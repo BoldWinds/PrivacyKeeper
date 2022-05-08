@@ -3,6 +3,7 @@ package com.lbw.privacykeeper.utils
 
 import androidx.compose.ui.platform.ClipboardManager
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.text.AnnotatedString
@@ -85,6 +86,12 @@ class Utils {
                     }
                 }
             }
+        }
+
+        fun getUriName(uri : Uri) : String{
+            val str = uri.toString()
+            val index = str.lastIndexOf("/")
+            return str.substring(index)
         }
 
     }

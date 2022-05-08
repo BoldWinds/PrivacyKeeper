@@ -91,20 +91,12 @@ fun SavePasswordDialog(
                     onClick = {
                         if(website!=""&&username!=""&&password!=""){
                             closeDialog()
-                            try {
                                 savePassword(Password(website,username, password))
                                 showToast(
                                     show = true,
                                     context = context,
                                     text = context.getString(R.string.save_succeed)
                                 )
-                            }catch (e : Exception){
-                                showToast(
-                                    show = true,
-                                    context = context,
-                                    text = context.getString(R.string.save_failed)
-                                )
-                            }
                         }else{
                             showToast(
                                 show=true,

@@ -8,9 +8,9 @@ interface ImageRepository {
 
     suspend fun read(filename: String) : String
 
-    suspend fun readAll() : List<String>
+    suspend fun readAllFilenames() : List<String>
 
-    suspend fun toImageBitmap() : List<ImageBitmap>
+    suspend fun renameFile(oldFilename: String,newFilename:String)
 
-    suspend fun toImageBitmap(filename: String):ImageBitmap
+    suspend fun getImageBitmap(filename: String):ImageBitmap
 }
