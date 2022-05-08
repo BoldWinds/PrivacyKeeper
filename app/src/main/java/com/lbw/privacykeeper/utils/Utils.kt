@@ -49,7 +49,7 @@ class Utils {
                     .forEach {
                         list.add(it.name)
                     }
-                list.removeAt(0)
+                if (list.size>0)    list.removeAt(0)
             }
             return list
         }

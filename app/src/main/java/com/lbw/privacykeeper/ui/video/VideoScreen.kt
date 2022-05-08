@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.lbw.privacykeeper.ui.image.ImageScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.GalleryButton
 import com.lbw.privacykeeper.ui.utils.ImageOrVideoCard
@@ -38,13 +38,13 @@ fun VideoScreen(
         GalleryButton(
             setUri = setUri,
             save = { saveVideo() },
-            uriType = UriType.Image
+            uriType = UriType.Video
         )
 
         Spacer(modifier = Modifier.weight(0.1f))
 
         Button(onClick = {openBiometricCheck(navController)}) {
-            androidx.compose.material3.Text(text = stringResource(id = R.string.show_image))
+            Text(text = stringResource(id = R.string.show_video))
         }
 
         Spacer(modifier = Modifier.weight(0.4f))

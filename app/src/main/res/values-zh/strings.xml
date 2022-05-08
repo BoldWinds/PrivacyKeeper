@@ -33,4 +33,5 @@
     <string name="save_video">保存视频</string>
     <string name="show_image">显示图片</string>
     <string name="rename">重命名</string>
+    <string name="show_video">显示视频</string>
 </resources>
