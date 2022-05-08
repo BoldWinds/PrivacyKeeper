@@ -7,7 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.video.VideoRepository
+import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import kotlinx.coroutines.Dispatchers
@@ -18,13 +20,10 @@ class VideoViewModel(
     private val biometricCheckParameters: BiometricCheckParameters
 ):ViewModel() {
 
-    //访问视频库的权限
-    var permission by mutableStateOf(false)
-
-    fun openBiometricCheck(){
+    fun openBiometricCheck(navController: NavHostController){
         val biometricCheck = BiometricCheck(
             biometricCheckParameters = biometricCheckParameters,
-            onSuccess = { permission = true }
+            onSuccess = { navController.navigate(AppSecondaryScreen.Video.route) }
         )
         biometricCheck.launchBiometric()
     }
@@ -35,7 +34,7 @@ class VideoViewModel(
         uri = newUri
     }
 
-    fun saveImage(){
+    fun saveVideo(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
                 videoRepository.save(uri,uri.toString())

@@ -13,35 +13,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lbw.privacykeeper.ui.password.PasswordCard
+import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.GalleryButton
+import com.lbw.privacykeeper.ui.utils.ImageOrVideoCard
 import com.lbw.privacykeeper.ui.utils.UriType
 import privacykeeperv1.R
-import kotlin.reflect.KFunction1
-
-@Composable
-fun ImageScreen(
-    imageViewModel: ImageViewModel
-) {
-    if(!imageViewModel.permission){
-        ImageScreen(
-            setUri = imageViewModel::setNewUri,
-            saveImage = imageViewModel::saveImage,
-            openBiometricCheck = imageViewModel::openBiometricCheck
-        )
-    }else{
-        imageViewModel.getFilenames()
-        ImageScreen(filenames = imageViewModel.filenames)
-    }
-}
 
 
 @Composable
 fun ImageScreen(
     setUri: (Uri)->Unit,
     saveImage: ()->Unit,
-    openBiometricCheck: ()->Unit
+    openBiometricCheck: (NavHostController)->Unit,
+    navController: NavHostController
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -58,7 +43,7 @@ fun ImageScreen(
 
         Spacer(modifier = Modifier.weight(0.1f))
 
-        Button(onClick = {openBiometricCheck()}) {
+        Button(onClick = {openBiometricCheck(navController)}) {
             Text(text = stringResource(id = R.string.show_image))
         }
 
@@ -88,7 +73,7 @@ fun ImageScreen(filenames:List<String>) {
     ){
         itemsIndexed(filenames){ _, item->
             
-            ImageCard(filename = item)
+            ImageOrVideoCard(filename = item, onClick = {}, rename = {})
 
         }
     }

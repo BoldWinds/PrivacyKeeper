@@ -13,39 +13,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
-@Composable
-fun PasswordScreen(passwordViewModel: PasswordViewModel) {
-    if(!passwordViewModel.permission){
-        PasswordScreen(
-            openBiometricCheck = passwordViewModel::openBiometricCheck,
-            showDialog = passwordViewModel.showSavePasswordDialog,
-            openDialog = passwordViewModel::openDialog,
-            closeDialog = passwordViewModel::closeDialog,
-            savePassword = passwordViewModel::savePassword,
-            navController = passwordViewModel.navController
-        )
-    }else{
-        try {
-            passwordViewModel.readAllPassword()
-        }catch (e : Exception){
-            passwordViewModel.permission = false
-        }
-        PasswordScreen(
-            passwordList = passwordViewModel.passwordList
-        )
-    }
-
-}
-
-
 
 @Composable
 fun PasswordScreen(
-    openBiometricCheck: ()->Unit,
+    openBiometricCheck: (NavHostController)->Unit,
     showDialog : Boolean,
     openDialog : ()->Unit,
     closeDialog : ()->Unit,
@@ -65,7 +41,7 @@ fun PasswordScreen(
 
         Spacer(modifier = Modifier.weight(0.1f))
 
-        Button(onClick = {/*openBiometricCheck()*/navController.navigate("secondary_password")}) {
+        Button(onClick = {openBiometricCheck(navController)}) {
             Text(text = stringResource(id = R.string.show_password))
         }
 
@@ -84,13 +60,15 @@ fun PasswordScreen(
 @Composable
 fun PreviewPasswordScreen1() {
     PrivacyKeeperTheme {
-        /*PasswordScreen(
+        val navController = rememberNavController()
+        PasswordScreen(
             openBiometricCheck={},
             showDialog = false,
             openDialog = {},
             closeDialog = {},
-            savePassword = {}
-        )*/
+            savePassword = {},
+            navController = navController
+        )
     }
 }
 

@@ -1,14 +1,13 @@
 package com.lbw.privacykeeper.ui.image
 
 import android.net.Uri
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.image.ImageRepository
+import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import kotlinx.coroutines.Dispatchers
@@ -20,13 +19,11 @@ class ImageViewModel(
     private val biometricCheckParameters: BiometricCheckParameters,
 ):ViewModel() {
 
-    //访问图片库的权限
-    var permission by mutableStateOf(false)
 
-    fun openBiometricCheck(){
+    fun openBiometricCheck(navController: NavHostController){
         val biometricCheck = BiometricCheck(
             biometricCheckParameters = biometricCheckParameters,
-            onSuccess = { permission = true }
+            onSuccess = { navController.navigate(AppSecondaryScreen.Image.route) }
         )
         biometricCheck.launchBiometric()
     }

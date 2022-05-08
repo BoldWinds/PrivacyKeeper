@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.model.Password
+import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import kotlinx.coroutines.Dispatchers
@@ -17,16 +18,12 @@ import kotlinx.coroutines.launch
 class PasswordViewModel(
     private val passwordRepository: PasswordRepository,
     private val biometricCheckParameters: BiometricCheckParameters,
-    val navController: NavHostController
 ) : ViewModel(){
 
-    //访问密码库的权限
-    var permission by mutableStateOf(false)
-
-    fun openBiometricCheck(){
+    fun openBiometricCheck(navController: NavHostController){
         val biometricCheck = BiometricCheck(
             biometricCheckParameters = biometricCheckParameters,
-            onSuccess = { permission = true }
+            onSuccess = { navController.navigate(AppSecondaryScreen.Password.route) }
         )
         biometricCheck.launchBiometric()
     }
@@ -61,11 +58,10 @@ class PasswordViewModel(
         fun provideFactory(
             passwordRepository: PasswordRepository,
             biometricCheckParameters: BiometricCheckParameters,
-            navController: NavHostController
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return PasswordViewModel(passwordRepository, biometricCheckParameters, navController) as T
+                return PasswordViewModel(passwordRepository, biometricCheckParameters) as T
             }
         }
     }
