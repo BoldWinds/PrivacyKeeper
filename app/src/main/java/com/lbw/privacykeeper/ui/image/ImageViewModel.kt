@@ -78,12 +78,6 @@ class ImageViewModel(
     }
 
 
-    //TODO
-    fun openImage(filename : String){
-        setImageBitmap(filename)
-    }
-
-
     private var imageBitmap : ImageBitmap = ImageBitmap(1,1)
 
     fun setImageBitmap(filename : String){

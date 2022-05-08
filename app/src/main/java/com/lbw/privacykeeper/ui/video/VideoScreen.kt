@@ -9,7 +9,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,10 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.lbw.privacykeeper.ui.nav.AppTertiaryScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
-import com.lbw.privacykeeper.ui.utils.GalleryButton
-import com.lbw.privacykeeper.ui.utils.ImageOrVideoCard
-import com.lbw.privacykeeper.ui.utils.UriType
+import com.lbw.privacykeeper.ui.utils.*
 import privacykeeperv1.R
 
 @Composable
@@ -31,7 +30,8 @@ fun VideoScreen(
     navController: NavHostController
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -76,18 +76,54 @@ fun PreviewImageScreen() {
 @Composable
 fun VideoScreen(
     filenames:List<String>,
+    showDialog : Boolean,
+    navController : NavHostController,
+    setOldFilename : (String)->Unit,
+    openDialog : ()->Unit,
+    closeDialog : ()->Unit,
+    rename : (String)->Unit,
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         itemsIndexed(filenames){ _, item->
 
-            /*ImageOrVideoCard(filename = item, onClick = {}, rename = {})*/
+            ImageOrVideoCard(
+                filename = item,
+                openImage = {navController.navigate(AppTertiaryScreen.Video.withArgs(it))},
+                setOldName = setOldFilename,
+                openDialog = openDialog
+            )
+            Spacer(modifier = Modifier.size(10.dp))
 
         }
+    }
+
+    var newName by remember {
+        mutableStateOf("")
+    }
+
+    CustomDialog(
+        showDialog = showDialog,
+        title = stringResource(id = R.string.rename),
+        closeDialog = closeDialog,
+        onConfirm = {
+            rename(newName)
+            newName = ""
+        },
+        onDismiss = {
+            newName = ""
+        }
+    ) {
+        CommonTextField(
+            value = newName,
+            onValueChange = {newName = it},
+            labelText = stringResource(id = R.string.rename)
+        )
     }
 }
 
@@ -103,6 +139,16 @@ fun PreviewVideoScreen2() {
             "FourthImage"
         )
 
-        VideoScreen(list)
+        val navController = rememberNavController()
+
+        VideoScreen(
+            filenames = list,
+            showDialog = false,
+            navController = navController,
+            setOldFilename = {},
+            openDialog = {},
+            rename = {},
+            closeDialog = {}
+        )
     }
 }

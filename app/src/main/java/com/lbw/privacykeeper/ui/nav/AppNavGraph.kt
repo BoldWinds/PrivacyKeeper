@@ -1,10 +1,17 @@
 package com.lbw.privacykeeper.ui.nav
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.ui.image.ImageScreen
 import com.lbw.privacykeeper.ui.image.ImageViewModel
@@ -90,10 +97,10 @@ fun AppNavGraph(
             ImageScreen(
                 filenames = imageViewModel.filenames,
                 showDialog = imageViewModel.showDialog,
+                navController = navController,
                 setOldFilename = imageViewModel::setOldFilename,
                 openDialog = imageViewModel::openDialog,
                 rename = imageViewModel::rename,
-                openImage = imageViewModel::openImage,
                 closeDialog = imageViewModel::closeDialog
             )
         }
@@ -104,9 +111,44 @@ fun AppNavGraph(
             )
             videoViewModel.getFilenames()
             VideoScreen(
-                filenames = videoViewModel.filenames
+                filenames = videoViewModel.filenames,
+                showDialog = videoViewModel.showDialog,
+                navController = navController,
+                setOldFilename = videoViewModel::setOldFilename,
+                openDialog = videoViewModel::openDialog,
+                rename = videoViewModel::rename,
+                closeDialog = videoViewModel::closeDialog
             )
         }
 
+        composable(
+            route = AppTertiaryScreen.Image.route + "/{path}",
+            arguments = listOf(
+                navArgument("path"){
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ){entry->
+            Box(modifier = Modifier.wrapContentSize()){
+                Text(text = entry.arguments?.getString("path")!!)
+            }
+        }
+
+        composable(
+            route = AppTertiaryScreen.Video.route + "/{path}",
+            arguments = listOf(
+                navArgument("path"){
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ){entry->
+            Box(
+                modifier = Modifier.wrapContentSize()
+            ){
+                Text(text = entry.arguments?.getString("path")!!)
+            }
+        }
     }
 }

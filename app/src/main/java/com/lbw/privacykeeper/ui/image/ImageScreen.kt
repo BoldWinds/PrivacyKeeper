@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.lbw.privacykeeper.ui.nav.AppTertiaryScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.*
 import privacykeeperv1.R
@@ -78,11 +79,11 @@ fun PreviewImageScreen() {
 fun ImageScreen(
     filenames:List<String>,
     showDialog : Boolean,
+    navController: NavHostController,
     setOldFilename : (String)->Unit,
     openDialog : ()->Unit,
     closeDialog : ()->Unit,
     rename : (String)->Unit,
-    openImage : (String)->Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -94,7 +95,7 @@ fun ImageScreen(
         itemsIndexed(filenames){ _, item->
             ImageOrVideoCard(
                 filename = item,
-                openImage = openImage,
+                openImage = {navController.navigate(AppTertiaryScreen.Image.withArgs(it))},
                 setOldName = setOldFilename,
                 openDialog = openDialog
             )
@@ -139,14 +140,16 @@ fun PreviewImageScreen2() {
             "FourthImage"
         )
 
+        val navController = rememberNavController()
+
         ImageScreen(
             filenames = list,
             showDialog = false,
             setOldFilename = {},
             openDialog = {},
             rename = {},
-            openImage = {},
-            closeDialog = {}
+            closeDialog = {},
+            navController = navController
         )
     }
 }

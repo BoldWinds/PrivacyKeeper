@@ -54,5 +54,26 @@ sealed class AppSecondaryScreen(
 
 }
 
+sealed class AppTertiaryScreen(
+    val route: String
+){
+    object Image : AppTertiaryScreen(
+        route = "tertiary_image"
+    )
+
+    object Video : AppTertiaryScreen(
+        route = "tertiary_video"
+    )
+
+    fun withArgs(vararg args : String):String{
+        return buildString {
+            append(route)
+            args.forEach {arg->
+                append("/$arg")
+            }
+        }
+    }
+}
+
 
 

@@ -29,8 +29,6 @@ fun BottomNavBar(navController : NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val currentDestination = navBackStackEntry?.destination
-
-
     NavigationBar(
         modifier = Modifier.padding(all = 2.dp),
         tonalElevation = 4.dp,

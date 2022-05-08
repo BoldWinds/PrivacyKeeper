@@ -70,8 +70,7 @@ class Utils {
                 val decryptedRoot = File(imageRoot,"decrypted")
                 if (decryptedRoot.exists()){
                     getAllFileNames(decryptedRoot).forEach{
-                        val file = File(decryptedRoot,it)
-                        file.delete()
+                        File(decryptedRoot,it).delete()
                     }
                 }
             }
@@ -81,8 +80,7 @@ class Utils {
                 val decryptedRoot = File(videoRoot,"decrypted")
                 if (decryptedRoot.exists()){
                     getAllFileNames(decryptedRoot).forEach{
-                        val file = File(decryptedRoot,it)
-                        file.delete()
+                        File(decryptedRoot,it).delete()
                     }
                 }
             }

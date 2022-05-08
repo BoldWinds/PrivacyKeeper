@@ -1,6 +1,9 @@
 package com.lbw.privacykeeper.ui.video
 
 import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,6 +12,7 @@ import com.lbw.privacykeeper.data.video.VideoRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
+import com.lbw.privacykeeper.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -34,8 +38,32 @@ class VideoViewModel(
     fun saveVideo(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
-                videoRepository.save(uri,uri.toString())
+                videoRepository.save(uri, Utils.getUriName(uri))
         }
+    }
+
+    fun rename(newFilename : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            videoRepository.renameFile(oldFilename = oldFilename, newFilename = newFilename)
+            //更新了名字之后要重新获取
+            filenames = videoRepository.readAllFilenames()
+        }
+    }
+
+    var showDialog by mutableStateOf<Boolean>(false)
+
+    fun openDialog(){
+        showDialog = true
+    }
+
+    fun closeDialog(){
+        showDialog = false
+    }
+
+    private var oldFilename : String = ""
+
+    fun setOldFilename(filename: String){
+        oldFilename = filename
     }
 
     var filenames : List<String> = mutableListOf<String>()

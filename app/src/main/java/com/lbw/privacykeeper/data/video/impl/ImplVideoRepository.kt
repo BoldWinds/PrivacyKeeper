@@ -23,7 +23,7 @@ class ImplVideoRepository(
 
     //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
-        encrypt.encryptWrite(uri = uri, fileName = filename, uriType = UriType.Image)
+        encrypt.encryptWrite(uri = uri, fileName = filename, uriType = UriType.Video)
     }
 
     //返回所有加密文件的文件名
@@ -38,12 +38,12 @@ class ImplVideoRepository(
         oldFile.renameTo(newFile)
     }
 
-    //对文件进行解密并返回解密后的绝对路径
+    //对文件进行解密  并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
         val file = File(decryptedRoot,filename)
 
         return if(!file.exists()){
-            encrypt.decrypt(filename,UriType.Image)
+            encrypt.decrypt(filename,UriType.Video)
         }else{
             file.absolutePath
         }
