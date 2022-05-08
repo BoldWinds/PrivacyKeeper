@@ -2,10 +2,12 @@ package com.lbw.privacykeeper.ui.video
 
 import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +31,8 @@ fun VideoScreen(
     navController: NavHostController
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
@@ -71,15 +74,18 @@ fun PreviewImageScreen() {
 
 
 @Composable
-fun VideoScreen(filenames:List<String>) {
+fun VideoScreen(
+    filenames:List<String>,
+) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         itemsIndexed(filenames){ _, item->
 
-            ImageOrVideoCard(filename = item, onClick = {}, rename = {})
+            /*ImageOrVideoCard(filename = item, onClick = {}, rename = {})*/
 
         }
     }

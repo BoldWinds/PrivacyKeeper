@@ -42,7 +42,7 @@ class VideoViewModel(
 
     fun getFilenames(){
         viewModelScope.launch {
-            filenames = videoRepository.readAll()
+            filenames = videoRepository.readAllFilenames()
         }
     }
 

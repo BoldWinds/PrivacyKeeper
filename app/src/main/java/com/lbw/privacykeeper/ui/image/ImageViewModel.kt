@@ -1,6 +1,9 @@
 package com.lbw.privacykeeper.ui.image
 
 import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +13,7 @@ import com.lbw.privacykeeper.data.image.ImageRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
+import com.lbw.privacykeeper.utils.Utils.Companion.getUriName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -37,23 +41,54 @@ class ImageViewModel(
     fun saveImage(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
-                imageRepository.save(uri,uri.toString())
+                imageRepository.save(uri,getUriName(uri))
         }
     }
+
 
     var filenames : List<String> = mutableListOf<String>()
 
     fun getFilenames(){
         viewModelScope.launch {
-            filenames = imageRepository.readAll()
+            filenames = imageRepository.readAllFilenames()
         }
     }
+
+    private var oldFilename : String = ""
+
+    fun setOldFilename(filename: String){
+        oldFilename = filename
+    }
+
+    fun rename(newFilename : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            imageRepository.renameFile(oldFilename = oldFilename, newFilename = newFilename)
+            filenames = imageRepository.readAllFilenames()
+        }
+    }
+
+    var showDialog by mutableStateOf<Boolean>(false)
+
+    fun openDialog(){
+        showDialog = true
+    }
+
+    fun closeDialog(){
+        showDialog = false
+    }
+
+
+    //TODO
+    fun openImage(filename : String){
+        setImageBitmap(filename)
+    }
+
 
     private var imageBitmap : ImageBitmap = ImageBitmap(1,1)
 
     fun setImageBitmap(filename : String){
         viewModelScope.launch {
-            imageBitmap = imageRepository.toImageBitmap(filename)
+            imageBitmap = imageRepository.getImageBitmap(filename)
         }
     }
 

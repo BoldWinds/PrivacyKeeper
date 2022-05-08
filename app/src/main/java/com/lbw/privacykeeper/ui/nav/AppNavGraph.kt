@@ -1,8 +1,6 @@
 package com.lbw.privacykeeper.ui.nav
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,7 +15,7 @@ import com.lbw.privacykeeper.ui.user.UserViewModel
 import com.lbw.privacykeeper.ui.video.VideoScreen
 import com.lbw.privacykeeper.ui.video.VideoViewModel
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
-import kotlinx.coroutines.launch
+
 
 @Composable
 fun AppNavGraph(
@@ -89,7 +87,15 @@ fun AppNavGraph(
                 factory = ImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
             )
             imageViewModel.getFilenames()
-            ImageScreen(filenames = imageViewModel.filenames)
+            ImageScreen(
+                filenames = imageViewModel.filenames,
+                showDialog = imageViewModel.showDialog,
+                setOldFilename = imageViewModel::setOldFilename,
+                openDialog = imageViewModel::openDialog,
+                rename = imageViewModel::rename,
+                openImage = imageViewModel::openImage,
+                closeDialog = imageViewModel::closeDialog
+            )
         }
 
         composable(route = AppSecondaryScreen.Video.route){
@@ -97,7 +103,9 @@ fun AppNavGraph(
                 factory = VideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
             )
             videoViewModel.getFilenames()
-            VideoScreen(filenames = videoViewModel.filenames)
+            VideoScreen(
+                filenames = videoViewModel.filenames
+            )
         }
 
     }

@@ -45,7 +45,9 @@ fun MainScreen(
             }
         },
 
-        bottomBar = { BottomNavBar(navController = navController)}
+        bottomBar = {
+            BottomNavBar(navController = navController)
+        }
     ) {
         AppNavGraph(
             navController = navController,

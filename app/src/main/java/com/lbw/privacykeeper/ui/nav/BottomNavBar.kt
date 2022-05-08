@@ -63,7 +63,7 @@ fun BottomNavBar(navController : NavHostController) {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewAppNavBar() {
-    PrivacyKeeperTheme() {
+    PrivacyKeeperTheme {
         val navController = rememberNavController()
         BottomNavBar(navController = navController)
     }
