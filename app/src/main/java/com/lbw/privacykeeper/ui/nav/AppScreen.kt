@@ -1,39 +1,34 @@
 package com.lbw.privacykeeper.ui.nav
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.ui.graphics.vector.ImageVector
+import privacykeeperv1.R
 
 sealed class AppScreen(
     val route : String,
     val title : String,
-    val icon : ImageVector
+    val icon : Int
 ){
     object Password : AppScreen(
         route = "password",
         title = "password",
-        icon = Icons.Default.Lock
+        icon = R.drawable.ic_lock_fill0_wght400_grad0_opsz48
     )
 
     object Image : AppScreen(
         route = "image",
         title = "image",
-        icon = Icons.Default.Phone
+        icon = R.drawable.ic_image1_foreground
     )
 
     object Video : AppScreen(
         route = "video",
         title = "video",
-        icon = Icons.Default.Star
+        icon = R.drawable.ic_video_foreground
     )
 
     object User : AppScreen(
         route = "user",
         title = "user",
-        icon = Icons.Default.Person
+        icon = R.drawable.ic_person_foreground
     )
 }
 
