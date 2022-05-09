@@ -57,6 +57,9 @@ class ImplImageRepository(
         return decodeFile(read(filename)).asImageBitmap()
     }
 
+    override suspend fun delete(filename: String) {
+        File(encryptedRoot,filename).delete()
+    }
 
 
 }

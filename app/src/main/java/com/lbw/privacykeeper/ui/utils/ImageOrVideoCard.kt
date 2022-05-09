@@ -15,14 +15,14 @@ import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import privacykeeperv1.R
 
 
-//TODO 点击放大全屏
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageOrVideoCard(
     filename:String,
     openImage : (String)->Unit,
     setOldName : (String)->Unit,
-    openDialog : ()->Unit
+    openDialog : ()->Unit,
+    delete : (String)->Unit
 ) {
 
     Card(
@@ -64,6 +64,20 @@ fun ImageOrVideoCard(
                 )
             }
 
+            Button(
+                onClick = {
+                    delete(filename)
+                    openDialog()
+                },
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.delete),
+                    fontSize = 20.sp,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            }
+
         }
 
     }
@@ -79,7 +93,8 @@ fun PreviewClickableImage() {
             filename = "MyImage",
             openImage = {},
             setOldName = {},
-            openDialog = {}
+            openDialog = {},
+            delete = {}
         )
     }
 }

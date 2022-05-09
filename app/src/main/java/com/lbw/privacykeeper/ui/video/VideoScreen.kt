@@ -82,6 +82,7 @@ fun VideoScreen(
     openDialog : ()->Unit,
     closeDialog : ()->Unit,
     rename : (String)->Unit,
+    delete : (String)->Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -96,7 +97,8 @@ fun VideoScreen(
                 filename = item,
                 openImage = {navController.navigate(AppTertiaryScreen.Video.withArgs(it))},
                 setOldName = setOldFilename,
-                openDialog = openDialog
+                openDialog = openDialog,
+                delete = delete
             )
             Spacer(modifier = Modifier.size(10.dp))
 
@@ -148,7 +150,8 @@ fun PreviewVideoScreen2() {
             setOldFilename = {},
             openDialog = {},
             rename = {},
-            closeDialog = {}
+            closeDialog = {},
+            delete = {}
         )
     }
 }

@@ -38,6 +38,10 @@ class ImplVideoRepository(
         oldFile.renameTo(newFile)
     }
 
+    override suspend fun delete(filename: String) {
+        File(encryptedRoot,filename).delete()
+    }
+
     //对文件进行解密  并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
         val file = File(decryptedRoot,filename)

@@ -8,4 +8,6 @@ interface PasswordRepository {
     suspend fun read(company:String) : Password
 
     suspend fun readAll() : List<Password>
+
+    suspend fun delete(filename: String)
 }

@@ -13,4 +13,6 @@ interface ImageRepository {
     suspend fun renameFile(oldFilename: String,newFilename:String)
 
     suspend fun getImageBitmap(filename: String):ImageBitmap
+
+    suspend fun delete(filename: String)
 }

@@ -74,6 +74,12 @@ class VideoViewModel(
         }
     }
 
+    fun delete(filename: String){
+        viewModelScope.launch {
+            videoRepository.delete(filename)
+        }
+    }
+
 
     companion object{
         fun provideFactory(

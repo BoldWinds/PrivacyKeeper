@@ -77,6 +77,29 @@ class ImageViewModel(
         showDialog = false
     }
 
+    fun delete(filename: String){
+        viewModelScope.launch {
+            imageRepository.delete(filename)
+        }
+    }
+
+
+    companion object{
+        fun provideFactory(
+            imageRepository: ImageRepository,
+            biometricCheckParameters: BiometricCheckParameters
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
+            @Suppress("main")
+            override fun <T : ViewModel> create(modelClass : Class<T>):T{
+                return ImageViewModel(imageRepository, biometricCheckParameters) as T
+            }
+        }
+    }
+}
+
+class ThirdImageViewModel(
+    private val imageRepository : ImageRepository,
+):ViewModel(){
 
     private var imageBitmap : ImageBitmap = ImageBitmap(1,1)
 
@@ -90,15 +113,13 @@ class ImageViewModel(
         return imageBitmap
     }
 
-
     companion object{
         fun provideFactory(
             imageRepository: ImageRepository,
-            biometricCheckParameters: BiometricCheckParameters
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return ImageViewModel(imageRepository, biometricCheckParameters) as T
+                return ThirdImageViewModel(imageRepository) as T
             }
         }
     }

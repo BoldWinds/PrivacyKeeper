@@ -32,4 +32,8 @@ class ImplPasswordRepository(
         return list
     }
 
+    override suspend fun delete(filename: String) {
+        File(file,filename).delete()
+    }
+
 }

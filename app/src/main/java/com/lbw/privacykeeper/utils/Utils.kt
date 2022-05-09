@@ -89,7 +89,8 @@ class Utils {
         fun getUriName(uri : Uri) : String{
             val str = uri.toString()
             val index = str.lastIndexOf("/")
-            return str.substring(index)
+            val str2 =  str.substring(index)
+            return str2.replace("%","0")
         }
 
     }

@@ -2,6 +2,8 @@ package com.lbw.privacykeeper.ui.image
 
 import android.content.res.Configuration
 import android.net.Uri
+import android.util.Log
+import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -84,6 +86,7 @@ fun ImageScreen(
     openDialog : ()->Unit,
     closeDialog : ()->Unit,
     rename : (String)->Unit,
+    delete : (String)->Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -95,9 +98,12 @@ fun ImageScreen(
         itemsIndexed(filenames){ _, item->
             ImageOrVideoCard(
                 filename = item,
-                openImage = {navController.navigate(AppTertiaryScreen.Image.withArgs(it))},
+                openImage = {
+                    navController.navigate(AppTertiaryScreen.Image.withArgs(it))
+                },
                 setOldName = setOldFilename,
-                openDialog = openDialog
+                openDialog = openDialog,
+                delete = delete
             )
             Spacer(modifier = Modifier.size(10.dp))
         }
@@ -149,7 +155,8 @@ fun PreviewImageScreen2() {
             openDialog = {},
             rename = {},
             closeDialog = {},
-            navController = navController
+            navController = navController,
+            delete = {}
         )
     }
 }

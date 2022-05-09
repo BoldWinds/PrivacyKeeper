@@ -13,4 +13,6 @@ interface VideoRepository {
 
     suspend fun renameFile(oldFilename: String,newFilename:String)
 
+    suspend fun delete(filename: String)
+
 }
