@@ -18,6 +18,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
+import com.lbw.privacykeeper.ui.utils.CustomDialog
 import privacykeeperv1.R
 
 
@@ -31,7 +32,8 @@ fun PasswordScreen(
     navController: NavHostController
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -80,18 +82,23 @@ fun PreviewPasswordScreen1() {
 //显示密码UI
 @Composable
 fun PasswordScreen(
-    passwordList : List<Password>
+    passwordList : List<Password>,
+    delete : (String)->Unit
 ) {
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
        itemsIndexed(passwordList){ _, item->
 
-           PasswordCard(password = item)
+           PasswordCard(
+               password = item,
+               delete = delete
+           )
 
        }
     }
@@ -109,7 +116,7 @@ fun PreviewPasswordScreen2() {
                 Password("Apple","lbw","lbwnb"),
                 Password("Microsoft","lbw","lbwnb"),
             ),
-
+            delete = {}
         )
     }
 }

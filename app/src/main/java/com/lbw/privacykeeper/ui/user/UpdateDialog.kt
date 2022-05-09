@@ -31,8 +31,8 @@ fun UpdateDialog(
         showDialog = showDialog,
         title = stringResource(id = R.string.update_password),
         closeDialog = { closeDialog() },
-        onConfirm = { if(password!=""){
-            try {
+        onConfirm = {
+            if (password != "") {
                 savePassword(password)
                 closeDialog()
                 showToast(
@@ -40,14 +40,8 @@ fun UpdateDialog(
                     context = context,
                     text = context.getString(R.string.save_succeed)
                 )
-            }catch (e : Exception){
-                showToast(
-                    show = true,
-                    context = context,
-                    text = context.getString(R.string.save_failed)
-                )
             }
-        } },
+        },
         onDismiss = { password = "" }
     ){
         Column(

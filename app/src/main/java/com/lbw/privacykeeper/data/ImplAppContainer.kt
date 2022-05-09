@@ -20,7 +20,7 @@ interface AppContainer{
 
 }
 
-class AppContainerImpl(
+class ImplAppContainer(
     private val applicationContext: Context,
     private val mainKeyAlias : String
 ):AppContainer {

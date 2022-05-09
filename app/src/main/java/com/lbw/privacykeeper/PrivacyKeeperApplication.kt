@@ -4,7 +4,7 @@ import android.app.Application
 import android.app.KeyguardManager
 import androidx.security.crypto.MasterKeys
 import com.lbw.privacykeeper.data.AppContainer
-import com.lbw.privacykeeper.data.AppContainerImpl
+import com.lbw.privacykeeper.data.ImplAppContainer
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 
 class PrivacyKeeperApplication : Application(){
@@ -15,7 +15,7 @@ class PrivacyKeeperApplication : Application(){
         super.onCreate()
         val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
         val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-        container = AppContainerImpl(this, mainKeyAlias = mainKeyAlias)
+        container = ImplAppContainer(this, mainKeyAlias = mainKeyAlias)
         biometricCheckParameters = BiometricCheckParameters(
             context = this,
             packageManager = packageManager,

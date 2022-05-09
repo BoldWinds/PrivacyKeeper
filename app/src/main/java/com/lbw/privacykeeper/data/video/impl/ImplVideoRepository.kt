@@ -6,7 +6,10 @@ import com.lbw.privacykeeper.data.video.VideoRepository
 import com.lbw.privacykeeper.ui.utils.UriType
 import com.lbw.privacykeeper.utils.EncryptFromUri
 import com.lbw.privacykeeper.utils.Utils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
+
 
 class ImplVideoRepository(
     context : Context,
@@ -23,31 +26,41 @@ class ImplVideoRepository(
 
     //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
-        encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Video)
+        return withContext(Dispatchers.IO){
+            encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Video)
+        }
     }
 
     //返回所有加密文件的文件名
     override suspend fun readAllFilenames(): List<String> {
-        return Utils.getAllFileNames(encryptedRoot)
+        return withContext(Dispatchers.IO){
+            Utils.getAllFileNames(encryptedRoot)
+        }
     }
 
     //重命名文件
     override suspend fun renameFile(oldFilename: String, newFilename:String) {
-        encrypt.rename(oldFilename,newFilename,UriType.Video)
+        return withContext(Dispatchers.IO){
+            encrypt.rename(oldFilename,newFilename,UriType.Video)
+        }
     }
 
     override suspend fun delete(filename: String) {
-        File(encryptedRoot,filename).delete()
+        return withContext(Dispatchers.IO){
+            File(encryptedRoot,filename).delete()
+        }
     }
 
     //对文件进行解密  并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
-        val file = File(decryptedRoot,filename)
+        return withContext(Dispatchers.IO){
+            val file = File(decryptedRoot,filename)
 
-        return if(!file.exists()){
-            encrypt.decrypt(filename,UriType.Video)
-        }else{
-            file.absolutePath
+            if(!file.exists()){
+                encrypt.decrypt(filename,UriType.Video)
+            }else{
+                file.absolutePath
+            }
         }
     }
 

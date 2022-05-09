@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.CommonText
+import com.lbw.privacykeeper.ui.utils.CustomDialog
 import com.lbw.privacykeeper.ui.utils.DecoratedRow
 import com.lbw.privacykeeper.utils.Utils
 import com.lbw.privacykeeper.utils.Utils.Companion.showToast
@@ -26,6 +27,7 @@ import privacykeeperv1.R
 @Composable
 fun PasswordCard(
     password : Password,
+    delete : (String)->Unit
 ) {
     //这个选择状态不要提升到viewModel中,放在这可以最大化简化代码
     var selected by remember {
@@ -36,6 +38,28 @@ fun PasswordCard(
         mutableStateOf(100.dp)
     }
 
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+
+    CustomDialog(
+        showDialog = showDialog,
+        title = stringResource(id = R.string.delete),
+        closeDialog = { showDialog=false },
+        onConfirm = { delete(password.company) },
+        onDismiss = {  }
+    ){
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text = stringResource(id = R.string.confirm_delete),
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 18.sp
+            )
+        }
+    }
 
     Card(
         onClick = {
@@ -73,6 +97,19 @@ fun PasswordCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             CopyPasswordButton(password = password.password)
+
+            Button(
+                onClick = { showDialog = true },
+                elevation = ButtonDefaults.buttonElevation(2.dp),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
+            ){
+                Text(
+                    text = stringResource(id = R.string.delete),
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    fontSize = 18.sp
+                )
+
+            }
         }
     }
 }
@@ -84,6 +121,7 @@ fun PreviewMyCard() {
     PrivacyKeeperTheme {
         PasswordCard(
             password = Password("Jetbrains","lbw","LBWNB!"),
+            delete = {}
         )
     }
 }

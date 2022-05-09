@@ -37,7 +37,10 @@ fun CustomDialog(
                 )
             },
             title = {
-                Text(text = title)
+                Text(
+                    text = title,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             },
             text = {
                 content()

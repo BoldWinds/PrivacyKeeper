@@ -4,7 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,6 +24,29 @@ fun ImageOrVideoCard(
     openDialog : ()->Unit,
     delete : (String)->Unit
 ) {
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+
+    CustomDialog(
+        showDialog =showDialog ,
+        title = stringResource(id = R.string.delete),
+        closeDialog = { showDialog = false },
+        onConfirm = { delete(filename)},
+        onDismiss = {}
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text = stringResource(id = R.string.confirm_delete),
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 18.sp
+            )
+        }
+    }
+
 
     Card(
         onClick = {
@@ -68,7 +91,7 @@ fun ImageOrVideoCard(
 
             Button(
                 onClick = {
-                    delete(filename)
+                    showDialog = true
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
             ) {

@@ -23,7 +23,7 @@ fun CommonText(text : String) {
     ){
         Text(
             text = text,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             maxLines = 1,

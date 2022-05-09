@@ -1,14 +1,18 @@
 package com.lbw.privacykeeper.data.password.impl
 
 import android.content.Context
+import androidx.compose.material3.contentColorFor
 import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.utils.EncryptPassword
 import com.lbw.privacykeeper.utils.Utils
+import com.lbw.privacykeeper.utils.Utils.Companion.showToast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class ImplPasswordRepository(
-    context : Context,
+    val context : Context,
     mainKeyAlias : String
 ) : PasswordRepository{
 
@@ -17,7 +21,9 @@ class ImplPasswordRepository(
     private val file = File(context.filesDir,"passwords")
 
     override suspend fun save(password: Password) {
-        encrypt.encryptWrite(password = password)
+        return withContext(Dispatchers.IO){
+            encrypt.encryptWrite(password = password)
+        }
     }
 
     override suspend fun read(company:String): Password{
@@ -25,15 +31,26 @@ class ImplPasswordRepository(
     }
 
     override suspend fun readAll(): List<Password> {
-        val list = mutableListOf<Password>()
-        Utils.getAllFileNames(file).forEach {
-            list.add(read(it))
+        try {
+            val list = mutableListOf<Password>()
+            Utils.getAllFileNames(file).forEach {
+                list.add(read(it))
+            }
+            return list
+        }catch (e : Exception){
+            showToast(
+                true,
+                context = context,
+                text = e.toString()
+            )
+            return mutableListOf<Password>()
         }
-        return list
     }
 
     override suspend fun delete(filename: String) {
-        File(file,filename).delete()
+        return withContext(Dispatchers.IO){
+            File(file,filename).delete()
+        }
     }
 
 }

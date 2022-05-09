@@ -9,6 +9,8 @@ import com.lbw.privacykeeper.data.image.ImageRepository
 import com.lbw.privacykeeper.ui.utils.UriType
 import com.lbw.privacykeeper.utils.EncryptFromUri
 import com.lbw.privacykeeper.utils.Utils.Companion.getAllFileNames
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 
 
@@ -26,28 +28,34 @@ class ImplImageRepository(
 
     //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
-        encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Image)
+        return withContext(Dispatchers.IO){
+            encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Image)
+        }
     }
 
     //返回所有加密文件的文件名
     override suspend fun readAllFilenames(): List<String> {
         return getAllFileNames(encryptedRoot)
+
     }
 
     //重命名文件
     override suspend fun renameFile(oldFilename: String, newFilename:String) {
-        encrypt.rename(oldFilename,newFilename, UriType.Image)
+        return withContext(Dispatchers.IO){
+            encrypt.rename(oldFilename,newFilename, UriType.Image)
+        }
+
     }
 
     //对文件进行解密  并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
         val file = File(decryptedRoot,filename)
 
-        return if(!file.exists()){
-            encrypt.decrypt(filename,UriType.Image)
-        }else{
-            file.absolutePath
-        }
+        return  if(!file.exists()){
+                    encrypt.decrypt(filename,UriType.Image)
+                }else{
+                    file.absolutePath
+                }
     }
 
     //真正解密文件并得到ImageBitmap
@@ -56,7 +64,9 @@ class ImplImageRepository(
     }
 
     override suspend fun delete(filename: String) {
-        File(encryptedRoot,filename).delete()
+        return withContext(Dispatchers.IO){
+            File(encryptedRoot,filename).delete()
+        }
     }
 
 

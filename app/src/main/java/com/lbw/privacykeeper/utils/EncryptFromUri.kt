@@ -67,21 +67,18 @@ class EncryptFromUri(
             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
         ).build()
 
-        val copyFile = File(encryptedRoot,fileName)
-
         val fis =  FileInputStream(context.contentResolver.openFileDescriptor(uri,"r")?.fileDescriptor)
-        fis.copyTo(FileOutputStream(copyFile.absoluteFile))
-        fis.close()
+        val bufferedInputStream = BufferedInputStream(fis)
+        val fos = encryptedFile.openFileOutput()
 
-        val fileContent :ByteArray = copyFile.readBytes()
-
-        copyFile.delete()
-
-        encryptedFile.openFileOutput().apply {
-            write(fileContent)
-            flush()
-            close()
+        var byteArray = ByteArray(512)
+        while(bufferedInputStream.read(byteArray)!=-1){
+            fos.write(byteArray)
         }
+
+        fis.close()
+        bufferedInputStream.close()
+        fos.close()
     }
 
     fun rename(oldName:String,newName:String,uriType: UriType){

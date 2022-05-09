@@ -45,7 +45,7 @@ class PasswordViewModel(
     }
 
 
-    var passwordList by mutableStateOf<List<Password>>(mutableListOf())
+    var passwordList : List<Password> = mutableListOf<Password>()
 
     fun readAllPassword(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -53,6 +53,12 @@ class PasswordViewModel(
         }
     }
 
+    fun delete(name : String){
+        viewModelScope.launch {
+            passwordRepository.delete(name)
+            readAllPassword()
+        }
+    }
 
     companion object{
         fun provideFactory(

@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -100,7 +99,10 @@ fun AppNavGraph(
             )
 
             passwordViewModel.readAllPassword()
-            PasswordScreen(passwordList = passwordViewModel.passwordList)
+            PasswordScreen(
+                passwordList = passwordViewModel.passwordList,
+                delete = passwordViewModel::delete
+            )
         }
 
         composable(route = AppSecondaryScreen.Image.route){
@@ -155,7 +157,9 @@ fun AppNavGraph(
             Image(
                 bitmap = imageViewModel.getImageBitmap(),
                 contentDescription = "Full Screen",
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.9f),
             )
         }
 
@@ -168,17 +172,28 @@ fun AppNavGraph(
                 }
             )
         ){entry->
-            LoadingAnimation()
-            /*val context = LocalContext.current
+            val context = LocalContext.current
             val filename : String = entry.arguments?.getString("name")!!
             val scope = rememberCoroutineScope()
-            scope.launch(Dispatchers.IO) {
+            val job = scope.launch(Dispatchers.IO) {
                 appContainer.videoRepository.read(filename = filename)
             }
-            val file = File(File(File(context.filesDir,"videos"),"decrypted"),filename)
-            val uri = Uri.fromFile(file)
-            //TODO 等待解密完成之后再打开
-            ExoPlayer(uri = uri)*/
+            Box(
+                modifier = Modifier.fillMaxWidth()
+                    .fillMaxHeight(0.9f),
+                contentAlignment = Alignment.Center
+            ){
+                if (!job.isCompleted){
+                    LoadingAnimation()
+                }
+                if(job.isCompleted){
+                    val file = File(File(File(context.filesDir,"videos"),"decrypted"),filename)
+                    val uri = Uri.fromFile(file)
+                    //TODO 等待解密完成之后再打开
+                    ExoPlayer(uri = uri)
+                }
+            }
+
         }
     }
 }
