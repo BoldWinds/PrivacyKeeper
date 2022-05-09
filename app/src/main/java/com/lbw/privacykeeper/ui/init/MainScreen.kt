@@ -53,17 +53,17 @@ fun MainScreen(
                 }
             )
         },
-
+        content = {
+            AppNavGraph(
+                navController = navController,
+                appContainer = appContainer,
+                biometricCheckParameters = biometricCheckParameters
+            )
+        },
         bottomBar = {
             BottomNavBar(navController = navController)
         }
-    ) {
-        AppNavGraph(
-            navController = navController,
-            appContainer = appContainer,
-            biometricCheckParameters = biometricCheckParameters
-        )
-    }
+    )
 }
 
 @Preview

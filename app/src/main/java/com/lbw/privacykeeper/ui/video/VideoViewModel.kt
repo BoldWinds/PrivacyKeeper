@@ -3,6 +3,7 @@ package com.lbw.privacykeeper.ui.video
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -66,7 +67,7 @@ class VideoViewModel(
         oldFilename = filename
     }
 
-    var filenames : List<String> = mutableListOf<String>()
+    var filenames : List<String> by mutableStateOf<List<String>>(mutableListOf<String>())
 
     fun getFilenames(){
         viewModelScope.launch {
@@ -77,6 +78,7 @@ class VideoViewModel(
     fun delete(filename: String){
         viewModelScope.launch {
             videoRepository.delete(filename)
+            filenames = videoRepository.readAllFilenames()
         }
     }
 

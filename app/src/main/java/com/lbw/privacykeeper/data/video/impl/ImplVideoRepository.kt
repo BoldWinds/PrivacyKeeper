@@ -23,7 +23,7 @@ class ImplVideoRepository(
 
     //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
-        encrypt.encryptWrite(uri = uri, fileName = filename, uriType = UriType.Video)
+        encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Video)
     }
 
     //返回所有加密文件的文件名
@@ -33,9 +33,7 @@ class ImplVideoRepository(
 
     //重命名文件
     override suspend fun renameFile(oldFilename: String, newFilename:String) {
-        val oldFile = File(encryptedRoot,oldFilename)
-        val newFile = File(encryptedRoot,newFilename)
-        oldFile.renameTo(newFile)
+        encrypt.rename(oldFilename,newFilename,UriType.Video)
     }
 
     override suspend fun delete(filename: String) {

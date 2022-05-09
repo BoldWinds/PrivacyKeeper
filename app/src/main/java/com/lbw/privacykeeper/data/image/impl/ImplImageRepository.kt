@@ -26,7 +26,7 @@ class ImplImageRepository(
 
     //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
-        encrypt.encryptWrite(uri = uri, fileName = filename, uriType = UriType.Image)
+        encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Image)
     }
 
     //返回所有加密文件的文件名
@@ -36,9 +36,7 @@ class ImplImageRepository(
 
     //重命名文件
     override suspend fun renameFile(oldFilename: String, newFilename:String) {
-        val oldFile = File(encryptedRoot,oldFilename)
-        val newFile = File(encryptedRoot,newFilename)
-        oldFile.renameTo(newFile)
+        encrypt.rename(oldFilename,newFilename, UriType.Image)
     }
 
     //对文件进行解密  并返回解密后的绝对路径

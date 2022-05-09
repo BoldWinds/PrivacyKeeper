@@ -64,10 +64,11 @@ fun ImageOrVideoCard(
                 )
             }
 
+            Spacer(modifier = Modifier.size(10.dp))
+
             Button(
                 onClick = {
                     delete(filename)
-                    openDialog()
                 },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary)
             ) {

@@ -45,7 +45,7 @@ class EncryptFromUri(
     }
 
 
-    fun encryptWrite(uri : Uri,fileName: String,uriType: UriType){
+    fun encrypt(uri : Uri, fileName: String, uriType: UriType){
         val rootFile = if (uriType==UriType.Image)  File(context.filesDir,"images")
                         else    File(context.filesDir,"videos")
 
@@ -75,8 +75,6 @@ class EncryptFromUri(
 
         val fileContent :ByteArray = copyFile.readBytes()
 
-    //    Log.d("path",copyFile.absolutePath)
-
         copyFile.delete()
 
         encryptedFile.openFileOutput().apply {
@@ -84,5 +82,14 @@ class EncryptFromUri(
             flush()
             close()
         }
+    }
+
+    fun rename(oldName:String,newName:String,uriType: UriType){
+        val rootFile = if (uriType==UriType.Image)  File(context.filesDir,"images")
+                        else    File(context.filesDir,"videos")
+        val encryptedFile = File(File(rootFile,"encrypted"),oldName)
+        val decryptedFile = File(decrypt(oldName, uriType))
+        encrypt(Uri.fromFile(decryptedFile),newName,uriType)
+        encryptedFile.delete()
     }
 }

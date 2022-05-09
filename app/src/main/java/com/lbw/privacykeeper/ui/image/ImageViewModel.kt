@@ -46,7 +46,7 @@ class ImageViewModel(
     }
 
 
-    var filenames : List<String> = mutableListOf<String>()
+    var filenames : List<String> by mutableStateOf<List<String>>(mutableListOf<String>())
 
     fun getFilenames(){
         viewModelScope.launch {
@@ -80,6 +80,7 @@ class ImageViewModel(
     fun delete(filename: String){
         viewModelScope.launch {
             imageRepository.delete(filename)
+            filenames = imageRepository.readAllFilenames()
         }
     }
 

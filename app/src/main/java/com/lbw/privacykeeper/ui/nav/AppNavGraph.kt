@@ -27,6 +27,7 @@ import com.lbw.privacykeeper.ui.password.PasswordViewModel
 import com.lbw.privacykeeper.ui.user.UserScreen
 import com.lbw.privacykeeper.ui.user.UserViewModel
 import com.lbw.privacykeeper.ui.utils.ExoPlayer
+import com.lbw.privacykeeper.ui.utils.LoadingAnimation
 import com.lbw.privacykeeper.ui.video.VideoScreen
 import com.lbw.privacykeeper.ui.video.VideoViewModel
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
@@ -97,6 +98,7 @@ fun AppNavGraph(
             val passwordViewModel : PasswordViewModel = viewModel(
                 factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters)
             )
+
             passwordViewModel.readAllPassword()
             PasswordScreen(passwordList = passwordViewModel.passwordList)
         }
@@ -136,9 +138,9 @@ fun AppNavGraph(
         }
 
         composable(
-            route = AppTertiaryScreen.Image.route + "/{path}",
+            route = AppTertiaryScreen.Image.route + "/{name}",
             arguments = listOf(
-                navArgument("path"){
+                navArgument("name"){
                     type = NavType.StringType
                     nullable = false
                 }
@@ -147,7 +149,7 @@ fun AppNavGraph(
             val imageViewModel :ThirdImageViewModel = viewModel(
                 factory = ThirdImageViewModel.provideFactory(appContainer.imageRepository)
             )
-            val filename : String = entry.arguments?.getString("path")!!
+            val filename : String = entry.arguments?.getString("name")!!
             Log.d("filename",filename)
             imageViewModel.setImageBitmap(filename)
             Image(
@@ -158,24 +160,25 @@ fun AppNavGraph(
         }
 
         composable(
-            route = AppTertiaryScreen.Video.route + "/{path}",
+            route = AppTertiaryScreen.Video.route + "/{name}",
             arguments = listOf(
-                navArgument("path"){
+                navArgument("name"){
                     type = NavType.StringType
                     nullable = false
                 }
             )
         ){entry->
-            val context = LocalContext.current
-            val filename : String = entry.arguments?.getString("path")!!
+            LoadingAnimation()
+            /*val context = LocalContext.current
+            val filename : String = entry.arguments?.getString("name")!!
             val scope = rememberCoroutineScope()
             scope.launch(Dispatchers.IO) {
                 appContainer.videoRepository.read(filename = filename)
             }
             val file = File(File(File(context.filesDir,"videos"),"decrypted"),filename)
             val uri = Uri.fromFile(file)
-
-            ExoPlayer(uri = uri)
+            //TODO 等待解密完成之后再打开
+            ExoPlayer(uri = uri)*/
         }
     }
 }
