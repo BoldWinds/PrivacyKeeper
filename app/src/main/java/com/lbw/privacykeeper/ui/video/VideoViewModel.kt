@@ -117,6 +117,10 @@ class TertiaryVideoViewModel(
 
     var isJobFinished by mutableStateOf(false)
 
+    fun openVideo(){
+        isJobFinished = true
+    }
+
     private var filename : String = ""
 
     fun setFilename(name:String){
@@ -126,9 +130,6 @@ class TertiaryVideoViewModel(
     fun readVideo(){
         viewModelScope.launch(Dispatchers.IO) {
             videoRepository.read(filename)
-            //多留一点时间
-            delay(2000)
-            isJobFinished  = true
         }
     }
 

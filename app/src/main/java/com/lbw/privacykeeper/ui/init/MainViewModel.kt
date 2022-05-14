@@ -32,8 +32,8 @@ class MainViewModel(
             viewModelScope.launch(Dispatchers.IO) {
                 val show = preferenceRepository.readBoolean("boot_counter")
                 if(show==null){
-                    showGuidance = true
                     preferenceRepository.saveBoolean("boot_counter",true)
+                    showGuidance = true
                 }else{
                     showGuidance = show
                     showMain = !show

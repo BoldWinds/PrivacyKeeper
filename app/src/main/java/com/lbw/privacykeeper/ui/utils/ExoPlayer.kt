@@ -21,28 +21,28 @@ import com.google.android.exoplayer2.util.Util
 @Composable
 fun ExoPlayer(
     uri : Uri,
-    show : Boolean = true
+    show : Boolean = true,
+    openVideo : ()->Unit
 ) {
+    val context = LocalContext.current
+    val mediaItem : MediaItem = MediaItem.fromUri(uri)
+    val exoPlayer = remember(context){
+        ExoPlayer.Builder(context).build().apply{
+            val dataSourceFactory : DataSource.Factory = DefaultDataSourceFactory(
+                context, Util.getUserAgent(context,context.packageName)
+            )
+
+            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(mediaItem)
+
+            this.prepare(source)
+        }
+    }
+    openVideo()
     if (show){
-        val mediaItem : MediaItem = MediaItem.fromUri(uri)
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            val context = LocalContext.current
-
-            val exoPlayer = remember(context){
-                ExoPlayer.Builder(context).build().apply{
-                    val dataSourceFactory : DataSource.Factory = DefaultDataSourceFactory(
-                        context, Util.getUserAgent(context,context.packageName)
-                    )
-
-                    val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                        .createMediaSource(mediaItem)
-
-                    this.prepare(source)
-                }
-            }
-
             AndroidView(
                 factory ={context->
                     PlayerView(context).apply {

@@ -176,7 +176,8 @@ fun AppNavGraph(
 
             DisplayVideo(
                 showPlayer = videoViewModel.isJobFinished,
-                uri = uri
+                uri = uri,
+                openVideo = videoViewModel::openVideo
             )
 
         }

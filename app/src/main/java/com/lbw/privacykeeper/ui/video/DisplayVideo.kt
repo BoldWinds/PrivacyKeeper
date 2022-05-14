@@ -16,7 +16,8 @@ import com.lbw.privacykeeper.ui.utils.LoadingAnimation
 @Composable
 fun DisplayVideo(
     showPlayer : Boolean = false,
-    uri : Uri
+    uri : Uri,
+    openVideo : ()->Unit
 ) {
     Box(
         modifier = Modifier
@@ -24,7 +25,11 @@ fun DisplayVideo(
             .fillMaxHeight(0.9f),
         contentAlignment = Alignment.Center
     ){
-        ExoPlayer(uri = uri, show = showPlayer)
+        ExoPlayer(
+            uri = uri,
+            show = showPlayer,
+            openVideo = openVideo
+        )
         LoadingAnimation(show = !showPlayer)
     }
 }
@@ -34,7 +39,8 @@ fun DisplayVideo(
 fun PreviewDisplayVideo() {
     PrivacyKeeperTheme {
         DisplayVideo(
-            uri = Uri.EMPTY
+            uri = Uri.EMPTY,
+            openVideo = {}
         )
     }
 }
