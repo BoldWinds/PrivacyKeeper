@@ -3,7 +3,7 @@ package com.lbw.privacykeeper.data.video.impl
 import android.content.Context
 import android.net.Uri
 import com.lbw.privacykeeper.data.video.VideoRepository
-import com.lbw.privacykeeper.ui.utils.UriType
+import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.utils.EncryptFromUri
 import com.lbw.privacykeeper.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,9 @@ class ImplVideoRepository(
 
     //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
-        encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Video)
+        return withContext(Dispatchers.IO){
+            encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Video)
+        }
     }
 
     //返回所有加密文件的文件名
@@ -39,7 +41,7 @@ class ImplVideoRepository(
     //重命名文件
     override suspend fun renameFile(oldFilename: String, newFilename:String) {
         return withContext(Dispatchers.IO){
-            encrypt.rename(oldFilename,newFilename,UriType.Video)
+            encrypt.rename(oldFilename,newFilename, UriType.Video)
         }
     }
 
@@ -55,7 +57,7 @@ class ImplVideoRepository(
             val file = File(decryptedRoot,filename)
 
             if(!file.exists()){
-                encrypt.decrypt(filename,UriType.Video)
+                encrypt.decrypt(filename, UriType.Video)
             }else{
                 file.absolutePath
             }

@@ -5,14 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.image.ImageRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
-import com.lbw.privacykeeper.ui.utils.UriType
+import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import com.lbw.privacykeeper.utils.Utils.Companion.getRandomName
@@ -44,7 +43,7 @@ class ImageViewModel(
     fun saveImage(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
-                imageRepository.save(uri,getRandomName(uri,UriType.Image))
+                imageRepository.save(uri,getRandomName(uri, UriType.Image))
         }
     }
 

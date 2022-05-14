@@ -2,6 +2,7 @@ package com.lbw.privacykeeper
 
 import android.app.Application
 import android.app.KeyguardManager
+import android.database.ContentObserver
 import android.util.Log
 import androidx.security.crypto.MasterKeys
 import com.lbw.privacykeeper.data.AppContainer

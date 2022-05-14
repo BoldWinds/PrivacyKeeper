@@ -20,33 +20,36 @@ import com.google.android.exoplayer2.util.Util
 @SuppressLint("RememberReturnType")
 @Composable
 fun ExoPlayer(
-    uri : Uri
+    uri : Uri,
+    show : Boolean = true
 ) {
-    val mediaItem : MediaItem = MediaItem.fromUri(uri)
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        val context = LocalContext.current
+    if (show){
+        val mediaItem : MediaItem = MediaItem.fromUri(uri)
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            val context = LocalContext.current
 
-        val exoPlayer = remember(context){
-            ExoPlayer.Builder(context).build().apply{
-                val dataSourceFactory : DataSource.Factory = DefaultDataSourceFactory(
-                    context, Util.getUserAgent(context,context.packageName)
-                )
+            val exoPlayer = remember(context){
+                ExoPlayer.Builder(context).build().apply{
+                    val dataSourceFactory : DataSource.Factory = DefaultDataSourceFactory(
+                        context, Util.getUserAgent(context,context.packageName)
+                    )
 
-                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(mediaItem)
+                    val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(mediaItem)
 
-                this.prepare(source)
-            }
-        }
-
-        AndroidView(
-            factory ={context->
-                PlayerView(context).apply {
-                    player = exoPlayer
+                    this.prepare(source)
                 }
             }
-        )
+
+            AndroidView(
+                factory ={context->
+                    PlayerView(context).apply {
+                        player = exoPlayer
+                    }
+                }
+            )
+        }
     }
 }

@@ -27,12 +27,14 @@ import com.lbw.privacykeeper.ui.user.UserScreen
 import com.lbw.privacykeeper.ui.user.UserViewModel
 import com.lbw.privacykeeper.ui.utils.ExoPlayer
 import com.lbw.privacykeeper.ui.utils.LoadingAnimation
+import com.lbw.privacykeeper.ui.video.TertiaryVideoViewModel
 import com.lbw.privacykeeper.ui.video.VideoScreen
 import com.lbw.privacykeeper.ui.video.VideoViewModel
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import kotlin.concurrent.fixedRateTimer
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -172,23 +174,25 @@ fun AppNavGraph(
                 }
             )
         ){entry->
+            val videoViewModel : TertiaryVideoViewModel= viewModel(
+                factory = TertiaryVideoViewModel.provideFactory(appContainer.videoRepository)
+            )
+            val filename = entry.arguments?.getString("name")!!
             val context = LocalContext.current
-            val filename : String = entry.arguments?.getString("name")!!
-            val scope = rememberCoroutineScope()
-            val job = scope.launch(Dispatchers.IO) {
-                appContainer.videoRepository.read(filename = filename)
-            }
+
+            videoViewModel.setFilename(entry.arguments?.getString("name")!!)
+            videoViewModel.readVideo()
+
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .fillMaxHeight(0.9f),
                 contentAlignment = Alignment.Center
             ){
-          //      if(job.isCompleted){
-                    val file = File(File(File(context.filesDir,"videos"),"decrypted"),filename)
-                    val uri = Uri.fromFile(file)
-                    ExoPlayer(uri = uri)
-           //     }
-                 //   LoadingAnimation()
+                val file = File(File(File(context.filesDir,"videos"),"decrypted"),filename)
+                val uri = Uri.fromFile(file)
+                ExoPlayer(uri = uri, show = videoViewModel.isJobFinished)
+                LoadingAnimation(show = !videoViewModel.isJobFinished)
             }
 
         }

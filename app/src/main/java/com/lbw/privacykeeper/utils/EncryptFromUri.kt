@@ -2,8 +2,9 @@ package com.lbw.privacykeeper.utils
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.security.crypto.EncryptedFile
-import com.lbw.privacykeeper.ui.utils.UriType
+import com.lbw.privacykeeper.model.UriType
 import java.io.*
 
 
@@ -13,7 +14,7 @@ class EncryptFromUri(
 ) {
 
     fun decrypt(fileName:String,uriType: UriType):String{
-        val rootFile = if (uriType==UriType.Image)  File(context.filesDir,"images")
+        val rootFile = if (uriType== UriType.Image)  File(context.filesDir,"images")
                         else    File(context.filesDir,"videos")
 
         val encryptedRoot = File(rootFile,"encrypted")
@@ -46,7 +47,7 @@ class EncryptFromUri(
 
 
     fun encrypt(uri : Uri, fileName: String, uriType: UriType){
-        val rootFile = if (uriType==UriType.Image)  File(context.filesDir,"images")
+        val rootFile = if (uriType== UriType.Image)  File(context.filesDir,"images")
                         else    File(context.filesDir,"videos")
 
         if(!rootFile.exists()){
@@ -59,7 +60,6 @@ class EncryptFromUri(
             encryptedRoot.mkdirs()
         }
 
-
         val encryptedFile = EncryptedFile.Builder(
             File(encryptedRoot,fileName),
             context,
@@ -67,22 +67,27 @@ class EncryptFromUri(
             EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
         ).build()
 
-        val fis =  FileInputStream(context.contentResolver.openFileDescriptor(uri,"r")?.fileDescriptor)
-        val bufferedInputStream = BufferedInputStream(fis)
-        val fos = encryptedFile.openFileOutput()
+        val fis =  context.contentResolver.openInputStream(uri)
+        if (fis==null){
+            Log.d("fis","null")
+        }else{
+            val bufferedInputStream = BufferedInputStream(fis)
+            val fos = encryptedFile.openFileOutput()
 
-        var byteArray = ByteArray(512)
-        while(bufferedInputStream.read(byteArray)!=-1){
-            fos.write(byteArray)
+            var byteArray = ByteArray(512)
+            while(bufferedInputStream.read(byteArray)!=-1){
+                fos.write(byteArray)
+            }
+
+            fis.close()
+            bufferedInputStream.close()
+            fos.close()
         }
 
-        fis.close()
-        bufferedInputStream.close()
-        fos.close()
     }
 
     fun rename(oldName:String,newName:String,uriType: UriType){
-        val rootFile = if (uriType==UriType.Image)  File(context.filesDir,"images")
+        val rootFile = if (uriType== UriType.Image)  File(context.filesDir,"images")
                         else    File(context.filesDir,"videos")
         val encryptedFile = File(File(rootFile,"encrypted"),oldName)
         val decryptedFile = File(decrypt(oldName, uriType))

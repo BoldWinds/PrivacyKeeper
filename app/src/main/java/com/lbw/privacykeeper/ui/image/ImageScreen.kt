@@ -2,8 +2,6 @@ package com.lbw.privacykeeper.ui.image
 
 import android.content.res.Configuration
 import android.net.Uri
-import android.util.Log
-import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.ui.nav.AppTertiaryScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.*

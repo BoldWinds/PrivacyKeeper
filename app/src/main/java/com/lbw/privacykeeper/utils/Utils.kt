@@ -8,7 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.text.AnnotatedString
 import com.lbw.privacykeeper.model.User
-import com.lbw.privacykeeper.ui.utils.UriType
+import com.lbw.privacykeeper.model.UriType
 import java.io.File
 
 
@@ -86,18 +86,12 @@ class Utils {
         }
 
         fun getRandomName(uri : Uri,uriType: UriType) : String{
-            val str : String = (0..100000).random().toString()
-            if(uriType == UriType.Image){
-                return "image:$str"
-            }else{
-                return "video:$str"
-            }
-            /*Log.d("uri",uri.toString())
+            Log.d("uri",uri.toString())
             val str = uri.toString()
             val index = str.lastIndexOf("/")
             val str2 =  str.substring(index)
             Log.d("uri",str2)
-            return str2.replace("%","0")*/
+            return str2.replace("%","0")
         }
 
     }

@@ -3,6 +3,7 @@ package com.lbw.privacykeeper.ui.utils
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.*
@@ -11,14 +12,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
+import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
-
-
-enum class UriType{
-    Image,Video
-}
 
 
 //通过uriType来决定打开的资源类型
@@ -39,11 +36,13 @@ fun GalleryButton(
         }
     }
 
+
+
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            if (uriType==UriType.Image){
+            if (uriType== UriType.Image){
                 galleryLauncher.launch("image/*")
             }else{
                 galleryLauncher.launch("video/*")
@@ -56,7 +55,7 @@ fun GalleryButton(
         }
     }
 
-    val text = if(uriType==UriType.Image)   stringResource(id = R.string.save_image)
+    val text = if(uriType== UriType.Image)   stringResource(id = R.string.save_image)
                 else    stringResource(id = R.string.save_video)
 
     Button(
@@ -65,7 +64,7 @@ fun GalleryButton(
                 ContextCompat.checkSelfPermission(
                     context, android.Manifest.permission.READ_EXTERNAL_STORAGE
                 ) -> {
-                    if (uriType==UriType.Image){
+                    if (uriType== UriType.Image){
                         galleryLauncher.launch("image/*")
                     }else{
                         galleryLauncher.launch("video/*")
@@ -85,7 +84,6 @@ fun GalleryButton(
         )
     }
 }
-
 
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)

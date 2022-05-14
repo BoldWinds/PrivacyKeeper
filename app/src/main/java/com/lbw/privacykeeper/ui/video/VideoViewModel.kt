@@ -1,9 +1,9 @@
 package com.lbw.privacykeeper.ui.video
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.video.VideoRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
-import com.lbw.privacykeeper.ui.utils.UriType
+import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import com.lbw.privacykeeper.utils.Utils
@@ -40,7 +40,7 @@ class VideoViewModel(
     fun saveVideo(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
-                videoRepository.save(uri, Utils.getRandomName(uri,UriType.Video))
+                videoRepository.save(uri, Utils.getRandomName(uri, UriType.Video))
         }
     }
 
@@ -95,5 +95,42 @@ class VideoViewModel(
             }
         }
     }
+}
 
+class TertiaryVideoViewModel(
+    private val videoRepository: VideoRepository
+):ViewModel(){
+
+    var isJobFinished by mutableStateOf(false)
+
+    private var filename : String = ""
+
+    fun setFilename(name:String){
+        filename = name
+    }
+
+    fun readVideo(){
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            videoRepository.read(filename)
+        }
+        if (job.isCompleted){
+            isJobFinished = true
+            Log.d("job","finish")
+        }
+    }
+
+    fun deleteDecrypted(){
+
+    }
+
+    companion object{
+        fun provideFactory(
+            videoRepository: VideoRepository,
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
+            @Suppress("main")
+            override fun <T : ViewModel> create(modelClass : Class<T>):T{
+                return TertiaryVideoViewModel(videoRepository) as T
+            }
+        }
+    }
 }

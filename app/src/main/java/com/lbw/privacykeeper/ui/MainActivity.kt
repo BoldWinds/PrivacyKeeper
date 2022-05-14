@@ -1,12 +1,11 @@
 package com.lbw.privacykeeper.ui
 
+
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.lbw.privacykeeper.PrivacyKeeperApplication
-import com.lbw.privacykeeper.utils.Utils
 
 
 class MainActivity : ComponentActivity() {
@@ -21,4 +20,6 @@ class MainActivity : ComponentActivity() {
             PrivacyKeeperApp(appContainer = appContainer, biometricCheckParameters = biometricCheckParameters)
         }
     }
+
+
 }

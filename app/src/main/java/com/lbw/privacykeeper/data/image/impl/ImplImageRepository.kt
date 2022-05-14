@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import com.lbw.privacykeeper.data.image.ImageRepository
-import com.lbw.privacykeeper.ui.utils.UriType
+import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.utils.EncryptFromUri
 import com.lbw.privacykeeper.utils.Utils.Companion.getAllFileNames
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +53,7 @@ class ImplImageRepository(
         val file = File(decryptedRoot,filename)
 
         return  if(!file.exists()){
-                    encrypt.decrypt(filename,UriType.Image)
+                    encrypt.decrypt(filename, UriType.Image)
                 }else{
                     file.absolutePath
                 }
