@@ -5,17 +5,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.image.ImageRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
+import com.lbw.privacykeeper.ui.utils.UriType
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
-import com.lbw.privacykeeper.utils.Utils.Companion.getUriName
+import com.lbw.privacykeeper.utils.Utils.Companion.getRandomName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 
 class ImageViewModel(
@@ -41,7 +44,7 @@ class ImageViewModel(
     fun saveImage(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
-                imageRepository.save(uri,getUriName(uri))
+                imageRepository.save(uri,getRandomName(uri,UriType.Image))
         }
     }
 
@@ -62,8 +65,12 @@ class ImageViewModel(
 
     fun rename(newFilename : String){
         viewModelScope.launch(Dispatchers.IO) {
-            imageRepository.renameFile(oldFilename = oldFilename, newFilename = newFilename)
-            filenames = imageRepository.readAllFilenames()
+            try {
+                imageRepository.renameFile(oldFilename = oldFilename, newFilename = newFilename)
+                filenames = imageRepository.readAllFilenames()
+            }catch (e : Exception){
+
+            }
         }
     }
 

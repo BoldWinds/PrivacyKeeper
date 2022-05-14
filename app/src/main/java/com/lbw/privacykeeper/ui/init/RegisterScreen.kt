@@ -99,7 +99,6 @@ fun RegisterScreen(
                 onClick = {
                     if (password!=confirmPassword) {
                         showToast(
-                            show = true,
                             context = context,
                             text = context.getString(R.string.register_failed)
                         )
@@ -107,7 +106,6 @@ fun RegisterScreen(
                         hasRegistered()
                         saveUser(username,password)
                         showToast(
-                            true,
                             context,
                             context.getString(R.string.registered_successfully)
                         )

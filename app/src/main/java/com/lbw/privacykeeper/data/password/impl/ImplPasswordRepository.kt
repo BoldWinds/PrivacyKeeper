@@ -1,7 +1,6 @@
 package com.lbw.privacykeeper.data.password.impl
 
 import android.content.Context
-import androidx.compose.material3.contentColorFor
 import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.utils.EncryptPassword
@@ -31,20 +30,11 @@ class ImplPasswordRepository(
     }
 
     override suspend fun readAll(): List<Password> {
-        try {
-            val list = mutableListOf<Password>()
-            Utils.getAllFileNames(file).forEach {
-                list.add(read(it))
-            }
-            return list
-        }catch (e : Exception){
-            showToast(
-                true,
-                context = context,
-                text = e.toString()
-            )
-            return mutableListOf<Password>()
+        val list = mutableListOf<Password>()
+        Utils.getAllFileNames(file).forEach {
+            list.add(read(it))
         }
+        return list
     }
 
     override suspend fun delete(filename: String) {

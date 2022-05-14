@@ -70,10 +70,8 @@ class BiometricCheck (
             val biometricPrompt = BiometricPrompt.Builder(biometricCheckParameters.context)
                 .apply {
                     setTitle(biometricCheckParameters.context.getString(R.string.confirm_transaction))
-                //    setDescription("Description")
                     setNegativeButton(biometricCheckParameters.context.getString(R.string.cancel),mainExecutor) { _, _ ->
                         showToast(
-                            true,
                             biometricCheckParameters.context,
                             "Authentication Cancelled"
                         )
@@ -82,7 +80,10 @@ class BiometricCheck (
                 }.build()
 
             biometricPrompt.authenticate(getCancellationSignal(),mainExecutor,authenticationCallback)
+        }else{
+            //添加密码认证
         }
+
     }
 
 

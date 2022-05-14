@@ -9,16 +9,16 @@
     <application
         android:name="com.lbw.privacykeeper.PrivacyKeeperApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_lock_fill0_wght400_grad0_opsz48"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_lock_fill0_wght400_grad0_opsz48"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PrivacyKeeperV1">
+        android:theme="@style/Theme.App.SplashScreen">
         <activity
             android:name="com.lbw.privacykeeper.ui.MainActivity"
+            android:theme="@style/Theme.App.SplashScreen"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.PrivacyKeeperV1">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

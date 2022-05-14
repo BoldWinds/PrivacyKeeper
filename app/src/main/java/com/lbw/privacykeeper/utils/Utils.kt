@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.ui.text.AnnotatedString
 import com.lbw.privacykeeper.model.User
+import com.lbw.privacykeeper.ui.utils.UriType
 import java.io.File
 
 
@@ -30,12 +31,10 @@ class Utils {
 
         //封装Toast
         fun showToast(
-            show : Boolean,
             context: Context,
             text : String
         ) {
-            if (show)
-                Toast.makeText(context,text, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,text, Toast.LENGTH_SHORT).show()
         }
 
         //获取file这个目录下所有的文件名
@@ -64,7 +63,7 @@ class Utils {
         //在app关闭时删除所有解密的文件
         fun deleteAllDecrypted(context: Context){
             val root = context.filesDir
-
+            //删除已解密文件
             val imageRoot = File(root,"images")
             if (imageRoot.exists()){
                 val decryptedRoot = File(imageRoot,"decrypted")
@@ -74,7 +73,7 @@ class Utils {
                     }
                 }
             }
-
+            //删除以解密视频
             val videoRoot = File(root,"videos")
             if (videoRoot.exists()){
                 val decryptedRoot = File(videoRoot,"decrypted")
@@ -86,11 +85,19 @@ class Utils {
             }
         }
 
-        fun getUriName(uri : Uri) : String{
+        fun getRandomName(uri : Uri,uriType: UriType) : String{
+            val str : String = (0..100000).random().toString()
+            if(uriType == UriType.Image){
+                return "image:$str"
+            }else{
+                return "video:$str"
+            }
+            /*Log.d("uri",uri.toString())
             val str = uri.toString()
             val index = str.lastIndexOf("/")
             val str2 =  str.substring(index)
-            return str2.replace("%","0")
+            Log.d("uri",str2)
+            return str2.replace("%","0")*/
         }
 
     }

@@ -183,15 +183,12 @@ fun AppNavGraph(
                     .fillMaxHeight(0.9f),
                 contentAlignment = Alignment.Center
             ){
-                if (!job.isCompleted){
-                    LoadingAnimation()
-                }
-                if(job.isCompleted){
+          //      if(job.isCompleted){
                     val file = File(File(File(context.filesDir,"videos"),"decrypted"),filename)
                     val uri = Uri.fromFile(file)
-                    //TODO 等待解密完成之后再打开
                     ExoPlayer(uri = uri)
-                }
+           //     }
+                 //   LoadingAnimation()
             }
 
         }

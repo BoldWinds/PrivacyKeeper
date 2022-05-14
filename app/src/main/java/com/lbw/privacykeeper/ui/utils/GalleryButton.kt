@@ -49,7 +49,10 @@ fun GalleryButton(
                 galleryLauncher.launch("video/*")
             }
         } else {
-            showToast(true,context, context.getString(R.string.permission_denied))
+            showToast(
+                context,
+                context.getString(R.string.permission_denied)
+            )
         }
     }
 

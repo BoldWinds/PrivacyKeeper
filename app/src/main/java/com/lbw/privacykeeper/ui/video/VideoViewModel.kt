@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.video.VideoRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
+import com.lbw.privacykeeper.ui.utils.UriType
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import com.lbw.privacykeeper.utils.Utils
@@ -39,7 +40,7 @@ class VideoViewModel(
     fun saveVideo(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
-                videoRepository.save(uri, Utils.getUriName(uri))
+                videoRepository.save(uri, Utils.getRandomName(uri,UriType.Video))
         }
     }
 

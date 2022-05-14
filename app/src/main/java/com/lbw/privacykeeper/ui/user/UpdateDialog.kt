@@ -36,7 +36,6 @@ fun UpdateDialog(
                 savePassword(password)
                 closeDialog()
                 showToast(
-                    show = true,
                     context = context,
                     text = context.getString(R.string.save_succeed)
                 )

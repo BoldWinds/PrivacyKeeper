@@ -26,9 +26,7 @@ class ImplVideoRepository(
 
     //加密保存文件
     override suspend fun save(uri: Uri,filename:String) {
-        return withContext(Dispatchers.IO){
-            encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Video)
-        }
+        encrypt.encrypt(uri = uri, fileName = filename, uriType = UriType.Video)
     }
 
     //返回所有加密文件的文件名

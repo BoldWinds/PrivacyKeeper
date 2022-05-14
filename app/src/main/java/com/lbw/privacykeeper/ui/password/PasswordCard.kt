@@ -144,7 +144,6 @@ fun CopyPasswordButton(
             )
 
             showToast(
-                show = true,
                 context = context,
                 text = context.getString(R.string.has_copied)
             )

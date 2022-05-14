@@ -35,4 +35,6 @@
     <string name="show_video">show video</string>
     <string name="delete">delete</string>
     <string name="confirm_delete">Confirm to delete</string>
+    <string name="rename_succeed">Rename succeed</string>
+    <string name="delete_succeed">Delete succeed</string>
 </resources>

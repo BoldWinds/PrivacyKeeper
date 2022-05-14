@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
 
-//这是别人写的轮子
 @Composable
 fun LoadingAnimation(
     modifier: Modifier = Modifier,

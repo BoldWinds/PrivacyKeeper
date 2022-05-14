@@ -17,7 +17,6 @@ import com.lbw.privacykeeper.ui.utils.CommonTextField
 import com.lbw.privacykeeper.ui.utils.PasswordTextField
 import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
-import java.lang.Exception
 
 @Composable
 fun SavePasswordDialog(
@@ -93,13 +92,11 @@ fun SavePasswordDialog(
                             closeDialog()
                                 savePassword(Password(website,username, password))
                                 showToast(
-                                    show = true,
                                     context = context,
                                     text = context.getString(R.string.save_succeed)
                                 )
                         }else{
                             showToast(
-                                show=true,
                                 context = context,
                                 text = context.getString(R.string.input_error)
                             )
