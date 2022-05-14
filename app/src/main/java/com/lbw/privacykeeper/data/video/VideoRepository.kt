@@ -15,4 +15,6 @@ interface VideoRepository {
 
     suspend fun delete(filename: String)
 
+    suspend fun deleteDecrypted()
+
 }

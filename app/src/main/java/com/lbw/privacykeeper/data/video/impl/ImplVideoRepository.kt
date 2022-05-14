@@ -51,6 +51,15 @@ class ImplVideoRepository(
         }
     }
 
+    override suspend fun deleteDecrypted() {
+        return withContext(Dispatchers.IO){
+            val list = Utils.getAllFileNames(decryptedRoot)
+            list.forEach {name->
+                File(decryptedRoot,name).delete()
+            }
+        }
+    }
+
     //对文件进行解密  并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
         return withContext(Dispatchers.IO){

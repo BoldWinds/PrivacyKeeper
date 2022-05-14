@@ -19,8 +19,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun LoadingAnimation(
-    show : Boolean = true,
     modifier: Modifier = Modifier,
+    show : Boolean = true,
     circleSize: Dp = 25.dp,
     circleColor: Color = MaterialTheme.colors.primary,
     spaceBetween: Dp = 10.dp,

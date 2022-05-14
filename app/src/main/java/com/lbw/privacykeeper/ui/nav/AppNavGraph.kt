@@ -5,10 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,23 +15,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.lbw.privacykeeper.data.AppContainer
-import com.lbw.privacykeeper.ui.image.ImageScreen
-import com.lbw.privacykeeper.ui.image.ImageViewModel
-import com.lbw.privacykeeper.ui.image.ThirdImageViewModel
+import com.lbw.privacykeeper.ui.image.*
 import com.lbw.privacykeeper.ui.password.PasswordScreen
 import com.lbw.privacykeeper.ui.password.PasswordViewModel
 import com.lbw.privacykeeper.ui.user.UserScreen
 import com.lbw.privacykeeper.ui.user.UserViewModel
-import com.lbw.privacykeeper.ui.utils.ExoPlayer
-import com.lbw.privacykeeper.ui.utils.LoadingAnimation
-import com.lbw.privacykeeper.ui.video.TertiaryVideoViewModel
-import com.lbw.privacykeeper.ui.video.VideoScreen
-import com.lbw.privacykeeper.ui.video.VideoViewModel
+import com.lbw.privacykeeper.ui.video.*
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.File
-import kotlin.concurrent.fixedRateTimer
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -72,8 +60,8 @@ fun AppNavGraph(
         }
 
         composable(route = AppScreen.Image.route){
-            val imageViewModel : ImageViewModel = viewModel(
-                factory = ImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
+            val imageViewModel : PrimaryImageViewModel = viewModel(
+                factory = PrimaryImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
             )
             ImageScreen(
                 setUri = imageViewModel::setNewUri,
@@ -84,8 +72,8 @@ fun AppNavGraph(
         }
 
         composable(route = AppScreen.Video.route){
-            val videoViewModel : VideoViewModel = viewModel(
-                factory = VideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
+            val videoViewModel : PrimaryVideoViewModel = viewModel(
+                factory = PrimaryVideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
             )
             VideoScreen(
                 setUri=videoViewModel::setNewUri,
@@ -108,8 +96,8 @@ fun AppNavGraph(
         }
 
         composable(route = AppSecondaryScreen.Image.route){
-            val imageViewModel : ImageViewModel = viewModel(
-                factory = ImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
+            val imageViewModel : SecondaryImageViewModel = viewModel(
+                factory = SecondaryImageViewModel.provideFactory(appContainer.imageRepository)
             )
             imageViewModel.getFilenames()
             ImageScreen(
@@ -125,8 +113,8 @@ fun AppNavGraph(
         }
 
         composable(route = AppSecondaryScreen.Video.route){
-            val videoViewModel : VideoViewModel = viewModel(
-                factory = VideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
+            val videoViewModel : SecondaryVideoViewModel = viewModel(
+                factory = SecondaryVideoViewModel.provideFactory(appContainer.videoRepository)
             )
             videoViewModel.getFilenames()
             VideoScreen(
@@ -150,8 +138,8 @@ fun AppNavGraph(
                 }
             )
         ){entry->
-            val imageViewModel :ThirdImageViewModel = viewModel(
-                factory = ThirdImageViewModel.provideFactory(appContainer.imageRepository)
+            val imageViewModel : TertiaryImageViewModel = viewModel(
+                factory = TertiaryImageViewModel.provideFactory(appContainer.imageRepository)
             )
             val filename : String = entry.arguments?.getString("name")!!
             Log.d("filename",filename)
@@ -177,23 +165,19 @@ fun AppNavGraph(
             val videoViewModel : TertiaryVideoViewModel= viewModel(
                 factory = TertiaryVideoViewModel.provideFactory(appContainer.videoRepository)
             )
+            videoViewModel.deleteDecrypted()
             val filename = entry.arguments?.getString("name")!!
             val context = LocalContext.current
 
             videoViewModel.setFilename(entry.arguments?.getString("name")!!)
             videoViewModel.readVideo()
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.9f),
-                contentAlignment = Alignment.Center
-            ){
-                val file = File(File(File(context.filesDir,"videos"),"decrypted"),filename)
-                val uri = Uri.fromFile(file)
-                ExoPlayer(uri = uri, show = videoViewModel.isJobFinished)
-                LoadingAnimation(show = !videoViewModel.isJobFinished)
-            }
+            val uri = Uri.fromFile(File(File(File(context.filesDir,"videos"),"decrypted"),filename))
+
+            DisplayVideo(
+                showPlayer = videoViewModel.isJobFinished,
+                uri = uri
+            )
 
         }
     }

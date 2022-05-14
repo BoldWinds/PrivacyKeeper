@@ -1,7 +1,6 @@
 package com.lbw.privacykeeper.ui.video
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,7 +17,7 @@ import com.lbw.privacykeeper.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class VideoViewModel(
+class PrimaryVideoViewModel(
     private val videoRepository: VideoRepository,
     private val biometricCheckParameters: BiometricCheckParameters
 ):ViewModel() {
@@ -44,6 +43,22 @@ class VideoViewModel(
         }
     }
 
+    companion object{
+        fun provideFactory(
+            videoRepository: VideoRepository,
+            biometricCheckParameters: BiometricCheckParameters
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
+            @Suppress("main")
+            override fun <T : ViewModel> create(modelClass : Class<T>):T{
+                return PrimaryVideoViewModel(videoRepository, biometricCheckParameters) as T
+            }
+        }
+    }
+}
+
+class SecondaryVideoViewModel(
+    private val videoRepository: VideoRepository
+):ViewModel(){
     fun rename(newFilename : String){
         viewModelScope.launch(Dispatchers.IO) {
             videoRepository.renameFile(oldFilename = oldFilename, newFilename = newFilename)
@@ -83,15 +98,13 @@ class VideoViewModel(
         }
     }
 
-
     companion object{
         fun provideFactory(
             videoRepository: VideoRepository,
-            biometricCheckParameters: BiometricCheckParameters
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return VideoViewModel(videoRepository, biometricCheckParameters) as T
+                return SecondaryVideoViewModel(videoRepository) as T
             }
         }
     }
@@ -110,17 +123,16 @@ class TertiaryVideoViewModel(
     }
 
     fun readVideo(){
-        val job = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             videoRepository.read(filename)
-        }
-        if (job.isCompleted){
-            isJobFinished = true
-            Log.d("job","finish")
+            isJobFinished  = true
         }
     }
 
     fun deleteDecrypted(){
-
+        viewModelScope.launch {
+            videoRepository.deleteDecrypted()
+        }
     }
 
     companion object{

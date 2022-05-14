@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import com.lbw.privacykeeper.data.image.ImageRepository
 import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.utils.EncryptFromUri
+import com.lbw.privacykeeper.utils.Utils
 import com.lbw.privacykeeper.utils.Utils.Companion.getAllFileNames
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -57,6 +58,15 @@ class ImplImageRepository(
                 }else{
                     file.absolutePath
                 }
+    }
+
+    override suspend fun deleteDecrypted() {
+        return withContext(Dispatchers.IO){
+            val list = Utils.getAllFileNames(decryptedRoot)
+            list.forEach {name->
+                File(decryptedRoot,name).delete()
+            }
+        }
     }
 
     //真正解密文件并得到ImageBitmap

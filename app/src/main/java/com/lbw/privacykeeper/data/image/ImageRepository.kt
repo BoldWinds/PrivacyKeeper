@@ -15,4 +15,6 @@ interface ImageRepository {
     suspend fun getImageBitmap(filename: String):ImageBitmap
 
     suspend fun delete(filename: String)
+
+    suspend fun deleteDecrypted()
 }

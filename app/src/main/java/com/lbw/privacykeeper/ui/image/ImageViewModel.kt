@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
-class ImageViewModel(
+class PrimaryImageViewModel(
     private val imageRepository : ImageRepository,
     private val biometricCheckParameters: BiometricCheckParameters,
 ):ViewModel() {
@@ -39,7 +39,6 @@ class ImageViewModel(
     fun setNewUri(newUri: Uri){
         uri = newUri
     }
-
     fun saveImage(){
         viewModelScope.launch(Dispatchers.IO) {
             if (uri!= Uri.EMPTY)
@@ -47,6 +46,23 @@ class ImageViewModel(
         }
     }
 
+
+    companion object{
+        fun provideFactory(
+            imageRepository: ImageRepository,
+            biometricCheckParameters: BiometricCheckParameters
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
+            @Suppress("main")
+            override fun <T : ViewModel> create(modelClass : Class<T>):T{
+                return PrimaryImageViewModel(imageRepository, biometricCheckParameters) as T
+            }
+        }
+    }
+}
+
+class SecondaryImageViewModel(
+    private val imageRepository: ImageRepository
+):ViewModel(){
 
     var filenames : List<String> by mutableStateOf<List<String>>(mutableListOf<String>())
 
@@ -90,21 +106,20 @@ class ImageViewModel(
         }
     }
 
-
     companion object{
         fun provideFactory(
             imageRepository: ImageRepository,
-            biometricCheckParameters: BiometricCheckParameters
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return ImageViewModel(imageRepository, biometricCheckParameters) as T
+                return SecondaryImageViewModel(imageRepository) as T
             }
         }
     }
 }
 
-class ThirdImageViewModel(
+
+class TertiaryImageViewModel(
     private val imageRepository : ImageRepository,
 ):ViewModel(){
 
@@ -126,7 +141,7 @@ class ThirdImageViewModel(
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return ThirdImageViewModel(imageRepository) as T
+                return TertiaryImageViewModel(imageRepository) as T
             }
         }
     }
