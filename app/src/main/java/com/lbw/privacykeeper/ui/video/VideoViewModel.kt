@@ -15,7 +15,6 @@ import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import com.lbw.privacykeeper.utils.Utils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PrimaryVideoViewModel(
@@ -43,6 +42,17 @@ class PrimaryVideoViewModel(
                 videoRepository.save(uri, Utils.getRandomName(uri, UriType.Video))
         }
     }
+
+    var showLoading by mutableStateOf(false)
+
+    fun openLoading(){
+        showLoading = true
+    }
+
+    fun closeLoading(){
+        showLoading = false
+    }
+
 
     companion object{
         fun provideFactory(

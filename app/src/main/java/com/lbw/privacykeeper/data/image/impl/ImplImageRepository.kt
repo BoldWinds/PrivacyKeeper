@@ -36,13 +36,14 @@ class ImplImageRepository(
 
     //返回所有加密文件的文件名
     override suspend fun readAllFilenames(): List<String> {
-        return getAllFileNames(encryptedRoot)
+        return withContext(Dispatchers.IO){
+            getAllFileNames(encryptedRoot)
+        }
 
     }
 
     //重命名文件
     override suspend fun renameFile(oldFilename: String, newFilename:String) {
-
         return withContext(Dispatchers.IO){
             encrypt.rename(oldFilename,newFilename, UriType.Image)
         }
@@ -51,13 +52,15 @@ class ImplImageRepository(
 
     //对文件进行解密  并返回解密后的绝对路径
     override suspend fun read(filename: String): String {
-        val file = File(decryptedRoot,filename)
+        return withContext(Dispatchers.IO){
+            val file = File(decryptedRoot,filename)
 
-        return  if(!file.exists()){
-                    encrypt.decrypt(filename, UriType.Image)
-                }else{
-                    file.absolutePath
-                }
+            if(!file.exists()){
+                encrypt.decrypt(filename, UriType.Image)
+            }else{
+                file.absolutePath
+            }
+        }
     }
 
     override suspend fun deleteDecrypted() {
@@ -71,7 +74,9 @@ class ImplImageRepository(
 
     //真正解密文件并得到ImageBitmap
     override suspend fun getImageBitmap(filename: String): ImageBitmap {
-        return decodeFile(read(filename)).asImageBitmap()
+        return withContext(Dispatchers.IO){
+            decodeFile(read(filename)).asImageBitmap()
+        }
     }
 
     override suspend fun delete(filename: String) {
