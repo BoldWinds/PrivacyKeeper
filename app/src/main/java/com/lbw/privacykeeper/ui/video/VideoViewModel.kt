@@ -15,6 +15,7 @@ import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import com.lbw.privacykeeper.utils.Utils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PrimaryVideoViewModel(
@@ -125,6 +126,8 @@ class TertiaryVideoViewModel(
     fun readVideo(){
         viewModelScope.launch(Dispatchers.IO) {
             videoRepository.read(filename)
+            //多留一点时间
+            delay(2000)
             isJobFinished  = true
         }
     }

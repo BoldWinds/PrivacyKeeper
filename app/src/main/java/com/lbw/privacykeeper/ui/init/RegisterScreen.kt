@@ -1,5 +1,6 @@
 package com.lbw.privacykeeper.ui.init
 
+import android.content.Context
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,9 +23,9 @@ import privacykeeperv1.R
 @Composable
 fun RegisterScreen(
     showRegisterScreen: Boolean,
-    saveUser : (String,String)->Unit,
+    saveUser : (String, String, Context)->Unit,
     showMainScreen : ()->Unit,
-    hasRegistered : ()->Unit,
+    hasRegistered : (Context)->Unit,
 ) {
     val context = LocalContext.current
 
@@ -103,8 +104,8 @@ fun RegisterScreen(
                             text = context.getString(R.string.register_failed)
                         )
                     }else{
-                        hasRegistered()
-                        saveUser(username,password)
+                        hasRegistered(context)
+                        saveUser(username,password,context)
                         showToast(
                             context,
                             context.getString(R.string.registered_successfully)
@@ -134,7 +135,7 @@ fun PreviewRegisterScreen() {
     PrivacyKeeperTheme{
         RegisterScreen(
             true,
-            saveUser = {_:String,_:String->},
+            saveUser = {_,_,_->},
             showMainScreen = {  },
             hasRegistered = {},
         )

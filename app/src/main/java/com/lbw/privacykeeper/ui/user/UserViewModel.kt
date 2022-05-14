@@ -60,9 +60,7 @@ class UserViewModel(
     }
 
     fun updateUser(password: String){
-        Log.d("password",password)
         viewModelScope.launch {
-            //TODO 解密密码
             preferenceRepository.saveString("password",password)
         }
     }

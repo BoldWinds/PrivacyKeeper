@@ -87,11 +87,36 @@ class EncryptFromUri(
     }
 
     fun rename(oldName:String,newName:String,uriType: UriType){
+        Utils.deleteAllDecrypted(context = context)
         val rootFile = if (uriType== UriType.Image)  File(context.filesDir,"images")
                         else    File(context.filesDir,"videos")
-        val encryptedFile = File(File(rootFile,"encrypted"),oldName)
-        val decryptedFile = File(decrypt(oldName, uriType))
-        encrypt(Uri.fromFile(decryptedFile),newName,uriType)
-        encryptedFile.delete()
+        val encryptedRoot = File(rootFile,"encrypted")
+        val oldEncryptedFile = EncryptedFile.Builder(
+            File(encryptedRoot,oldName),
+            context,
+            mainKeyAlias,
+            EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+        ).build()
+
+        val newEncryptedFile = EncryptedFile.Builder(
+            File(encryptedRoot,newName),
+            context,
+            mainKeyAlias,
+            EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+        ).build()
+
+        val fis = oldEncryptedFile.openFileInput()
+        val bufferedInputStream = BufferedInputStream(fis)
+        val fos = newEncryptedFile.openFileOutput()
+        val byteArray = ByteArray(1024)
+        while (bufferedInputStream.read(byteArray)!=-1){
+            fos.write(byteArray)
+        }
+
+        fos.close()
+        bufferedInputStream.close()
+        fis.close()
+        //删除旧的加密文件
+        File(encryptedRoot,oldName).delete()
     }
 }

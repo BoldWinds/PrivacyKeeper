@@ -1,6 +1,7 @@
 package com.lbw.privacykeeper.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.ui.init.GuideScreen
@@ -21,7 +22,7 @@ fun PrivacyKeeperApp(
         factory = MainViewModel.provideFactory(preferenceRepository = appContainer.preferenceRepository)
     )
 
-    mainViewModel.setShowGuidance()
+    mainViewModel.setShowGuidance(context = LocalContext.current)
 
     PrivacyKeeperTheme(mainViewModel.themeMode){
 
