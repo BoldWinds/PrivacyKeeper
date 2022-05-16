@@ -1,7 +1,10 @@
 package com.lbw.privacykeeper.ui.utils
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -12,7 +15,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.utils.Utils
 import privacykeeperv1.R
 
@@ -20,12 +25,12 @@ import privacykeeperv1.R
 //给Dialog提升代码复用性
 @Composable
 fun CustomDialog(
-    showDialog : Boolean,
-    title : String,
-    closeDialog: ()->Unit,
-    onConfirm : ()->Unit,
-    onDismiss : ()->Unit,
-    content : @Composable ()->Unit
+    showDialog : Boolean = false,
+    title : String = "Dialog",
+    closeDialog: ()->Unit = {},
+    onConfirm : ()->Unit = {},
+    onDismiss : ()->Unit = {},
+    content : @Composable ()->Unit = {}
 ) {
 
     if (showDialog){
@@ -75,6 +80,19 @@ fun CustomDialog(
         )
     }
 
+}
+
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewCustomDialog() {
+    PrivacyKeeperTheme {
+        Box(
+          modifier = Modifier.fillMaxSize()
+        ){
+            CustomDialog(showDialog = true)
+        }
+    }
 }
 
 
