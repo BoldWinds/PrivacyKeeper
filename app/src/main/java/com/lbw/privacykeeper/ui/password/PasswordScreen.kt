@@ -12,8 +12,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.PermissionDialog
@@ -38,7 +41,17 @@ fun PasswordScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.weight(0.4f))
+        Spacer(modifier = Modifier.weight(0.2f))
+
+        Text(
+            text = stringResource(id = R.string.secure_privacy),
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 24.sp,
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight(2),
+        )
+
+        Spacer(modifier = Modifier.weight(0.15f))
 
         Button(onClick = { openDialog() }) {
             Text(text = stringResource(id = R.string.save_password))

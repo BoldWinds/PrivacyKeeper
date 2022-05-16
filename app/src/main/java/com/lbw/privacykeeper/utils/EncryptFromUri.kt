@@ -37,7 +37,7 @@ class EncryptFromUri(
             val inputStream = encryptedFile.openFileInput()
             val bufferedInputStream = BufferedInputStream(inputStream)
             val fileOutputStream = FileOutputStream(decryptedFile)
-            var byteArray = ByteArray(1024)
+            val byteArray = ByteArray(1024)
             while(bufferedInputStream.read(byteArray)!=-1){
                 fileOutputStream.write(byteArray)
             }
@@ -83,7 +83,7 @@ class EncryptFromUri(
                 val bufferedInputStream = BufferedInputStream(fis)
                 val fos = encryptedFile.openFileOutput()
 
-                var byteArray = ByteArray(512)
+                val byteArray = ByteArray(512)
                 while(bufferedInputStream.read(byteArray)!=-1){
                     fos.write(byteArray)
                 }

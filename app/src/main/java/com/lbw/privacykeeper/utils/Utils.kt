@@ -85,6 +85,7 @@ class Utils {
             }
         }
 
+        //防止名字出现一些奇奇怪怪的错误
         fun getRandomName(uri : Uri,uriType: UriType) : String{
             Log.d("uri",uri.toString())
             val str = uri.toString()

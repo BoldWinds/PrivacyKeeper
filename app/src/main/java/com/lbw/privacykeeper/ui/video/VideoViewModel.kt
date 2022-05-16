@@ -72,20 +72,11 @@ class PrimaryVideoViewModel(
     }
 
     fun saveVideo(){
-        viewModelScope.launch(Dispatchers.IO) {
-            if (uri!= Uri.EMPTY)
+         viewModelScope.launch(Dispatchers.IO) {
+            if (uri!= Uri.EMPTY){
                 videoRepository.save(uri, Utils.getRandomName(uri, UriType.Video))
+            }
         }
-    }
-
-    var showLoading by mutableStateOf(false)
-
-    fun openLoading(){
-        showLoading = true
-    }
-
-    fun closeLoading(){
-        showLoading = false
     }
 
 

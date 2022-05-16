@@ -12,15 +12,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.ui.nav.AppTertiaryScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.*
+import com.lbw.privacykeeper.utils.Utils
 import privacykeeperv1.R
 
 
@@ -33,6 +38,7 @@ fun ImageScreen(
     closePermissionDialog : ()->Unit,
     checkPermission : (String)->Unit
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,11 +46,27 @@ fun ImageScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
-        Spacer(modifier = Modifier.weight(0.4f))
+        Spacer(modifier = Modifier.weight(0.2f))
+
+        Text(
+            text = stringResource(id = R.string.secure_privacy),
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 24.sp,
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight(2),
+        )
+
+        Spacer(modifier = Modifier.weight(0.15f))
 
         GalleryButton(
             setUri = setUri, 
-            save = { saveImage() }, 
+            save = {
+                saveImage()
+                Utils.showToast(
+                    context = context,
+                    text = context.getString(R.string.save_succeed)
+                )
+            },
             uriType = UriType.Image
         )
 
@@ -76,7 +98,7 @@ fun PreviewImageScreen() {
             setUri = {},
             saveImage = {},
             openBiometricCheck = {},
-            showPermissionDialog =true,
+            showPermissionDialog =false,
             closePermissionDialog ={},
             checkPermission ={}
         )

@@ -12,16 +12,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.model.UriType
 import com.lbw.privacykeeper.ui.nav.AppTertiaryScreen
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
 import com.lbw.privacykeeper.ui.utils.*
+import com.lbw.privacykeeper.utils.Utils
 import privacykeeperv1.R
+
 
 @Composable
 fun VideoScreen(
@@ -31,52 +37,52 @@ fun VideoScreen(
     showPermissionDialog : Boolean,
     closePermissionDialog : ()->Unit,
     checkPermission : (String)->Unit,
-    showLoading : Boolean = false
 ) {
-    if (!showLoading){
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ){
-            Spacer(modifier = Modifier.weight(0.4f))
+    val context = LocalContext.current
 
-            GalleryButton(
-                setUri = setUri,
-                save = {
-                    saveVideo()
-                },
-                uriType = UriType.Video
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ){
+        Spacer(modifier = Modifier.weight(0.2f))
 
-            Spacer(modifier = Modifier.weight(0.1f))
+        Text(
+            text = stringResource(id = R.string.secure_privacy),
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 24.sp,
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight(2),
+        )
 
-            Button(
-                onClick = {
-                    openBiometricCheck()
-                }
-            ){
-                Text(text = stringResource(id = R.string.show_video))
+        Spacer(modifier = Modifier.weight(0.15f))
+
+        GalleryButton(
+            setUri = setUri,
+            save = {
+                saveVideo()
+                Utils.showToast(
+                    context = context,
+                    text = context.getString(R.string.save_succeed)
+                )
+            },
+            uriType = UriType.Video
+        )
+
+        Spacer(modifier = Modifier.weight(0.1f))
+
+        Button(
+            onClick = {
+                openBiometricCheck()
             }
-
-            Spacer(modifier = Modifier.weight(0.4f))
-        }
-    }else{
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.9f),
-            contentAlignment = Alignment.Center
         ){
-            LoadingAnimation(show = showLoading)
+            Text(text = stringResource(id = R.string.show_video))
         }
-    }
 
-    LoadingAnimation(
-        show = showLoading
-    )
+        Spacer(modifier = Modifier.weight(0.4f))
+    }
 
     PermissionDialog(
         showPermissionDialog = showPermissionDialog,

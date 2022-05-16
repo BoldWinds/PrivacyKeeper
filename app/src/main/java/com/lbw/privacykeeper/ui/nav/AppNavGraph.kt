@@ -96,16 +96,11 @@ fun AppNavGraph(
 
             VideoScreen(
                 setUri=videoViewModel::setNewUri,
-                saveVideo= {
-                    videoViewModel.openLoading()
-                    videoViewModel.saveVideo()
-                    videoViewModel.closeLoading()
-                },
+                saveVideo= videoViewModel::saveVideo,
                 openBiometricCheck = videoViewModel::openBiometricCheck,
                 showPermissionDialog = videoViewModel.showPermissionDialog,
                 closePermissionDialog = videoViewModel::closePermissionDialog,
                 checkPermission = videoViewModel::checkPermission,
-                showLoading = videoViewModel.showLoading
             )
         }
 
