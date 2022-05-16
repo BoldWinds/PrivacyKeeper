@@ -17,8 +17,6 @@ class UserViewModel(
     private val biometricCheckParameters: BiometricCheckParameters
 ):ViewModel() {
 
-
-
     var permission by mutableStateOf(false)
 
     fun closeUpdateDialog(){

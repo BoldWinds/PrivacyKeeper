@@ -45,10 +45,7 @@ class EncryptFromUri(
 
             return decryptedFile.absolutePath
         }catch (e : IOException){
-            Utils.showToast(
-                context,
-                "Decrypt error:$e"
-            )
+            Log.d("decrypt",e.toString())
             return ""
         }
     }
@@ -69,8 +66,11 @@ class EncryptFromUri(
                 encryptedRoot.mkdirs()
             }
 
+            val targetFile = File(encryptedRoot,fileName)
+            if (targetFile.exists())    return
+
             val encryptedFile = EncryptedFile.Builder(
-                File(encryptedRoot,fileName),
+                targetFile,
                 context,
                 mainKeyAlias,
                 EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
@@ -93,10 +93,7 @@ class EncryptFromUri(
                 fos.close()
             }
         }catch (e : IOException){
-            Utils.showToast(
-                context,
-                "Encrypt error:$e"
-            )
+            Log.d("encrypt",e.toString())
         }
 
     }
@@ -135,10 +132,7 @@ class EncryptFromUri(
             //删除旧的加密文件
             File(encryptedRoot,oldName).delete()
         }catch (e:IOException){
-            Utils.showToast(
-                context,
-                "Rename error: $e"
-            )
+            Log.d("rename",e.toString())
         }
 
     }

@@ -13,6 +13,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        Thread.sleep(1000)
         val appContainer = (application as PrivacyKeeperApplication).container
         val biometricCheckParameters = (application as PrivacyKeeperApplication).biometricCheckParameters
 

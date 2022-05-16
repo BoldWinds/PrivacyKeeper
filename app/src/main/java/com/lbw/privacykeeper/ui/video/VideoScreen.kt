@@ -30,37 +30,53 @@ fun VideoScreen(
     openBiometricCheck: ()->Unit,
     showPermissionDialog : Boolean,
     closePermissionDialog : ()->Unit,
-    checkPermission : (String)->Unit
+    checkPermission : (String)->Unit,
+    showLoading : Boolean = false
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ){
-        Spacer(modifier = Modifier.weight(0.4f))
-
-        GalleryButton(
-            setUri = setUri,
-            save = {
-                saveVideo()
-            },
-            uriType = UriType.Video
-        )
-
-        Spacer(modifier = Modifier.weight(0.1f))
-
-        Button(
-            onClick = {
-                openBiometricCheck()
-            }
+    if (!showLoading){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ){
-            Text(text = stringResource(id = R.string.show_video))
-        }
+            Spacer(modifier = Modifier.weight(0.4f))
 
-        Spacer(modifier = Modifier.weight(0.4f))
+            GalleryButton(
+                setUri = setUri,
+                save = {
+                    saveVideo()
+                },
+                uriType = UriType.Video
+            )
+
+            Spacer(modifier = Modifier.weight(0.1f))
+
+            Button(
+                onClick = {
+                    openBiometricCheck()
+                }
+            ){
+                Text(text = stringResource(id = R.string.show_video))
+            }
+
+            Spacer(modifier = Modifier.weight(0.4f))
+        }
+    }else{
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.9f),
+            contentAlignment = Alignment.Center
+        ){
+            LoadingAnimation(show = showLoading)
+        }
     }
+
+    LoadingAnimation(
+        show = showLoading
+    )
 
     PermissionDialog(
         showPermissionDialog = showPermissionDialog,
@@ -76,13 +92,11 @@ fun VideoScreen(
 @Composable
 fun PreviewImageScreen() {
     PrivacyKeeperTheme {
-        val navController = rememberNavController()
-
         VideoScreen(
             setUri = {},
             saveVideo = {},
             openBiometricCheck = {},
-            showPermissionDialog = true,
+            showPermissionDialog = false,
             closePermissionDialog = {},
             checkPermission = {}
         )

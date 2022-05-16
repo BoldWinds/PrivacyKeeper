@@ -2,7 +2,6 @@ package com.lbw.privacykeeper.ui.nav
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -97,11 +96,16 @@ fun AppNavGraph(
 
             VideoScreen(
                 setUri=videoViewModel::setNewUri,
-                saveVideo= videoViewModel::saveVideo,
+                saveVideo= {
+                    videoViewModel.openLoading()
+                    videoViewModel.saveVideo()
+                    videoViewModel.closeLoading()
+                },
                 openBiometricCheck = videoViewModel::openBiometricCheck,
                 showPermissionDialog = videoViewModel.showPermissionDialog,
                 closePermissionDialog = videoViewModel::closePermissionDialog,
-                checkPermission = videoViewModel::checkPermission
+                checkPermission = videoViewModel::checkPermission,
+                showLoading = videoViewModel.showLoading
             )
         }
 
@@ -163,7 +167,6 @@ fun AppNavGraph(
                 factory = TertiaryImageViewModel.provideFactory(appContainer.imageRepository)
             )
             val filename : String = entry.arguments?.getString("name")!!
-            Log.d("filename",filename)
             imageViewModel.setImageBitmap(filename)
             Image(
                 bitmap = imageViewModel.getImageBitmap(),

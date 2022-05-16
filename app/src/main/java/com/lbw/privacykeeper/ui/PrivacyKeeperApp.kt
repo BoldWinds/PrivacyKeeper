@@ -28,8 +28,9 @@ fun PrivacyKeeperApp(
     PrivacyKeeperTheme(mainViewModel.themeMode){
 
         GuideScreen(
-            mainViewModel.showGuidance,
-        ) {mainViewModel.openRegisterScreen()}
+            showScreen = mainViewModel.showGuidance,
+            showRegister = mainViewModel::openRegisterScreen
+        )
 
         RegisterScreen(
             showRegisterScreen = mainViewModel.showRegister,
