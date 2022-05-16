@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.password.PasswordRepository
 import com.lbw.privacykeeper.model.Password
+import com.lbw.privacykeeper.model.User
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
@@ -18,14 +19,47 @@ import kotlinx.coroutines.launch
 class PasswordViewModel(
     private val passwordRepository: PasswordRepository,
     private val biometricCheckParameters: BiometricCheckParameters,
+    private val navController: NavHostController
 ) : ViewModel(){
 
-    fun openBiometricCheck(navController: NavHostController){
+    fun openBiometricCheck(){
         val biometricCheck = BiometricCheck(
             biometricCheckParameters = biometricCheckParameters,
-            onSuccess = { navController.navigate(AppSecondaryScreen.Password.route) }
+            onSuccess = {
+                onSuccess()
+            },
+            openPermissionDialog = {
+                openPermissionDialog()
+            }
         )
         biometricCheck.launchBiometric()
+    }
+
+    var showPermissionDialog by mutableStateOf(false)
+
+    fun openPermissionDialog(){
+        showPermissionDialog = true
+    }
+
+    fun closePermissionDialog(){
+        showPermissionDialog = false
+    }
+
+    fun checkPermission(password: String){
+        if (password == user.password){
+            onSuccess()
+        }
+    }
+
+    fun onSuccess(){
+        navController.navigate(AppSecondaryScreen.Password.route)
+    }
+
+    var user by mutableStateOf(User("",""))
+
+    @JvmName("setUser1")
+    fun setUser(u : User){
+        user = u
     }
 
     var showSavePasswordDialog by mutableStateOf(false)
@@ -64,10 +98,11 @@ class PasswordViewModel(
         fun provideFactory(
             passwordRepository: PasswordRepository,
             biometricCheckParameters: BiometricCheckParameters,
+            navController: NavHostController
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return PasswordViewModel(passwordRepository, biometricCheckParameters) as T
+                return PasswordViewModel(passwordRepository, biometricCheckParameters,navController) as T
             }
         }
     }

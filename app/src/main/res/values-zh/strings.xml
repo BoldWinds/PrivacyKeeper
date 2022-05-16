@@ -38,4 +38,5 @@
     <string name="confirm_delete">确认删除</string>
     <string name="rename_succeed">重命名成功</string>
     <string name="delete_succeed">删除成功</string>
+    <string name="check_permission">身份验证</string>
 </resources>

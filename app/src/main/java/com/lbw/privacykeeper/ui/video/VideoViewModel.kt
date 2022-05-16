@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.video.VideoRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.model.UriType
+import com.lbw.privacykeeper.model.User
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import com.lbw.privacykeeper.utils.Utils
@@ -19,16 +20,50 @@ import kotlinx.coroutines.launch
 
 class PrimaryVideoViewModel(
     private val videoRepository: VideoRepository,
-    private val biometricCheckParameters: BiometricCheckParameters
+    private val biometricCheckParameters: BiometricCheckParameters,
+    private val navController: NavHostController
 ):ViewModel() {
 
-    fun openBiometricCheck(navController: NavHostController){
+    fun openBiometricCheck(){
         val biometricCheck = BiometricCheck(
             biometricCheckParameters = biometricCheckParameters,
-            onSuccess = { navController.navigate(AppSecondaryScreen.Video.route) }
+            onSuccess = {
+                onSuccess()
+            },
+            openPermissionDialog = {
+                openPermissionDialog()
+            }
         )
         biometricCheck.launchBiometric()
     }
+
+    var showPermissionDialog by mutableStateOf(false)
+
+    fun openPermissionDialog(){
+        showPermissionDialog = true
+    }
+
+    fun closePermissionDialog(){
+        showPermissionDialog = false
+    }
+
+    fun checkPermission(password: String){
+        if (password == user.password){
+            onSuccess()
+        }
+    }
+
+    fun onSuccess(){
+        navController.navigate(AppSecondaryScreen.Video.route)
+    }
+
+    var user by mutableStateOf(User("",""))
+
+    @JvmName("setUser1")
+    fun setUser(u : User){
+        user = u
+    }
+
 
     private var uri : Uri = Uri.EMPTY
 
@@ -57,15 +92,17 @@ class PrimaryVideoViewModel(
     companion object{
         fun provideFactory(
             videoRepository: VideoRepository,
-            biometricCheckParameters: BiometricCheckParameters
+            biometricCheckParameters: BiometricCheckParameters,
+            navController: NavHostController
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return PrimaryVideoViewModel(videoRepository, biometricCheckParameters) as T
+                return PrimaryVideoViewModel(videoRepository, biometricCheckParameters,navController) as T
             }
         }
     }
 }
+
 
 class SecondaryVideoViewModel(
     private val videoRepository: VideoRepository

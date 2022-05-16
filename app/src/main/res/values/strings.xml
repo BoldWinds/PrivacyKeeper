@@ -37,4 +37,5 @@
     <string name="confirm_delete">Confirm to delete</string>
     <string name="rename_succeed">Rename succeed</string>
     <string name="delete_succeed">Delete succeed</string>
+    <string name="check_permission">Check Permission</string>
 </resources>

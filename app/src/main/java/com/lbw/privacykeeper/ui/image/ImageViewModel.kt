@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import com.lbw.privacykeeper.data.image.ImageRepository
 import com.lbw.privacykeeper.ui.nav.AppSecondaryScreen
 import com.lbw.privacykeeper.model.UriType
+import com.lbw.privacykeeper.model.User
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import com.lbw.privacykeeper.utils.Utils.Companion.getRandomName
@@ -23,16 +24,45 @@ import java.lang.Exception
 class PrimaryImageViewModel(
     private val imageRepository : ImageRepository,
     private val biometricCheckParameters: BiometricCheckParameters,
+    private val navController: NavHostController
 ):ViewModel() {
 
-
-    fun openBiometricCheck(navController: NavHostController){
+    fun openBiometricCheck(){
         val biometricCheck = BiometricCheck(
             biometricCheckParameters = biometricCheckParameters,
-            onSuccess = { navController.navigate(AppSecondaryScreen.Image.route) }
+            onSuccess = {onSuccess()},
+            openPermissionDialog ={openPermissionDialog()}
         )
         biometricCheck.launchBiometric()
     }
+
+    var showPermissionDialog by mutableStateOf(false)
+
+    fun openPermissionDialog(){
+        showPermissionDialog = true
+    }
+
+    fun closePermissionDialog(){
+        showPermissionDialog = false
+    }
+
+    fun checkPermission(password: String){
+        if (password == user.password){
+            onSuccess()
+        }
+    }
+
+    fun onSuccess(){
+        navController.navigate(AppSecondaryScreen.Image.route)
+    }
+
+    var user by mutableStateOf(User("",""))
+
+    @JvmName("setUser1")
+    fun setUser(u : User){
+        user = u
+    }
+
 
     private var uri : Uri = Uri.EMPTY
 
@@ -50,11 +80,12 @@ class PrimaryImageViewModel(
     companion object{
         fun provideFactory(
             imageRepository: ImageRepository,
-            biometricCheckParameters: BiometricCheckParameters
+            biometricCheckParameters: BiometricCheckParameters,
+            navController: NavHostController
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory{
             @Suppress("main")
             override fun <T : ViewModel> create(modelClass : Class<T>):T{
-                return PrimaryImageViewModel(imageRepository, biometricCheckParameters) as T
+                return PrimaryImageViewModel(imageRepository, biometricCheckParameters,navController) as T
             }
         }
     }

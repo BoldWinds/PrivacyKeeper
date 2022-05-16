@@ -27,8 +27,10 @@ import privacykeeperv1.R
 fun VideoScreen(
     setUri: (Uri)->Unit,
     saveVideo: ()->Unit,
-    openBiometricCheck: (NavHostController)->Unit,
-    navController: NavHostController
+    openBiometricCheck: ()->Unit,
+    showPermissionDialog : Boolean,
+    closePermissionDialog : ()->Unit,
+    checkPermission : (String)->Unit
 ) {
     Column(
         modifier = Modifier
@@ -41,18 +43,31 @@ fun VideoScreen(
 
         GalleryButton(
             setUri = setUri,
-            save = { saveVideo() },
+            save = {
+                saveVideo()
+            },
             uriType = UriType.Video
         )
 
         Spacer(modifier = Modifier.weight(0.1f))
 
-        Button(onClick = {openBiometricCheck(navController)}) {
+        Button(
+            onClick = {
+                openBiometricCheck()
+            }
+        ){
             Text(text = stringResource(id = R.string.show_video))
         }
 
         Spacer(modifier = Modifier.weight(0.4f))
     }
+
+    PermissionDialog(
+        showPermissionDialog = showPermissionDialog,
+        closePermissionDialog = closePermissionDialog,
+        checkPermission =  checkPermission
+    )
+
 
 }
 
@@ -67,7 +82,9 @@ fun PreviewImageScreen() {
             setUri = {},
             saveVideo = {},
             openBiometricCheck = {},
-            navController = navController
+            showPermissionDialog = true,
+            closePermissionDialog = {},
+            checkPermission = {}
         )
     }
 }
@@ -101,33 +118,18 @@ fun VideoScreen(
                 openDialog = openDialog,
                 delete = delete
             )
+
             Spacer(modifier = Modifier.size(10.dp))
 
         }
     }
 
-    var newName by remember {
-        mutableStateOf("")
-    }
 
-    CustomDialog(
+    RenameDialog(
         showDialog = showDialog,
-        title = stringResource(id = R.string.rename),
         closeDialog = closeDialog,
-        onConfirm = {
-            rename(newName)
-            newName = ""
-        },
-        onDismiss = {
-            newName = ""
-        }
-    ) {
-        CommonTextField(
-            value = newName,
-            onValueChange = {newName = it},
-            labelText = stringResource(id = R.string.rename)
-        )
-    }
+        rename = rename
+    )
 }
 
 @Preview

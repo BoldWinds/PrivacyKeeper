@@ -14,21 +14,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.lbw.privacykeeper.model.Password
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
+import com.lbw.privacykeeper.ui.utils.PermissionDialog
 import privacykeeperv1.R
 
 
 @Composable
 fun PasswordScreen(
-    openBiometricCheck: (NavHostController)->Unit,
+    openBiometricCheck: ()->Unit,
     showDialog : Boolean,
     openDialog : ()->Unit,
     closeDialog : ()->Unit,
     savePassword : (Password)->Unit,
-    navController: NavHostController
+    showPermissionDialog : Boolean,
+    closePermissionDialog : ()->Unit,
+    checkPermission : (String)->Unit
 ) {
     Column(
         modifier = Modifier
@@ -45,18 +46,25 @@ fun PasswordScreen(
 
         Spacer(modifier = Modifier.weight(0.1f))
 
-        Button(onClick = {openBiometricCheck(navController)}) {
+        Button(onClick = {openBiometricCheck()}) {
             Text(text = stringResource(id = R.string.show_password))
         }
 
         Spacer(modifier = Modifier.weight(0.4f))
     }
 
+    PermissionDialog(
+        showPermissionDialog = showPermissionDialog,
+        closePermissionDialog = closePermissionDialog,
+        checkPermission = checkPermission
+    )
+
     SavePasswordDialog(
         showDialog = showDialog,
         closeDialog = closeDialog,
         savePassword = savePassword,
     )
+
 }
 
 @Preview
@@ -64,14 +72,15 @@ fun PasswordScreen(
 @Composable
 fun PreviewPasswordScreen1() {
     PrivacyKeeperTheme {
-        val navController = rememberNavController()
         PasswordScreen(
             openBiometricCheck={},
             showDialog = false,
             openDialog = {},
             closeDialog = {},
             savePassword = {},
-            navController = navController
+            showPermissionDialog = false,
+            closePermissionDialog = {},
+            checkPermission = {}
         )
     }
 }
@@ -99,6 +108,7 @@ fun PasswordScreen(
                delete = delete
            )
 
+           Spacer(modifier = Modifier.size(10.dp))
        }
     }
 }

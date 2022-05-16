@@ -3,12 +3,14 @@ package com.lbw.privacykeeper.utils
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.biometrics.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import android.hardware.biometrics.BiometricPrompt
+import android.os.Build
 import android.os.CancellationSignal
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 
 data class BiometricCheckParameters(
@@ -20,7 +22,8 @@ data class BiometricCheckParameters(
 
 class BiometricCheck (
     private val biometricCheckParameters: BiometricCheckParameters,
-    val onSuccess : ()->Unit
+    val onSuccess : ()->Unit,
+    val openPermissionDialog:()->Unit
 ){
 
     private var cancellationSignal: CancellationSignal?=null
@@ -49,7 +52,6 @@ class BiometricCheck (
 
 
     private fun checkBiometricSupport() : Boolean{
-
         val keyGuardManager = biometricCheckParameters.keyguardManager
 
         if(!keyGuardManager.isDeviceSecure){
@@ -66,22 +68,16 @@ class BiometricCheck (
 
     //这个是用来启动bio验证滴
     fun launchBiometric(){
-        if (checkBiometricSupport()){
+        if (checkBiometricSupport()&&Build.VERSION.SDK_INT>30){
             val biometricPrompt = BiometricPrompt.Builder(biometricCheckParameters.context)
                 .apply {
                     setTitle(biometricCheckParameters.context.getString(R.string.confirm_transaction))
-                    setNegativeButton(biometricCheckParameters.context.getString(R.string.cancel),mainExecutor) { _, _ ->
-                        showToast(
-                            biometricCheckParameters.context,
-                            "Authentication Cancelled"
-                        )
-                    }
-
+                    setAllowedAuthenticators(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)
                 }.build()
-
             biometricPrompt.authenticate(getCancellationSignal(),mainExecutor,authenticationCallback)
         }else{
             //添加密码认证
+            openPermissionDialog()
         }
 
     }

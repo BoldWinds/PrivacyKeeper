@@ -1,6 +1,6 @@
 package com.lbw.privacykeeper.ui.init
 
-import android.content.Context
+
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,9 +23,9 @@ import privacykeeperv1.R
 @Composable
 fun RegisterScreen(
     showRegisterScreen: Boolean,
-    saveUser : (String, String, Context)->Unit,
+    saveUser : (String, String)->Unit,
     showMainScreen : ()->Unit,
-    hasRegistered : (Context)->Unit,
+    hasRegistered : ()->Unit,
 ) {
     val context = LocalContext.current
 
@@ -36,15 +36,9 @@ fun RegisterScreen(
     var password by remember{
         mutableStateOf("")
     }
-    var passwordVisibility by remember{
-        mutableStateOf(false)
-    }
 
     var confirmPassword by remember{
         mutableStateOf("")
-    }
-    var confirmPasswordVisibility by remember{
-        mutableStateOf(false)
     }
 
     if (showRegisterScreen){
@@ -75,8 +69,6 @@ fun RegisterScreen(
             PasswordTextField(
                 value = password,
                 onValueChange = {value:String->password=value },
-                visibility = passwordVisibility,
-                changeVisible = {passwordVisibility=!passwordVisibility}
             )
 
             Spacer(modifier = Modifier.weight(0.05f))
@@ -90,8 +82,6 @@ fun RegisterScreen(
             PasswordTextField(
                 value = confirmPassword,
                 onValueChange = {value:String->confirmPassword=value },
-                visibility = confirmPasswordVisibility,
-                changeVisible = {confirmPasswordVisibility=!confirmPasswordVisibility}
             )
 
             Spacer(modifier = Modifier.weight(0.1f))
@@ -104,8 +94,8 @@ fun RegisterScreen(
                             text = context.getString(R.string.register_failed)
                         )
                     }else{
-                        hasRegistered(context)
-                        saveUser(username,password,context)
+                        hasRegistered()
+                        saveUser(username,password)
                         showToast(
                             context,
                             context.getString(R.string.registered_successfully)
@@ -135,7 +125,7 @@ fun PreviewRegisterScreen() {
     PrivacyKeeperTheme{
         RegisterScreen(
             true,
-            saveUser = {_,_,_->},
+            saveUser = {_,_->},
             showMainScreen = {  },
             hasRegistered = {},
         )

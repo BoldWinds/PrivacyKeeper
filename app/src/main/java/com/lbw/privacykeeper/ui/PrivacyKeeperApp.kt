@@ -1,7 +1,6 @@
 package com.lbw.privacykeeper.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.ui.init.GuideScreen
@@ -19,10 +18,12 @@ fun PrivacyKeeperApp(
 ) {
     //读取preference以确定是否打开guide
     val mainViewModel: MainViewModel = viewModel(
-        factory = MainViewModel.provideFactory(preferenceRepository = appContainer.preferenceRepository)
+        factory = MainViewModel.provideFactory(
+            preferenceRepository = appContainer.preferenceRepository
+        )
     )
 
-    mainViewModel.setShowGuidance(context = LocalContext.current)
+    mainViewModel.setShowGuidance()
 
     PrivacyKeeperTheme(mainViewModel.themeMode){
 

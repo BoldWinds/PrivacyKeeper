@@ -1,6 +1,6 @@
 package com.lbw.privacykeeper.ui.user
 
-import android.util.Log
+
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +9,6 @@ import com.lbw.privacykeeper.data.preference.PreferenceRepository
 import com.lbw.privacykeeper.model.User
 import com.lbw.privacykeeper.utils.BiometricCheck
 import com.lbw.privacykeeper.utils.BiometricCheckParameters
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -18,17 +17,7 @@ class UserViewModel(
     private val biometricCheckParameters: BiometricCheckParameters
 ):ViewModel() {
 
-    var mutableUser by mutableStateOf<User>(User("",""))
 
-    var showConfirmDialog by mutableStateOf<Boolean>(false)
-
-    fun openConfirmDialog(){
-        showConfirmDialog = true
-    }
-
-    fun closeConfirmDialog(){
-        showConfirmDialog = false
-    }
 
     var permission by mutableStateOf(false)
 
@@ -39,25 +28,43 @@ class UserViewModel(
     fun openBiometricCheck(){
         val biometricCheck = BiometricCheck(
             biometricCheckParameters = biometricCheckParameters,
-            onSuccess = { permission = true }
+            onSuccess = {
+                onSuccess()
+            },
+            openPermissionDialog = {
+                openPermissionDialog()
+            }
         )
         biometricCheck.launchBiometric()
     }
 
+    var showPermissionDialog by mutableStateOf(false)
 
-    var user : User = User("","")
+    fun openPermissionDialog(){
+        showPermissionDialog = true
+    }
 
-    fun getThisUser(){
-        viewModelScope.launch(Dispatchers.IO) {
-            val username : String? = preferenceRepository.readString("username")
-            val password : String? = preferenceRepository.readString("password")
-            if(username!=null&&password!=null)  user = User(username,password)
+    fun closePermissionDialog(){
+        showPermissionDialog = false
+    }
+
+    fun checkPermission(password: String){
+        if (password == user.password){
+            onSuccess()
         }
     }
 
-    fun setUser(){
-        mutableUser = user
+    fun onSuccess(){
+        permission = true
     }
+
+    var user by mutableStateOf(User("",""))
+
+    @JvmName("setUser1")
+    fun setUser(u : User){
+        user = u
+    }
+
 
     fun updateUser(password: String){
         viewModelScope.launch {

@@ -1,7 +1,6 @@
 package com.lbw.privacykeeper.ui.init
 
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lbw.privacykeeper.data.preference.PreferenceRepository
-import com.lbw.privacykeeper.utils.Utils
+import com.lbw.privacykeeper.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -27,24 +26,17 @@ class MainViewModel(
     //用于确定是否显示第一次启动引导界面
     var showGuidance by mutableStateOf<Boolean>(false)
 
-    fun setShowGuidance(context : Context){
-        try{
-            viewModelScope.launch(Dispatchers.IO) {
-                val show = preferenceRepository.readBoolean("boot_counter")
-                if(show==null){
-                    preferenceRepository.saveBoolean("boot_counter",true)
-                    showGuidance = true
-                }else{
-                    showGuidance = show
-                    showMain = !show
-                    Log.d("test",show.toString())
-                }
+    fun setShowGuidance(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val show = preferenceRepository.readBoolean("boot_counter")
+            if (show == null) {
+                preferenceRepository.saveBoolean("boot_counter", true)
+                showGuidance = true
+            } else {
+                showGuidance = show
+                showMain = !show
+                Log.d("test", show.toString())
             }
-        }catch (e : Exception){
-            Utils.showToast(
-                context = context,
-                text = "error:$e"
-            )
         }
     }
 
@@ -55,16 +47,9 @@ class MainViewModel(
         showRegister = true
     }
 
-    fun hasRegistered(context: Context){
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
-                preferenceRepository.saveBoolean("boot_counter",false)
-            }
-        }catch (e : Exception){
-            Utils.showToast(
-                context = context,
-                text = "error:$e"
-            )
+    fun hasRegistered(){
+        viewModelScope.launch(Dispatchers.IO) {
+            preferenceRepository.saveBoolean("boot_counter",false)
         }
     }
 
@@ -93,17 +78,20 @@ class MainViewModel(
 
 
     //存储用户
-    fun saveUser(username: String,password: String,context: Context){
-        try {
-            viewModelScope.launch {
-                preferenceRepository.saveString("username",username)
-                preferenceRepository.saveString("password",password)
-            }
-        }catch (e : Exception){
-            Utils.showToast(
-                context = context,
-                text = "error:$e"
-            )
+    fun saveUser(username: String,password: String){
+        viewModelScope.launch {
+            preferenceRepository.saveString("username",username)
+            preferenceRepository.saveString("password",password)
+        }
+    }
+
+    var user by mutableStateOf(User("",""))
+
+    fun readUser(){
+        viewModelScope.launch {
+            val username = preferenceRepository.readString("username")
+            val password = preferenceRepository.readString("password")
+            user = User(username!!,password!!)
         }
     }
 

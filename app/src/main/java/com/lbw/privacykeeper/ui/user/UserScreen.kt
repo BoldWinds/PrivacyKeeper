@@ -3,50 +3,26 @@ package com.lbw.privacykeeper.ui.user
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lbw.privacykeeper.ui.theme.PrivacyKeeperTheme
-import com.lbw.privacykeeper.ui.utils.CustomDialog
-import com.lbw.privacykeeper.utils.Utils
-import privacykeeperv1.R
+import com.lbw.privacykeeper.ui.utils.PermissionDialog
+import com.lbw.privacykeeper.ui.utils.UpdateDialog
 
-
-@Composable
-fun UserScreen(userViewModel: UserViewModel) {
-
-    UserScreen(
-        username = userViewModel.mutableUser.username,
-        showConfirmDialog = userViewModel.showConfirmDialog,
-        openConfirmDialog = userViewModel::openConfirmDialog,
-        closeConfirmDialog = userViewModel::closeConfirmDialog,
-        checkBiometric = userViewModel::openBiometricCheck,
-        showUpdateDialog = userViewModel.permission,
-        closeUpdateDialog = userViewModel::closeUpdateDialog,
-        savePassword = userViewModel::updateUser
-    )
-}
 
 @Composable
 fun UserScreen(
-    username : String,
-    showConfirmDialog : Boolean,
-    openConfirmDialog : ()->Unit,
-    closeConfirmDialog : ()->Unit,
-    checkBiometric : ()->Unit,
-    showUpdateDialog : Boolean,
-    closeUpdateDialog:()->Unit,
-    savePassword : (String)->Unit
+    username : String = "",
+    onBiometricCheck: ()->Unit={},
+    showUpdateDialog : Boolean = false,
+    closeUpdateDialog:()->Unit = {},
+    savePassword : (String)->Unit = {},
+    showPermissionDialog : Boolean = false,
+    closePermissionDialog : ()->Unit = {},
+    checkPermission : (String)->Unit = {}
 ) {
 
     Column(
@@ -62,15 +38,15 @@ fun UserScreen(
 
         UserBar(
             username = username,
-            openConfirmDialog = openConfirmDialog,
+            openConfirmDialog = onBiometricCheck,
         )
 
     }
 
-    ConfirmUpdateDialog(
-        showDialog = showConfirmDialog,
-        closeDialog = closeConfirmDialog,
-        biometricCheck = checkBiometric
+    PermissionDialog(
+        showPermissionDialog = showPermissionDialog,
+        closePermissionDialog = closePermissionDialog,
+        checkPermission = checkPermission
     )
 
     UpdateDialog(
@@ -85,15 +61,6 @@ fun UserScreen(
 @Composable
 fun PreviewUserScreen() {
     PrivacyKeeperTheme {
-        UserScreen(
-            username = "lbw",
-            showConfirmDialog = true,
-            openConfirmDialog = {},
-            closeConfirmDialog = {},
-            checkBiometric = {},
-            showUpdateDialog = true,
-            closeUpdateDialog = {},
-            savePassword = {}
-        )
+        UserScreen()
     }
 }

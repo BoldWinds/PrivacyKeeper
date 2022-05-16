@@ -4,7 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -19,15 +19,26 @@ import privacykeeperv1.R
 fun PasswordTextField(
     value : String,
     onValueChange : (String)->Unit,
-    visibility : Boolean,
-    changeVisible : ()->Unit
+    maxLines : Int = 1,
+    singleLine : Boolean = true,
+
 ) {
+
+    var visibility by remember{
+        mutableStateOf(false)
+    }
+
+
     OutlinedTextField(
         value = value,
         onValueChange =  {onValueChange(it)} ,
-        maxLines = 1,
-        label = { Text(text = stringResource(id = R.string.password))},
-        singleLine = true,
+        maxLines = maxLines,
+        label = {
+            Text(
+                text = stringResource(id = R.string.password)
+            )
+        },
+        singleLine = singleLine,
         shape = MaterialTheme.shapes.medium,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -39,9 +50,9 @@ fun PasswordTextField(
                                 else VisualTransformation.None,
         trailingIcon = {
             IconButton(
-                onClick = changeVisible,
+                onClick = {visibility = !visibility},
             ){
-                if(visibility){
+                if(!visibility){
                     Icon(
                         painter = painterResource(id = R.drawable.ic_visbility_off_foreground),
                         contentDescription = "Visibility_off"
@@ -65,8 +76,6 @@ fun PreviewPasswordTextField(){
         PasswordTextField(
             value = "password example",
             onValueChange = {},
-            visibility = false,
-            changeVisible = {}
         )
     }
 }
@@ -78,13 +87,17 @@ fun CommonTextField(
     value : String,
     onValueChange : (String)->Unit,
     labelText : String,
+    singleLine: Boolean = true,
+    maxLines: Int = 1
 ) {
     OutlinedTextField(
         value = value,
         onValueChange =  {onValueChange(it)} ,
-        maxLines = 1,
-        label = { Text(text = labelText)},
-        singleLine = true,
+        maxLines = maxLines,
+        label = {
+            Text(text = labelText)
+        },
+        singleLine = singleLine,
         shape = MaterialTheme.shapes.medium,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = MaterialTheme.colorScheme.onPrimaryContainer,

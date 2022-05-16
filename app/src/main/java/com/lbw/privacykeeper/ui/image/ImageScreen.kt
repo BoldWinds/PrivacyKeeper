@@ -28,8 +28,10 @@ import privacykeeperv1.R
 fun ImageScreen(
     setUri: (Uri)->Unit,
     saveImage: ()->Unit,
-    openBiometricCheck: (NavHostController)->Unit,
-    navController: NavHostController
+    openBiometricCheck: ()->Unit,
+    showPermissionDialog : Boolean,
+    closePermissionDialog : ()->Unit,
+    checkPermission : (String)->Unit
 ) {
     Column(
         modifier = Modifier
@@ -48,12 +50,18 @@ fun ImageScreen(
 
         Spacer(modifier = Modifier.weight(0.1f))
 
-        Button(onClick = {openBiometricCheck(navController)}) {
+        Button(onClick = {openBiometricCheck()}) {
             Text(text = stringResource(id = R.string.show_image))
         }
 
         Spacer(modifier = Modifier.weight(0.4f))
     }
+
+    PermissionDialog(
+        showPermissionDialog = showPermissionDialog,
+        closePermissionDialog = closePermissionDialog,
+        checkPermission =  checkPermission
+    )
 
 }
 
@@ -63,13 +71,14 @@ fun ImageScreen(
 @Composable
 fun PreviewImageScreen() {
     PrivacyKeeperTheme {
-        val navController = rememberNavController()
 
         ImageScreen(
             setUri = {},
             saveImage = {},
             openBiometricCheck = {},
-            navController = navController
+            showPermissionDialog =true,
+            closePermissionDialog ={},
+            checkPermission ={}
         )
     }
 }
@@ -109,29 +118,11 @@ fun ImageScreen(
         }
     }
 
-
-    var newName by remember {
-        mutableStateOf("")
-    }
-
-    CustomDialog(
+    RenameDialog(
         showDialog = showDialog,
-        title = stringResource(id = R.string.rename),
         closeDialog = closeDialog,
-        onConfirm = {
-            rename(newName)
-            newName = ""
-        },
-        onDismiss = {
-            newName = ""
-        }
-    ) {
-        CommonTextField(
-            value = newName,
-            onValueChange = {newName = it},
-            labelText = stringResource(id = R.string.rename)
-        )
-    }
+        rename = rename
+    )
 }
 
 @Preview

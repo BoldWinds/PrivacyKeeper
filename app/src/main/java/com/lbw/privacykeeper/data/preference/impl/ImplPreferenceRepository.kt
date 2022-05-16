@@ -1,7 +1,6 @@
 package com.lbw.privacykeeper.data.preference.impl
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -21,12 +20,11 @@ class ImplPreferenceRepository(val context: Context) :PreferenceRepository{
         return withContext(Dispatchers.IO){
             val BOOLEAN_KEY = booleanPreferencesKey(key)
             val preferences = context.dataStore.data.first()
-            //    Log.d("test","has read")
             preferences[BOOLEAN_KEY]
         }
     }
 
-    //默认存储到BOOT_COUNTER
+
     override suspend fun saveBoolean(key: String,value: Boolean) {
         return withContext(Dispatchers.IO){
             val BOOLEAN_KEY = booleanPreferencesKey(key)
@@ -34,14 +32,12 @@ class ImplPreferenceRepository(val context: Context) :PreferenceRepository{
                 settings[BOOLEAN_KEY] = value
             }
         }
-    //    Log.d("test","$key has saved")
     }
 
     override suspend fun readString(key: String): String? {
         return withContext(Dispatchers.IO){
             val STRING_KEY = stringPreferencesKey(key)
             val preferences = context.dataStore.data.first()
-            //    Log.d("test","has read")
             preferences[STRING_KEY]
         }
     }
@@ -53,7 +49,6 @@ class ImplPreferenceRepository(val context: Context) :PreferenceRepository{
                 settings[STRING_KEY] = value
             }
         }
-    //    Log.d("test","$key has saved")
     }
 
 }

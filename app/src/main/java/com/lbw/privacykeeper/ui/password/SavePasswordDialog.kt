@@ -18,6 +18,8 @@ import com.lbw.privacykeeper.ui.utils.PasswordTextField
 import com.lbw.privacykeeper.utils.Utils.Companion.showToast
 import privacykeeperv1.R
 
+
+//这个太麻烦了，就单独写一个
 @Composable
 fun SavePasswordDialog(
     showDialog : Boolean,
@@ -38,9 +40,6 @@ fun SavePasswordDialog(
         mutableStateOf("")
     }
 
-    var visibility by remember {
-        mutableStateOf(false)
-    }
 
     if(showDialog){
         AlertDialog(
@@ -80,8 +79,6 @@ fun SavePasswordDialog(
                     PasswordTextField(
                         value = password,
                         onValueChange = {value:String->password=value},
-                        visibility = visibility,
-                        changeVisible = {visibility = !visibility}
                     )
                 }
             },

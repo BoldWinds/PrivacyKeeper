@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.lbw.privacykeeper.data.AppContainer
+import com.lbw.privacykeeper.model.User
 import com.lbw.privacykeeper.ui.image.*
 import com.lbw.privacykeeper.ui.password.PasswordScreen
 import com.lbw.privacykeeper.ui.password.PasswordViewModel
@@ -30,7 +31,8 @@ import java.io.File
 fun AppNavGraph(
     appContainer: AppContainer,
     navController: NavHostController,
-    biometricCheckParameters: BiometricCheckParameters
+    biometricCheckParameters: BiometricCheckParameters,
+    user : User
 ) {
     NavHost(
         navController = navController,
@@ -40,54 +42,73 @@ fun AppNavGraph(
             val userViewModel : UserViewModel = viewModel(
                 factory = UserViewModel.provideFactory(appContainer.preferenceRepository, biometricCheckParameters)
             )
-            userViewModel.getThisUser()
-            userViewModel.setUser()
-            UserScreen(userViewModel)
+            userViewModel.setUser(user)
+
+            UserScreen(
+                username = userViewModel.user.username,
+                onBiometricCheck = userViewModel::openBiometricCheck,
+                showUpdateDialog = userViewModel.permission,
+                closeUpdateDialog = userViewModel::closeUpdateDialog,
+                savePassword = userViewModel::updateUser,
+                showPermissionDialog = userViewModel.showPermissionDialog,
+                closePermissionDialog = userViewModel::closePermissionDialog,
+                checkPermission = userViewModel::checkPermission
+            )
         }
 
         composable(route = AppScreen.Password.route){
             val passwordViewModel : PasswordViewModel = viewModel(
-                factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters)
+                factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters,navController)
             )
+            passwordViewModel.setUser(user)
             PasswordScreen(
                 openBiometricCheck = passwordViewModel::openBiometricCheck,
                 showDialog = passwordViewModel.showSavePasswordDialog,
                 openDialog = passwordViewModel::openDialog,
                 closeDialog = passwordViewModel::closeDialog,
                 savePassword = passwordViewModel::savePassword,
-                navController = navController
+                showPermissionDialog = passwordViewModel.showPermissionDialog,
+                closePermissionDialog = passwordViewModel::closePermissionDialog,
+                checkPermission = passwordViewModel::checkPermission
             )
         }
 
         composable(route = AppScreen.Image.route){
             val imageViewModel : PrimaryImageViewModel = viewModel(
-                factory = PrimaryImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters)
+                factory = PrimaryImageViewModel.provideFactory(appContainer.imageRepository, biometricCheckParameters,navController)
             )
+            imageViewModel.setUser(user)
+
             ImageScreen(
                 setUri = imageViewModel::setNewUri,
                 saveImage = imageViewModel::saveImage,
                 openBiometricCheck = imageViewModel::openBiometricCheck,
-                navController = navController
+                showPermissionDialog = imageViewModel.showPermissionDialog,
+                closePermissionDialog = imageViewModel::closePermissionDialog,
+                checkPermission = imageViewModel::checkPermission
             )
         }
 
         composable(route = AppScreen.Video.route){
             val videoViewModel : PrimaryVideoViewModel = viewModel(
-                factory = PrimaryVideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters)
+                factory = PrimaryVideoViewModel.provideFactory(appContainer.videoRepository,biometricCheckParameters,navController)
             )
+            videoViewModel.setUser(user)
+
             VideoScreen(
                 setUri=videoViewModel::setNewUri,
                 saveVideo= videoViewModel::saveVideo,
                 openBiometricCheck = videoViewModel::openBiometricCheck,
-                navController = navController
+                showPermissionDialog = videoViewModel.showPermissionDialog,
+                closePermissionDialog = videoViewModel::closePermissionDialog,
+                checkPermission = videoViewModel::checkPermission
             )
         }
 
         composable(route = AppSecondaryScreen.Password.route){
             val passwordViewModel : PasswordViewModel = viewModel(
-                factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters)
+                factory = PasswordViewModel.provideFactory(appContainer.passwordRepository, biometricCheckParameters,navController)
             )
-
             passwordViewModel.readAllPassword()
             PasswordScreen(
                 passwordList = passwordViewModel.passwordList,
