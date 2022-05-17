@@ -39,4 +39,12 @@
     <string name="delete_succeed">Delete succeed</string>
     <string name="check_permission">Check Permission</string>
     <string name="secure_privacy">Secure Your Privacy</string>
+    <string name="authentication_succeeded">Authentication Succeeded</string>
+    <string name="authentication_cancelled">Authentication Cancelled</string>
+    <string name="authentication_error">Authentication Error</string>
+    <string name="press_more">Click to see the instruction</string>
+    <string name="press_less">Click to show less</string>
+    <string name="instruction1">1. Click save xxx to encrypt your data.</string>
+    <string name="instruction2">2. Click show xxx to see or decrypt the data you saved.</string>
+    <string name="instruction3">3. When you see the data card, click it and you will see the details of your data.</string>
 </resources>

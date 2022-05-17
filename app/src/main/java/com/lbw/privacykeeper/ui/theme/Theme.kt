@@ -8,7 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
-import com.lbw.privacykeeper.ui.init.ThemeMode
+import com.lbw.privacykeeper.model.ThemeMode
 
 private val LightThemeColors = lightColorScheme(
 

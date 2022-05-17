@@ -1,6 +1,7 @@
 package com.lbw.privacykeeper.utils
 
 import android.content.Context
+import android.util.Log
 import androidx.security.crypto.EncryptedFile
 import com.lbw.privacykeeper.model.Password
 import java.io.ByteArrayOutputStream
@@ -41,10 +42,7 @@ class EncryptPassword(
 
             return Password(company,user.username,user.password)
         }catch (e : IOException){
-            Utils.showToast(
-                context,
-                "Decrypt error:$e"
-            )
+            Log.d("error",e.toString())
             return Password("","","")
         }
     }
@@ -73,10 +71,7 @@ class EncryptPassword(
                 close()
             }   
         }catch (e : IOException){
-            Utils.showToast(
-                context,
-                "Encrypt error:$e"
-            )
+            Log.d("error",e.toString())
         }
         
     }

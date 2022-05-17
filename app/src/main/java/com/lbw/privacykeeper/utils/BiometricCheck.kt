@@ -8,7 +8,6 @@ import android.hardware.biometrics.BiometricManager.Authenticators.DEVICE_CREDEN
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.CancellationSignal
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import privacykeeperv1.R
@@ -36,10 +35,18 @@ class BiometricCheck (
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
                 super.onAuthenticationSucceeded(result)
                 onSuccess()
+                Utils.showToast(
+                    context = biometricCheckParameters.context,
+                    text = biometricCheckParameters.context.getString(R.string.authentication_succeeded)
+                )
             }
 
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
                 super.onAuthenticationError(errorCode, errString)
+                Utils.showToast(
+                    context = biometricCheckParameters.context,
+                    text = biometricCheckParameters.context.getString(R.string.authentication_error)
+                )
 
             }
 
@@ -86,7 +93,10 @@ class BiometricCheck (
     private fun getCancellationSignal():CancellationSignal{
         cancellationSignal = CancellationSignal()
         cancellationSignal?.setOnCancelListener {
-            Toast.makeText(biometricCheckParameters.context,"Authentication Cancelled Signal", Toast.LENGTH_SHORT).show()
+            Utils.showToast(
+                context = biometricCheckParameters.context,
+                text = biometricCheckParameters.context.getString(R.string.authentication_cancelled)
+            )
         }
 
         return cancellationSignal as CancellationSignal

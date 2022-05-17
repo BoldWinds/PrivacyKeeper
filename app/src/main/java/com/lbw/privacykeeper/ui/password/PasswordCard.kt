@@ -61,7 +61,7 @@ fun PasswordCard(
         }
     }
 
-    Card(
+    ElevatedCard(
         onClick = {
             selected = !selected
             if(height == 100.dp) height = 160.dp
@@ -72,7 +72,6 @@ fun PasswordCard(
             .fillMaxWidth()
             .sizeIn(minWidth = 100.dp, minHeight = height),
         elevation = CardDefaults.cardElevation(5.dp),
-        border = BorderStroke(1.dp,color = MaterialTheme.colorScheme.secondary)
     ) {
 
         Spacer(modifier = Modifier

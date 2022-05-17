@@ -48,7 +48,7 @@ fun BottomNavBar(navController : NavHostController) {
                     )
                 },
                 selected = currentDestination?.hierarchy?.any{
-                    it.route == screen.route
+                    it.route == screen.route||it.route=="secondary_${screen.route}"||it.route=="tertiary_${screen.route}"
                 } == true,
                 onClick = {
                     navController.navigate(screen.route)

@@ -48,7 +48,7 @@ fun ImageOrVideoCard(
     }
 
 
-    Card(
+    ElevatedCard(
         onClick = {
             openImage(filename)
         },
@@ -56,8 +56,7 @@ fun ImageOrVideoCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(140.dp),
-        elevation = CardDefaults.cardElevation(5.dp),
-        border = BorderStroke(1.dp,color = MaterialTheme.colorScheme.secondary)
+        elevation = CardDefaults.cardElevation(5.dp)
     ){
         Spacer(modifier = Modifier
             .size(10.dp)

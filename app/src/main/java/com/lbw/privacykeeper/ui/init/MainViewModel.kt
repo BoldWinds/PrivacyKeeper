@@ -9,14 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.lbw.privacykeeper.data.preference.PreferenceRepository
+import com.lbw.privacykeeper.model.ThemeMode
 import com.lbw.privacykeeper.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-
-enum class ThemeMode{
-    LightMode,DarkMode
-}
 
 
 class MainViewModel(

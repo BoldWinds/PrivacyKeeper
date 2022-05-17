@@ -1,15 +1,12 @@
 package com.lbw.privacykeeper.ui.utils
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -98,19 +95,27 @@ fun PreviewCustomDialog() {
 
 @Composable
 fun PermissionDialog(
-    showPermissionDialog : Boolean,
-    closePermissionDialog : ()->Unit,
-    checkPermission : (String)->Unit
+    showPermissionDialog : Boolean = true,
+    closePermissionDialog : ()->Unit = {},
+    checkPermission : (String)->Unit = {}
 ) {
     var password by remember {
         mutableStateOf("")
     }
 
+    val context = LocalContext.current
+
     CustomDialog(
         showDialog = showPermissionDialog,
         title = stringResource(id = R.string.check_permission),
         closeDialog = closePermissionDialog,
-        onConfirm = { checkPermission(password) },
+        onConfirm = {
+            checkPermission(password)
+            Utils.showToast(
+                context = context,
+                text = context.getString(R.string.authentication_succeeded)
+            )
+                    },
         onDismiss = { password="" }
     ){
         PasswordTextField(
@@ -120,16 +125,31 @@ fun PermissionDialog(
     }
 }
 
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewPermissionDialog() {
+    PrivacyKeeperTheme {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ){
+            PermissionDialog()
+        }
+    }
+}
+
 
 @Composable
 fun RenameDialog(
-    showDialog: Boolean,
-    closeDialog: () -> Unit,
-    rename : (String)->Unit
+    showDialog: Boolean = true,
+    closeDialog: () -> Unit = {},
+    rename : (String)->Unit = {}
 ) {
     var newName by remember {
         mutableStateOf("")
     }
+
+    val context = LocalContext.current
 
     CustomDialog(
         showDialog = showDialog,
@@ -138,6 +158,10 @@ fun RenameDialog(
         onConfirm = {
             rename(newName)
             newName = ""
+            Utils.showToast(
+                context = context,
+                text = context.getString(R.string.rename_succeed)
+            )
         },
         onDismiss = {
             newName = ""
@@ -151,12 +175,25 @@ fun RenameDialog(
     }
 }
 
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewRenameDialog() {
+    PrivacyKeeperTheme {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ){
+            RenameDialog()
+        }
+    }
+}
+
 
 @Composable
 fun UpdateDialog(
-    showDialog : Boolean,
-    closeDialog : ()->Unit,
-    savePassword : (String)->Unit
+    showDialog : Boolean = true,
+    closeDialog : ()->Unit = {},
+    savePassword : (String)->Unit ={}
 ){
     var password by remember{
         mutableStateOf("")
@@ -180,17 +217,22 @@ fun UpdateDialog(
         },
         onDismiss = { password = "" }
     ){
-        Column(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.surface),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        PasswordTextField(
+            value = password,
+            onValueChange = { password=it},
+        )
+    }
+}
 
-            PasswordTextField(
-                value = password,
-                onValueChange = { password=it},
-            )
+@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewUpdateDialog() {
+    PrivacyKeeperTheme {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ){
+            UpdateDialog()
         }
     }
-
 }

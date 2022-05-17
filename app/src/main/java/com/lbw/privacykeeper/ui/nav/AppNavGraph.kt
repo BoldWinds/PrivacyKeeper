@@ -13,6 +13,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.lbw.privacykeeper.data.AppContainer
 import com.lbw.privacykeeper.model.User
 import com.lbw.privacykeeper.ui.image.*
@@ -25,7 +26,6 @@ import com.lbw.privacykeeper.utils.BiometricCheckParameters
 import java.io.File
 
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun AppNavGraph(
     appContainer: AppContainer,

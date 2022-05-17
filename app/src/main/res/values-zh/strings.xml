@@ -40,4 +40,12 @@
     <string name="delete_succeed">删除成功</string>
     <string name="check_permission">身份验证</string>
     <string name="secure_privacy">保护您的隐私</string>
+    <string name="authentication_succeeded">认证成功</string>
+    <string name="authentication_cancelled">认证取消</string>
+    <string name="authentication_error">认证错误</string>
+    <string name="press_more">点击查看App使用说明</string>
+    <string name="press_less">点击收起</string>
+    <string name="instruction1">1. 点击保存xxx以加密你的数据</string>
+    <string name="instruction2">2. 点击查看xxx以解密查看你的数据</string>
+    <string name="instruction3">3. 当你看到数据卡片时，单击数据卡片以查看详情</string>
 </resources>

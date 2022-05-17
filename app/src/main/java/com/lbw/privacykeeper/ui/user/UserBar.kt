@@ -21,10 +21,9 @@ fun UserBar(
     username : String,
     openConfirmDialog : ()->Unit,
 ){
-    
     Row(
         modifier = Modifier
-            .padding(24.dp, 24.dp, 24.dp, 24.dp)
+            .padding(20.dp, 20.dp, 20.dp, 20.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ){
@@ -44,7 +43,7 @@ fun UserBar(
             )
         }
 
-        Spacer(modifier = Modifier.size(40.dp).weight(0.5f))
+        Spacer(modifier = Modifier.weight(0.5f))
 
         Column(
             modifier = Modifier.padding(8.dp)
@@ -59,24 +58,23 @@ fun UserBar(
             )
         }
 
-        Spacer(modifier = Modifier.size(40.dp).weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(
+        OutlinedButton(
             onClick =  {
                 openConfirmDialog()
-            }
+            },
+            modifier = Modifier.weight(1.2f)
         )
         {
             Icon(
                 painter = painterResource(id = R.drawable.ic_edit_foreground),
                 contentDescription = "Setting",
                 modifier = Modifier
-                    .clip(CircleShape)
-                    .size(40.dp),
+                    .clip(CircleShape),
                 tint = MaterialTheme.colorScheme.secondary
             )
         }
-
 
     }
 
@@ -87,7 +85,6 @@ fun UserBar(
 @Composable
 fun PreviewUserBar() {
     PrivacyKeeperTheme {
-
         UserBar(
             username = "lbw",
             openConfirmDialog = {}
