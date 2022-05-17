@@ -109,7 +109,8 @@ fun PasswordScreen(
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .fillMaxHeight(0.9f)
             .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
